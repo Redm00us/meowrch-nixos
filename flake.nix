@@ -96,19 +96,8 @@
               home-manager.users.redm00us = import ./home/home.nix;
             }
             
-            # System modules
-            ./modules/system/audio.nix
-            ./modules/system/bluetooth.nix
-            ./modules/system/graphics.nix
-            ./modules/system/networking.nix
-            ./modules/system/security.nix
-            ./modules/system/services.nix
-            ./modules/system/fonts.nix
-            
-            # Desktop modules
+            # Desktop modules (hyprland needs to be imported here for the nixosModule)
             ./modules/desktop/hyprland.nix
-            ./modules/desktop/sddm.nix
-            ./modules/desktop/theming.nix
           ];
         };
       };

@@ -383,9 +383,6 @@
     };
   };
 
-  # Enable systemd user services
-  systemd.user.startServices = "sd-switch";
-
   # System timer for maintenance
   systemd.timers = {
     meowrch-maintenance = {
