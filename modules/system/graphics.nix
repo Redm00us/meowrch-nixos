@@ -44,6 +44,16 @@
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
 
+  # Scanner support
+  hardware.sane = {
+    enable = true;
+    extraBackends = with pkgs; [
+      hplip
+      epkowa
+      sane-airscan
+    ];
+  };
+
   # AMD Graphics (Primary)
   boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];

@@ -43,15 +43,15 @@
       ];
     };
 
-    # Scanner support
-    sane = {
-      enable = true;
-      extraBackends = with pkgs; [
-        hplip
-        epkowa
-        sane-airscan
-      ];
-    };
+    # Scanner support (moved to hardware.sane in a hardware module)
+    # sane = {
+    #   enable = true;
+    #   extraBackends = with pkgs; [
+    #     hplip
+    #     epkowa
+    #     sane-airscan
+    #   ];
+    # };
 
     # Time synchronization
     timesyncd.enable = true;
