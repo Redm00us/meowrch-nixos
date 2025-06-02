@@ -75,10 +75,8 @@
             # Apply unstable overlay
             ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
             
-            # Hardware configuration
-            ./hardware-configuration.nix
-            
             # Main system configuration
+            # hardware-configuration.nix is imported inside configuration.nix
             ./configuration.nix
             
             # Hyprland module
