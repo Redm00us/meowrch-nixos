@@ -104,8 +104,8 @@
 
   # Network services
   services = {
-    # Network Manager
-    networkmanager-openvpn.enable = true;
+    # Network Manager OpenVPN support
+    # networkmanager-openvpn.enable = true; # This option doesn't exist in services
     
     # Resolved for DNS
     resolved = {
@@ -240,8 +240,8 @@
     "net.ipv6.conf.default.accept_source_route" = 0;
   };
 
-  # Systemd network wait online
-  systemd.services.systemd-networkd-wait-online.enable = false;
+  # Systemd network wait online (disable to speed up boot)
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   # Environment variables for networking
   environment.sessionVariables = {

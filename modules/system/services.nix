@@ -191,17 +191,7 @@
     };
 
     # Automatic garbage collection
-    nix = {
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
-      };
-      optimise = {
-        automatic = true;
-        dates = [ "03:45" ];
-      };
-    };
+    # System cleanup is handled by global nix configuration
 
     # Hardware monitoring
     smartd = {
@@ -217,11 +207,9 @@
     # Zram for compressed swap
     zram-generator = {
       enable = true;
-      settings = {
-        zram0 = {
-          compression-algorithm = "zstd";
-          zram-size = "ram / 2";
-        };
+      settings.zram0 = {
+        compression-algorithm = "zstd";
+        zram-size = "ram / 2";
       };
     };
 
@@ -244,10 +232,7 @@
     };
 
     # Automatic system updates (disabled by default)
-    system-update = {
-      enable = false;
-      allowReboot = false;
-    };
+    # system-update service doesn't exist in NixOS
 
 
 
@@ -300,27 +285,27 @@
 
 
 
-    # Preload for faster application startup
-    preload = {
-      enable = false; # Can use significant RAM
-    };
+    # Preload for faster application startup (not available in NixOS)
+    # preload = {
+    #   enable = false; # Can use significant RAM
+    # };
 
-    # System profiler
-    sysprof.enable = false;
+    # System profiler (sysprof not available as service)
+    # sysprof.enable = false;
 
-    # AppArmor
-    apparmor = {
-      enable = false;
-      killUnconfinedConfinables = false;
-    };
+    # AppArmor (configured in security.nix)
+    # apparmor = {
+    #   enable = false;
+    #   killUnconfinedConfinables = false;
+    # };
 
 
 
     # Steam hardware support
     hardware.steam-hardware.enable = true;
 
-    # USB automounting
-    devmon.enable = true;
+    # USB automounting (devmon not available, using udisks2)
+    # devmon.enable = true;
 
     # Resolved for DNS
     resolved = {

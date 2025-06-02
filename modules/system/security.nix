@@ -172,17 +172,11 @@
       killUnconfinedConfinables = false;
     };
 
-    # Kernel lockdown
-    lockKernelLogs = false;
-    
-    # Hide process information from other users
+    # Process information hiding
     hideProcessInformation = false;
     
-    # Disable user namespaces (security vs compatibility trade-off)
+    # User namespaces (security vs compatibility trade-off)
     allowUserNamespaces = true;
-    
-    # Allow simulation of user namespaces
-    allowSimultaneousMultithreading = true;
   };
 
   # Security packages
@@ -220,11 +214,11 @@
     # Kernel pointer restriction
     "kernel.kptr_restrict" = 2;
     
-    # Disable kernel address exposure
-    "kernel.dmesg_restrict" = 1;
-    
     # Restrict access to kernel logs
     "kernel.printk" = "3 3 3 3";
+    
+    # Restrict kernel log access
+    "kernel.dmesg_restrict" = 1;
     
     # Enable ASLR
     "kernel.randomize_va_space" = 2;
@@ -333,23 +327,7 @@
 
   # Add security-related groups (user groups defined in main configuration.nix)
 
-  # SystemD security services
-  systemd.services = {
-    # Polkit authentication agent
-    polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-  };
+  # SystemD security services (polkit agent is configured in main configuration.nix)
 
   # Security environment variables
   environment.sessionVariables = {
