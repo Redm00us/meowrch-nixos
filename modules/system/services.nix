@@ -258,8 +258,8 @@
     # Polkit for privilege escalation (configured in security.nix)
     # polkit.enable = true;
 
-    # GNOME Keyring
-    gnome.gnome-keyring.enable = true;
+    # GNOME Keyring (configured in security.nix)
+    # gnome.gnome-keyring.enable = true;
 
     # Desktop portal
     xdg.portal = {
