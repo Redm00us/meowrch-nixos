@@ -185,9 +185,9 @@
     polkit_gnome
     gnome.gnome-keyring
     
-    # Security tools
-    fail2ban
-    clamav
+    # Security tools (fail2ban and clamav may not be available)
+    # fail2ban
+    # clamav
     
     # Password management
     keepassxc
@@ -280,38 +280,38 @@
 
   # Services for security
   services = {
-    # Fail2ban for intrusion prevention
-    fail2ban = {
-      enable = true;
-      maxretry = 5;
-      bantime = "10m";
-      bantime-increment = {
-        enable = true;
-        rndtime = "8m";
-        maxtime = "48h";
-        factor = "2";
-      };
-      
-      jails = {
-        sshd = {
-          settings = {
-            enabled = true;
-            port = "ssh";
-            filter = "sshd";
-            logpath = "/var/log/auth.log";
-            maxretry = 3;
-            findtime = "10m";
-            bantime = "1h";
-          };
-        };
-      };
-    };
+    # Fail2ban for intrusion prevention (may not be available in NixOS)
+    # fail2ban = {
+    #   enable = true;
+    #   maxretry = 5;
+    #   bantime = "10m";
+    #   bantime-increment = {
+    #     enable = true;
+    #     rndtime = "8m";
+    #     maxtime = "48h";
+    #     factor = "2";
+    #   };
+    #   
+    #   jails = {
+    #     sshd = {
+    #       settings = {
+    #         enabled = true;
+    #         port = "ssh";
+    #         filter = "sshd";
+    #         logpath = "/var/log/auth.log";
+    #         maxretry = 3;
+    #         findtime = "10m";
+    #         bantime = "1h";
+    #       };
+    #     };
+    #   };
+    # };
 
-    # ClamAV antivirus
-    clamav = {
-      daemon.enable = false;
-      updater.enable = false;
-    };
+    # ClamAV antivirus (may not be available in NixOS)
+    # clamav = {
+    #   daemon.enable = false;
+    #   updater.enable = false;
+    # };
 
     # GNOME Keyring
     gnome.gnome-keyring.enable = true;

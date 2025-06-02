@@ -56,12 +56,9 @@
     # Time synchronization
     timesyncd.enable = true;
 
-    # Power management
-    power-profiles-daemon.enable = true;
-    
-    # TLP for advanced power management (alternative to power-profiles-daemon)
+    # Power management (TLP - works reliably in NixOS)
     tlp = {
-      enable = false; # Disabled in favor of power-profiles-daemon
+      enable = true;
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
@@ -73,6 +70,9 @@
         WIFI_PWR_ON_BAT = "on";
       };
     };
+    
+    # Power profiles daemon (alternative power management - disabled in favor of TLP)
+    # power-profiles-daemon.enable = false;
 
     # UPower for battery information
     upower.enable = true;
@@ -98,20 +98,20 @@
     # Thermald for thermal management (Intel)
     thermald.enable = lib.mkIf (config.hardware.cpu.intel.updateMicrocode or false) true;
 
-    # Auto CPU frequency scaling
-    auto-cpufreq = {
-      enable = false; # Can conflict with power-profiles-daemon
-      settings = {
-        battery = {
-          governor = "powersave";
-          turbo = "never";
-        };
-        charger = {
-          governor = "performance";
-          turbo = "auto";
-        };
-      };
-    };
+    # Auto CPU frequency scaling (not available in standard NixOS)
+    # auto-cpufreq = {
+    #   enable = false; # Can conflict with TLP
+    #   settings = {
+    #     battery = {
+    #       governor = "powersave";
+    #       turbo = "never";
+    #     };
+    #     charger = {
+    #       governor = "performance";
+    #       turbo = "auto";
+    #     };
+    #   };
+    # };
 
     # D-Bus
     dbus = {
@@ -204,26 +204,26 @@
       };
     };
 
-    # Zram for compressed swap
-    zram-generator = {
-      enable = true;
-      settings.zram0 = {
-        compression-algorithm = "zstd";
-        zram-size = "ram / 2";
-      };
-    };
+    # Zram for compressed swap (may not be available in NixOS)
+    # zram-generator = {
+    #   enable = true;
+    #   settings.zram0 = {
+    #     compression-algorithm = "zstd";
+    #     zram-size = "ram / 2";
+    #   };
+    # };
 
-    # Earlyoom for OOM prevention
-    earlyoom = {
-      enable = true;
-      freeMemThreshold = 5;
-      freeSwapThreshold = 5;
-      extraArgs = [
-        "-g"
-        "--avoid '^(systemd|kernel)$'"
-        "--prefer '^(Web Content|firefox|chrome)$'"
-      ];
-    };
+    # Earlyoom for OOM prevention (may not be available in NixOS)
+    # earlyoom = {
+    #   enable = true;
+    #   freeMemThreshold = 5;
+    #   freeSwapThreshold = 5;
+    #   extraArgs = [
+    #     "-g"
+    #     "--avoid '^(systemd|kernel)$'"
+    #     "--prefer '^(Web Content|firefox|chrome)$'"
+    #   ];
+    # };
 
     # TRIM support for SSDs
     fstrim = {
@@ -301,8 +301,7 @@
 
 
 
-    # Steam hardware support
-    hardware.steam-hardware.enable = true;
+    # Steam hardware support is enabled via programs.steam in graphics module
 
     # USB automounting (devmon not available, using udisks2)
     # devmon.enable = true;
