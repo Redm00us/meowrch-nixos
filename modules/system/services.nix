@@ -152,24 +152,24 @@
       '';
     };
 
-    # Logind configuration
-    logind = {
-      enable = true;
-      powerKey = "suspend";
-      powerKeyLongPress = "poweroff";
-      lidSwitch = "suspend";
-      lidSwitchExternalPower = "suspend";
-      lidSwitchDocked = "ignore";
-      extraConfig = ''
-        HandleSuspendKey=suspend
-        HandleHibernateKey=hibernate
-        IdleAction=ignore
-        IdleActionSec=30min
-        RuntimeDirectorySize=25%
-        RemoveIPC=yes
-        UserTasksMax=33%
-      '';
-    };
+    # Logind configuration (logind is always enabled in NixOS, configure via services.logind options)
+    # logind = {
+    #   enable = true;  # This option doesn't exist
+    #   powerKey = "suspend";
+    #   powerKeyLongPress = "poweroff";
+    #   lidSwitch = "suspend";
+    #   lidSwitchExternalPower = "suspend";
+    #   lidSwitchDocked = "ignore";
+    #   extraConfig = ''
+    #     HandleSuspendKey=suspend
+    #     HandleHibernateKey=hibernate
+    #     IdleAction=ignore
+    #     IdleActionSec=30min
+    #     RuntimeDirectorySize=25%
+    #     RemoveIPC=yes
+    #     UserTasksMax=33%
+    #   '';
+    # };
 
     # Locate database
     locate = {
