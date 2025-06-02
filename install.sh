@@ -20,7 +20,7 @@ cat << "EOF"
                           ▄▀▄     ▄▀▄           ▄▄▄▄▄
                          ▄█░░▀▀▀▀▀░░█▄         █░▄▄░░█
                      ▄▄  █░░░░░░░░░░░█  ▄▄    █░█  █▄█
-                    █▄▄█ █░░▀░░┬░░▀░░█ █▄▄█  █░█   
+                    █▄▄█ █░░▀░░┬░░▀░░█ █▄▄█  █░█
 ███╗░░░███╗███████╗░█████╗░░██╗░░░░░░░██╗██████╗░░█████╗░██╗░░██╗
 ████╗░████║██╔════╝██╔══██╗░██║░░██╗░░██║██╔══██╗██╔══██╗██║░░██║
 ██╔████╔██║█████╗░░██║░░██║░╚██╗████╗██╔╝██████╔╝██║░░╚═╝███████║
@@ -51,13 +51,13 @@ log_error() {
 
 check_requirements() {
     log_info "Checking system requirements..."
-    
+
     # Check if running NixOS
     if [[ ! -f /etc/NIXOS ]]; then
         log_error "This script must be run on NixOS!"
         exit 1
     fi
-    
+
     # Check NixOS version
     local nixos_version=$(nixos-version | cut -d'.' -f1-2)
     if [[ "$nixos_version" < "25.05" ]]; then
@@ -68,14 +68,14 @@ check_requirements() {
             exit 1
         fi
     fi
-    
+
     # Check if git is available
     if ! command -v git &> /dev/null; then
         log_error "Git is required but not installed!"
         log_info "Installing git..."
         nix-shell -p git --run "echo 'Git installed temporarily'"
     fi
-    
+
     # Check if flakes are enabled
     if ! nix --help | grep -q flakes; then
         log_error "Nix flakes are not enabled!"
@@ -83,31 +83,31 @@ check_requirements() {
         echo "  nix.settings.experimental-features = [ \"nix-command\" \"flakes\" ];"
         exit 1
     fi
-    
+
     log_success "System requirements check passed!"
 }
 
 get_user_info() {
     log_info "Gathering user information..."
-    
+
     # Get username
     echo -e "${CYAN}Current user: ${NC}$(whoami)"
     read -p "Enter username for Meowrch (default: $(whoami)): " USERNAME
     USERNAME=${USERNAME:-$(whoami)}
-    
+
     # Get timezone
     echo -e "${CYAN}Current timezone: ${NC}$(timedatectl show --property=Timezone --value)"
     read -p "Enter timezone (default: current): " TIMEZONE
     TIMEZONE=${TIMEZONE:-$(timedatectl show --property=Timezone --value)}
-    
+
     # Get hostname
     echo -e "${CYAN}Current hostname: ${NC}$(hostname)"
     read -p "Enter hostname (default: meowrch): " HOSTNAME
     HOSTNAME=${HOSTNAME:-meowrch}
-    
+
     # Graphics card detection
     log_info "Detecting graphics hardware..."
-    
+
     GPU_TYPE="unknown"
     if lspci | grep -i nvidia > /dev/null; then
         GPU_TYPE="nvidia"
@@ -119,7 +119,7 @@ get_user_info() {
         GPU_TYPE="intel"
         log_info "Intel GPU detected"
     fi
-    
+
     echo -e "${CYAN}Detected GPU: ${NC}$GPU_TYPE"
     read -p "Is this correct? (Y/n): " -n 1 -r
     echo
@@ -127,15 +127,15 @@ get_user_info() {
         echo "Available GPU types: intel, amd, nvidia, hybrid"
         read -p "Enter GPU type: " GPU_TYPE
     fi
-    
+
     log_success "User information collected!"
 }
 
 backup_current_config() {
     log_info "Backing up current configuration..."
-    
+
     local backup_dir="/etc/nixos/backup-$(date +%Y%m%d-%H%M%S)"
-    
+
     if [[ -d /etc/nixos ]]; then
         sudo mkdir -p "$backup_dir"
         sudo cp -r /etc/nixos/* "$backup_dir/" 2>/dev/null || true
@@ -145,7 +145,7 @@ backup_current_config() {
 
 setup_hardware_config() {
     log_info "Setting up hardware configuration..."
-    
+
     # Copy existing hardware configuration
     if [[ -f /etc/nixos/hardware-configuration.nix ]]; then
         cp /etc/nixos/hardware-configuration.nix ./hardware-configuration.nix
@@ -157,42 +157,12 @@ setup_hardware_config() {
     fi
 }
 
-customize_config() {
-    log_info "Customizing configuration files..."
-    
-    # Update configuration.nix with user settings
-    sed -i "s/meowrch/$USERNAME/g" configuration.nix
-    sed -i "s/Europe\/Moscow/$TIMEZONE/g" configuration.nix
-    
-    # Update home.nix with user settings
-    sed -i "s/username = \"meowrch\"/username = \"$USERNAME\"/g" home/home.nix
-    sed -i "s/homeDirectory = \"\/home\/meowrch\"/homeDirectory = \"\/home\/$USERNAME\"/g" home/home.nix
-    
-    # Update flake.nix
-    sed -i "s/home-manager.users.meowrch/home-manager.users.$USERNAME/g" flake.nix
-    
-    # Graphics configuration
-    case $GPU_TYPE in
-        "nvidia")
-            sed -i 's/# hardware.nvidia.modesetting.enable = true;/hardware.nvidia.modesetting.enable = true;/' configuration.nix
-            ;;
-        "amd")
-            # AMD is already configured by default
-            log_info "AMD GPU configuration already applied"
-            ;;
-        "intel")
-            sed -i 's/services.xserver.videoDrivers = \[ "amdgpu" \];/services.xserver.videoDrivers = [ "intel" ];/' configuration.nix
-            ;;
-    esac
-    
-    log_success "Configuration files customized!"
-}
 
 build_system() {
     log_info "Building NixOS configuration..."
-    
+
     echo -e "${YELLOW}This may take a while (10-30 minutes depending on your internet and hardware)${NC}"
-    
+
     # Build the configuration
     if sudo nixos-rebuild switch --flake ".#meowrch"; then
         log_success "NixOS configuration built successfully!"
@@ -205,7 +175,7 @@ build_system() {
 
 setup_home_manager() {
     log_info "Setting up Home Manager..."
-    
+
     # Switch to the user and run home-manager
     if sudo -u "$USERNAME" home-manager switch --flake ".#meowrch"; then
         log_success "Home Manager configuration applied successfully!"
@@ -217,16 +187,16 @@ setup_home_manager() {
 
 post_install_setup() {
     log_info "Running post-installation setup..."
-    
+
     # Create necessary directories
     sudo -u "$USERNAME" mkdir -p "/home/$USERNAME"/{Pictures,Documents,Downloads,Music,Videos}
-    
+
     # Set up themes and wallpapers (if script exists)
     if [[ -f "/home/$USERNAME/.config/meowrch/meowrch.py" ]]; then
         sudo -u "$USERNAME" python "/home/$USERNAME/.config/meowrch/meowrch.py" --action set-current-theme || true
         sudo -u "$USERNAME" python "/home/$USERNAME/.config/meowrch/meowrch.py" --action set-wallpaper || true
     fi
-    
+
     log_success "Post-installation setup completed!"
 }
 
@@ -266,13 +236,13 @@ show_completion_message() {
 # Main installation process
 main() {
     log_info "Starting Meowrch NixOS installation..."
-    
+
     # Check if we're in the right directory
     if [[ ! -f "flake.nix" ]] || [[ ! -f "configuration.nix" ]]; then
         log_error "Please run this script from the Meowrch NixOS configuration directory!"
         exit 1
     fi
-    
+
     # Run installation steps
     check_requirements
     get_user_info
@@ -283,7 +253,7 @@ main() {
     setup_home_manager
     post_install_setup
     show_completion_message
-    
+
     # Ask for reboot
     echo
     read -p "Reboot now to complete installation? (Y/n): " -n 1 -r

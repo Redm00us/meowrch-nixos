@@ -46,7 +46,7 @@
 
   # User groups for audio
   users.groups.audio = {};
-  users.users.meowrch.extraGroups = [ "audio" ];
+  users.users.redm00us.extraGroups = [ "audio" ];
 
   # Audio hardware support
   hardware = {

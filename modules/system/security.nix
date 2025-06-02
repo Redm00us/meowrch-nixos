@@ -159,7 +159,7 @@
       enable = false;
       extraRules = [
         {
-          users = [ "meowrch" ];
+          users = [ "redm00us" ];
           keepEnv = true;
           persist = true;
         }

@@ -316,7 +316,7 @@
 
     style = ''
       /* Waybar Meowrch Theme */
-      @import url('file:///home/meowrch/.config/waybar/style.css');
+      @import url('file:///home/redm00us/.config/waybar/style.css');
     '';
   };
 
