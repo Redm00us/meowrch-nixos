@@ -21,6 +21,7 @@
       
       # NixOS specific
       rebuild = "sudo nixos-rebuild switch --flake .#meowrch";
+      rebuild-boot = "sudo nixos-rebuild boot --flake .#meowrch";
       update = "nix flake update";
       clean = "sudo nix-collect-garbage -d";
       search = "nix search nixpkgs";

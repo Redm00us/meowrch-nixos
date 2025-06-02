@@ -329,11 +329,11 @@ setup_home_manager() {
     log_info "Setting up Home Manager..."
 
     # Switch to the user and run home-manager
-    if sudo -u "$USERNAME" home-manager switch --flake ".#meowrch"; then
+    if sudo -u "$USERNAME" home-manager switch --flake ".#redm00us"; then
         log_success "Home Manager configuration applied successfully!"
     else
         log_warning "Home Manager setup failed, but system should still work"
-        log_info "You can manually run: home-manager switch --flake .#meowrch"
+        log_info "You can manually run: home-manager switch --flake .#redm00us"
     fi
 }
 
@@ -361,12 +361,12 @@ show_completion_message() {
     echo -e "${CYAN}🐱 Meowrch NixOS has been successfully installed!${NC}"
     echo
     echo -e "${YELLOW}What's next:${NC}"
-    echo -e "  1. ${BLUE}Reboot your system:${NC} sudo reboot"
-    echo -e "  2. ${BLUE}Log in and enjoy your new desktop!${NC}"
-    echo
-    echo -e "${YELLOW}Useful commands:${NC}"
-    echo -e "  • ${BLUE}Update system:${NC} sudo nixos-rebuild switch --flake .#meowrch"
-    echo -e "  • ${BLUE}Update home config:${NC} home-manager switch --flake .#meowrch"
+echo -e "  1. ${BLUE}Reboot your system:${NC} sudo reboot"
+echo -e "  2. ${BLUE}Log in and enjoy your new desktop!${NC}"
+echo
+echo -e "${YELLOW}Useful commands:${NC}"
+echo -e "  • ${BLUE}Update system:${NC} sudo nixos-rebuild switch --flake .#meowrch"
+echo -e "  • ${BLUE}Update home config:${NC} home-manager switch --flake .#redm00us"
     echo -e "  • ${BLUE}Change theme:${NC} Super + T"
     echo -e "  • ${BLUE}Change wallpaper:${NC} Super + W"
     echo -e "  • ${BLUE}Open app launcher:${NC} Super + D"

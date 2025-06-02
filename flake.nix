@@ -126,7 +126,7 @@
           echo "🐱 Welcome to Meowrch NixOS Development Environment!"
           echo "Available commands:"
           echo "  - nixos-rebuild switch --flake .#meowrch"
-          echo "  - home-manager switch --flake .#meowrch"
+          echo "  - home-manager switch --flake .#redm00us"
         '';
       };
       
