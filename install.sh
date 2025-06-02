@@ -157,6 +157,54 @@ setup_hardware_config() {
     fi
 }
 
+customize_config() {
+    log_info "Customizing configuration..."
+
+    # Replace username in configuration
+    sed -i "s/redm00us/$USERNAME/g" ./configuration.nix
+    sed -i "s/redm00us/$USERNAME/g" ./home/home.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/audio.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/bluetooth.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/fonts.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/graphics.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/networking.nix
+    sed -i "s/redm00us/$USERNAME/g" ./modules/system/security.nix
+    sed -i "s/redm00us/$USERNAME/g" ./flake.nix
+
+    # Replace hostname
+    sed -i "s/hostName = \"meowrch\"/hostName = \"$HOSTNAME\"/g" ./modules/system/networking.nix
+
+    # Replace timezone
+    sed -i "s|time.timeZone = \".*\"|time.timeZone = \"$TIMEZONE\"|g" ./configuration.nix
+
+    # Configure GPU drivers
+    case "$GPU_TYPE" in
+        nvidia)
+            sed -i 's/# enableNvidia = true;/enableNvidia = true;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableIntel = false;/enableIntel = false;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableAmd = false;/enableAmd = false;/g' ./modules/system/graphics.nix
+            ;;
+        amd)
+            sed -i 's/# enableNvidia = false;/enableNvidia = false;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableIntel = false;/enableIntel = false;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableAmd = true;/enableAmd = true;/g' ./modules/system/graphics.nix
+            ;;
+        intel)
+            sed -i 's/# enableNvidia = false;/enableNvidia = false;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableIntel = true;/enableIntel = true;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableAmd = false;/enableAmd = false;/g' ./modules/system/graphics.nix
+            ;;
+        hybrid)
+            sed -i 's/# enableNvidia = true;/enableNvidia = true;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableIntel = true;/enableIntel = true;/g' ./modules/system/graphics.nix
+            sed -i 's/# enableAmd = false;/enableAmd = false;/g' ./modules/system/graphics.nix
+            ;;
+    esac
+
+    log_success "Configuration customized for $USERNAME on $HOSTNAME"
+}
+
+
 
 build_system() {
     log_info "Building NixOS configuration..."
