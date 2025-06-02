@@ -293,8 +293,7 @@
       };
     };
 
-    # Hardware acceleration
-    hardware.opengl.enable = true;
+    # Hardware acceleration is now managed in graphics.nix
 
     # Bluetooth
     blueman.enable = true;

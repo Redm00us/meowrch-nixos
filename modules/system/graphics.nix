@@ -8,16 +8,37 @@
     driSupport32Bit = true;
     
     extraPackages = with pkgs; [
-      intel-media-driver # For Intel Graphics
+      # Intel Graphics
+      intel-media-driver
       vaapiIntel
       vaapiVdpau
       libvdpau-va-gl
-      intel-compute-runtime # OpenCL for Intel
+      intel-compute-runtime
+      
+      # AMD GPU drivers
+      mesa.drivers
+      amdvlk
+      
+      # ROCm for compute
+      rocm-opencl-icd
+      rocm-opencl-runtime
+      
+      # Video acceleration
+      libva
+      libva-utils
+      libdrm
+      
+      # Vulkan support
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
     ];
     
     extraPackages32 = with pkgs.pkgsi686Linux; [
       vaapiIntel
       intel-media-driver
+      mesa.drivers
+      driversi686Linux.amdvlk
     ];
   };
 
@@ -28,27 +49,6 @@
   # AMD Graphics (Primary)
   boot.initrd.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
-  
-  # AMD specific packages
-  hardware.opengl.extraPackages = with pkgs; [
-    # AMD GPU drivers
-    mesa.drivers
-    amdvlk
-    
-    # ROCm for compute
-    rocm-opencl-icd
-    rocm-opencl-runtime
-    
-    # Video acceleration
-    libva
-    libva-utils
-    libdrm
-  ];
-  
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [
-    mesa.drivers
-    driversi686Linux.amdvlk
-  ];
 
   # AMD GPU environment variables
   environment.variables = {
@@ -58,8 +58,6 @@
   };
 
   # NVIDIA Graphics Support
-  services.xserver.videoDrivers = lib.mkIf (config.hardware.nvidia.modesetting.enable or false) [ "nvidia" ];
-  
   hardware.nvidia = {
     modesetting.enable = lib.mkDefault true;
     powerManagement.enable = lib.mkDefault false;
@@ -84,13 +82,6 @@
     };
   };
 
-  # Vulkan support
-  hardware.opengl.extraPackages = with pkgs; [
-    vulkan-loader
-    vulkan-validation-layers
-    vulkan-extension-layer
-  ];
-
   # Gaming and graphics optimization
   programs.gamemode.enable = true;
   programs.steam = {
@@ -105,13 +96,13 @@
     glxinfo
     vulkan-tools
     gpu-viewer
+    mesa-demos
     
     # Performance monitoring
     mangohud
     goverlay
-    
-    # Graphics development
-    mesa-demos
+    radeontop
+    amdgpu_top
     
     # Image and video acceleration
     intel-gpu-tools
@@ -119,6 +110,22 @@
     # Wayland graphics
     wlr-randr
     wayland-utils
+    
+    # Debugging tools
+    renderdoc
+    apitrace
+    
+    # Graphics libraries
+    libGL
+    libGLU
+    
+    # Wayland development
+    wayland
+    wayland-protocols
+    
+    # Graphics benchmarking
+    unigine-valley
+    glmark2
   ];
 
   # Kernel parameters for AMD Graphics
@@ -136,9 +143,6 @@
 
   # Graphics-related services
   services = {
-    # Hardware acceleration
-    hardware.opengl.enable = true;
-    
     # Graphics compositor support
     xserver = {
       enable = lib.mkDefault false; # We use Wayland
@@ -164,8 +168,7 @@
     AMD_DEBUG = "nohyperz";
   };
 
-  # Graphics permissions
-  users.users.redm00us.extraGroups = [ "video" "render" ];
+  # Graphics permissions (user groups defined in main configuration.nix)
 
   # Hardware video acceleration
   nixpkgs.config.packageOverrides = pkgs: {
@@ -184,29 +187,6 @@
       subpixel.lcdfilter = "default";
     };
   };
-
-  # Graphics debugging and development
-  environment.systemPackages = with pkgs; [
-    # Debugging tools
-    renderdoc
-    apitrace
-    
-    # GPU monitoring
-    radeontop
-    amdgpu_top
-    
-    # Graphics libraries
-    libGL
-    libGLU
-    
-    # Wayland development
-    wayland
-    wayland-protocols
-    
-    # Graphics benchmarking
-    unigine-valley
-    glmark2
-  ];
 
   # DRM/KMS configuration
   boot.kernelModules = [

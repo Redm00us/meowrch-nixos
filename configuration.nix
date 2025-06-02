@@ -54,14 +54,11 @@
       timeout = 3;
     };
     
-    # Kernel parameters for AMD and performance
+    # Basic kernel parameters (AMD and other specific params defined in modules)
     kernelParams = [
       "quiet"
       "splash"
       "mitigations=off"
-      "amdgpu.ppfeaturemask=0xffffffff"
-      "amdgpu.gpu_recovery=1"
-      "amdgpu.dc=1"
     ];
     
     # Enable latest kernel
@@ -74,39 +71,10 @@
     };
   };
 
-  # Hardware Configuration
+  # Hardware Configuration (specific hardware configs are in their respective modules)
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
-    
-    # OpenGL with AMD focus
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        mesa.drivers
-        amdvlk
-        rocm-opencl-icd
-        rocm-opencl-runtime
-      ];
-      extraPackages32 = with pkgs.pkgsi686Linux; [
-        mesa.drivers
-        driversi686Linux.amdvlk
-      ];
-    };
-
-    # Bluetooth
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-      settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-          Experimental = true;
-        };
-      };
-    };
   };
 
   # Users Configuration
@@ -128,6 +96,7 @@
         "uucp"
         "bluetooth"
         "render"
+        "secure"
       ];
       shell = pkgs.fish;
     };
@@ -282,7 +251,6 @@
     xserver = {
       enable = false;
       desktopManager.plasma5.enable = false;
-      videoDrivers = [ "amdgpu" ];
       displayManager = {
         defaultSession = "hyprland";
       };

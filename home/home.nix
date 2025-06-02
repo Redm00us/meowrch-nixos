@@ -152,11 +152,6 @@
     ./modules/rofi.nix
     ./modules/dunst.nix
     ./modules/gtk.nix
-    ./modules/qt.nix
-    ./modules/firefox.nix
-    ./modules/git.nix
-    ./modules/vscode.nix
-    ./modules/scripts.nix
   ];
 
   # XDG User Directories
@@ -261,23 +256,23 @@
       executable = true;
     };
     
-    # Wallpapers
-    ".local/share/wallpapers" = {
-      source = ../dotfiles/wallpapers;
-      recursive = true;
-    };
+    # Wallpapers (commented out - create dotfiles/wallpapers if needed)
+    # ".local/share/wallpapers" = {
+    #   source = ../dotfiles/wallpapers;
+    #   recursive = true;
+    # };
     
-    # Icons
-    ".local/share/icons" = {
-      source = ../dotfiles/icons;
-      recursive = true;
-    };
+    # Icons (commented out - create dotfiles/icons if needed)
+    # ".local/share/icons" = {
+    #   source = ../dotfiles/icons;
+    #   recursive = true;
+    # };
     
-    # Themes
-    ".local/share/themes" = {
-      source = ../dotfiles/themes;
-      recursive = true;
-    };
+    # Themes (commented out - create dotfiles/themes if needed)
+    # ".local/share/themes" = {
+    #   source = ../dotfiles/themes;
+    #   recursive = true;
+    # };
     
     # User dirs configuration
     ".config/user-dirs.dirs".text = ''

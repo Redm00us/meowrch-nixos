@@ -73,7 +73,6 @@
     libnotify
     
     # Input methods
-    wl-clipboard
     cliphist
     
     # Utilities
@@ -86,6 +85,23 @@
     
     # For animations and effects
     wlroots
+    
+    # Desktop wrapper
+    (writeTextFile {
+      name = "hyprland-wrapped";
+      destination = "/bin/hyprland-wrapped";
+      executable = true;
+      text = ''
+        #!/bin/sh
+        cd ~
+        export _JAVA_AWT_WM_NONREPARENTING=1
+        export MOZ_ENABLE_WAYLAND=1
+        export XDG_SESSION_TYPE=wayland
+        export XDG_SESSION_DESKTOP=Hyprland
+        export XDG_CURRENT_DESKTOP=Hyprland
+        exec ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland $@
+      '';
+    })
   ];
 
   # Necessary services
@@ -131,24 +147,7 @@
     };
   };
 
-  # Desktop entries
-  environment.systemPackages = with pkgs; [
-    (writeTextFile {
-      name = "hyprland-wrapped";
-      destination = "/bin/hyprland-wrapped";
-      executable = true;
-      text = ''
-        #!/bin/sh
-        cd ~
-        export _JAVA_AWT_WM_NONREPARENTING=1
-        export MOZ_ENABLE_WAYLAND=1
-        export XDG_SESSION_TYPE=wayland
-        export XDG_SESSION_DESKTOP=Hyprland
-        export XDG_CURRENT_DESKTOP=Hyprland
-        exec ${inputs.hyprland.packages.${system}.hyprland}/bin/Hyprland $@
-      '';
-    })
-  ];
+
 
   # Create XDG desktop entry for Hyprland
   environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''

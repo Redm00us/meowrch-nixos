@@ -46,7 +46,6 @@
 
   # User groups for audio
   users.groups.audio = {};
-  users.users.redm00us.extraGroups = [ "audio" ];
 
   # Audio hardware support
   hardware = {

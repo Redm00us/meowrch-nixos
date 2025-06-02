@@ -77,8 +77,7 @@
     bluetoothctl
   ];
 
-  # User permissions for Bluetooth
-  users.users.redm00us.extraGroups = [ "bluetooth" ];
+  # User permissions for Bluetooth (defined in main configuration.nix)
 
   # Systemd services for Bluetooth
   systemd.services.bluetooth = {

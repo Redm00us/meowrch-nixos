@@ -206,8 +206,7 @@
     avahi
   ];
 
-  # Users in network groups
-  +  users.users.redm00us.extraGroups = [ "networkmanager" ];
+  # Users in network groups (defined in main configuration.nix)
 
   # Network optimization
   boot.kernel.sysctl = {

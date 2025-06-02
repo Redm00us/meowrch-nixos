@@ -331,8 +331,7 @@
     secure = {};
   };
 
-  # Add redm00us to security-related groups
-  users.users.redm00us.extraGroups = [ "secure" "wheel" "audio" "video" "networkmanager" "bluetooth" "render" ];
+  # Add security-related groups (user groups defined in main configuration.nix)
 
   # SystemD security services
   systemd.services = {

@@ -303,5 +303,4 @@
   '';
 }
 
-# Add redm00us to font-related groups if needed
-users.users.redm00us.extraGroups = [ "users" "render" "video" ];
+# Add font-related groups (user groups defined in main configuration.nix)
