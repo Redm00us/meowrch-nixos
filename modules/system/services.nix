@@ -27,9 +27,14 @@
       excludePackages = with pkgs; [ xterm ];
     };
 
-    # Printing
+    # Printing and CUPS
     printing = {
       enable = true;
+      browsing = true;
+      listenAddresses = [ "*:631" ];
+      allowFrom = [ "all" ];
+      defaultShared = false;
+      openFirewall = true;
       drivers = with pkgs; [
         gutenprint
         hplip
@@ -73,7 +78,10 @@
     upower.enable = true;
 
     # Firmware updates
-    fwupd.enable = true;
+    fwupd = {
+      enable = true;
+      extraRemotes = [ "lvfs-testing" ];
+    };
 
     # Flatpak support
     flatpak.enable = true;
@@ -241,15 +249,7 @@
       allowReboot = false;
     };
 
-    # CUPS for printing
-    printing = {
-      enable = true;
-      browsing = true;
-      listenAddresses = [ "*:631" ];
-      allowFrom = [ "all" ];
-      defaultShared = false;
-      openFirewall = true;
-    };
+
 
     # Avahi for network discovery
     avahi = {
@@ -298,11 +298,7 @@
     # Bluetooth
     blueman.enable = true;
 
-    # Firmware updater
-    fwupd = {
-      enable = true;
-      extraRemotes = [ "lvfs-testing" ];
-    };
+
 
     # Preload for faster application startup
     preload = {
@@ -318,8 +314,7 @@
       killUnconfinedConfinables = false;
     };
 
-    # Flatpak
-    flatpak.enable = true;
+
 
     # Steam hardware support
     hardware.steam-hardware.enable = true;

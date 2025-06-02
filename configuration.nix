@@ -205,27 +205,13 @@
     };
   };
 
-  # Programs Configuration
+  # Programs Configuration (hyprland and steam configured in their respective modules)
   programs = {
     # Fish Shell
     fish.enable = true;
     
     # Dconf for GTK settings
     dconf.enable = true;
-    
-    # Hyprland (defined in home-manager configuration for user)
-    hyprland = {
-      enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      xwayland.enable = true;
-    };
-    
-    # Steam
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-    };
     
     # Git
     git = {
@@ -256,26 +242,7 @@
       };
     };
     
-    # Printing
-    printing.enable = true;
-    
-    # Time Synchronization
-    timesyncd.enable = true;
-    
-    # Power Management
-    power-profiles-daemon.enable = true;
-    
-    # Firmware Updates
-    fwupd.enable = true;
-    
-    # Flatpak
-    flatpak.enable = true;
-    
-    # GVFS for file manager
-    gvfs.enable = true;
-    
-    # Tumbler for thumbnails
-    tumbler.enable = true;
+    # Services are configured in modules/system/services.nix
   };
 
   # Security Configuration
@@ -306,17 +273,7 @@
     };
   };
 
-  # XDG Configuration
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
-      ];
-      config.common.default = "*";
-    };
-  };
+  # XDG Configuration (portal configured in services.nix)
 
   # Time Zone and Localization
   time.timeZone = "Europe/Moscow";
