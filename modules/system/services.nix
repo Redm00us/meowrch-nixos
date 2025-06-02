@@ -261,22 +261,22 @@
     # GNOME Keyring (configured in security.nix)
     # gnome.gnome-keyring.enable = true;
 
-    # Desktop portal
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
-      ];
-      config = {
-        common = {
-          default = [ "hyprland" "gtk" ];
-        };
-        hyprland = {
-          default = [ "hyprland" "gtk" ];
-        };
-      };
-    };
+    # Desktop portal (configured in hyprland.nix)
+    # xdg.portal = {
+    #   enable = true;
+    #   extraPortals = with pkgs; [
+    #     xdg-desktop-portal-hyprland
+    #     xdg-desktop-portal-gtk
+    #   ];
+    #   config = {
+    #     common = {
+    #       default = [ "hyprland" "gtk" ];
+    #     };
+    #     hyprland = {
+    #       default = [ "hyprland" "gtk" ];
+    #     };
+    #   };
+    # };
 
     # Hardware acceleration is now managed in graphics.nix
 
