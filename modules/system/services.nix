@@ -255,8 +255,8 @@
     # UDisks2 for removable media
     udisks2.enable = true;
 
-    # Polkit for privilege escalation
-    polkit.enable = true;
+    # Polkit for privilege escalation (configured in security.nix)
+    # polkit.enable = true;
 
     # GNOME Keyring
     gnome.gnome-keyring.enable = true;
