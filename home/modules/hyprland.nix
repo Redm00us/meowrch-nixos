@@ -4,7 +4,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    
+
     settings = {
       # Monitor configuration
       monitor = [
@@ -45,11 +45,11 @@
         kb_layout = "us,ru";
         kb_options = "grp:alt_shift_toggle";
         follow_mouse = 1;
-        
+
         touchpad = {
           natural_scroll = false;
         };
-        
+
         sensitivity = 0;
         force_no_accel = true;
       };
@@ -69,7 +69,7 @@
       decoration = {
         rounding = 10;
         dim_special = 0.3;
-        
+
         blur = {
           enabled = true;
           size = 6;
@@ -90,7 +90,7 @@
           "winOut, 0.3, -0.3, 0, 1"
           "liner, 1, 1, 1, 1"
         ];
-        
+
         animation = [
           "windows, 1, 6, wind, slide"
           "windowsIn, 1, 6, winIn, slide"
@@ -158,7 +158,7 @@
         "$mainMod, B, exec, sh ~/bin/toggle-bar.sh"
 
         # User apps
-        "$subMod, C, exec, code"
+        "$subMod, C, exec, zed"
         "$subMod, F, exec, firefox"
         "$subMod, T, exec, telegram-desktop"
 
@@ -270,7 +270,7 @@
         "opacity 0.95 0.95,class:^(kitty)$"
         "opacity 0.90 0.90,class:^(thunar)$"
         "opacity 0.90 0.90,class:^(nemo)$"
-        "opacity 0.90 0.90,class:^(code-oss)$"
+        "opacity 0.90 0.90,class:^(zed)$"
         "float,class:^(zenity)$"
         "float,class:^(polkit-gnome-authentication-agent-1)$"
       ];

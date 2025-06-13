@@ -13,13 +13,15 @@
     ./modules/system/fonts.nix
     ./modules/desktop/sddm.nix
     ./modules/desktop/theming.nix
+    ./modules/packages/packages.nix
+    ./modules/packages/flatpak.nix
   ] ++ lib.optionals (builtins.pathExists ./hardware-configuration.nix) [
     ./hardware-configuration.nix
   ];
 
   # System Information
   system.stateVersion = "25.05";
-  
+
   # Nix Configuration
   nix = {
     settings = {
@@ -35,7 +37,7 @@
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       ];
     };
-    
+
     gc = {
       automatic = true;
       dates = "weekly";
@@ -56,17 +58,17 @@
       efi.canTouchEfiVariables = true;
       timeout = 3;
     };
-    
+
     # Basic kernel parameters (AMD and other specific params defined in modules)
     kernelParams = [
       "quiet"
       "splash"
       "mitigations=off"
     ];
-    
+
     # Enable latest kernel
     kernelPackages = pkgs.linuxPackages_latest;
-    
+
     # Plymouth for boot splash
     plymouth = {
       enable = true;
@@ -86,20 +88,21 @@
     users.redm00us = {
       isNormalUser = true;
       description = "Meowrch User";
-      extraGroups = [ 
-        "wheel" 
-        "networkmanager" 
-        "audio" 
-        "video" 
-        "storage" 
-        "optical" 
-        "scanner" 
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "audio"
+        "video"
+        "storage"
+        "optical"
+        "scanner"
         "power"
         "input"
         "uucp"
         "bluetooth"
         "render"
-        "secure"
+        "docker"
+        "libvirtd"
       ];
       shell = pkgs.fish;
     };
@@ -113,46 +116,46 @@
       htop btop fastfetch
       unzip unrar p7zip
       tree file which
-      
+
       # Development Tools
       gcc clang cmake make
       python3 python3Packages.pip
       nodejs npm
-      
+
       # System Utilities
       usbutils pciutils
       lshw dmidecode
       parted gparted
-      
+
       # Archive Tools
       ark
-      
+
       # Network Tools
       networkmanager
       openssh
-      
+
       # Media Tools
       ffmpeg
       imagemagick
-      
+
       # File Management
       ranger
       nemo
-      
+
       # System Monitoring
       htop
       btop
       radeontop
-      
+
       # Bluetooth
       bluez
       blueman
-      
+
       # Graphics utilities
       glxinfo
       vulkan-tools
       mesa-demos
-      
+
       # Authentication
       polkit_gnome
     ];
@@ -164,25 +167,25 @@
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_STATE_HOME = "$HOME/.local/state";
       XDG_CACHE_HOME = "$HOME/.cache";
-      
+
       # Application Settings
       EDITOR = "micro";
       VISUAL = "micro";
       BROWSER = "firefox";
       TERMINAL = "kitty";
-      
+
       # Wayland/X11 Settings
       NIXOS_OZONE_WL = "1";
       QT_QPA_PLATFORM = "wayland;xcb";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";
       GDK_SCALE = "1";
-      
+
       # AMD Graphics
       LIBVA_DRIVER_NAME = "radeonsi";
       VDPAU_DRIVER = "radeonsi";
       AMD_VULKAN_ICD = "RADV";
-      
+
       # Java Settings
       _JAVA_AWT_WM_NONREPARENTING = "1";
       _JAVA_OPTIONS = "-Dsun.java2d.opengl=true";
@@ -199,7 +202,7 @@
       g = "git";
       n = "nvim";
       m = "micro";
-      
+
       # NixOS specific
       rebuild = "sudo nixos-rebuild switch --flake .#meowrch";
       update = "nix flake update";
@@ -212,10 +215,10 @@
   programs = {
     # Fish Shell
     fish.enable = true;
-    
+
     # Dconf for GTK settings
     dconf.enable = true;
-    
+
     # Git
     git = {
       enable = true;
@@ -223,28 +226,23 @@
         init.defaultBranch = "main";
       };
     };
-    
+
     # Thunar file manager
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
         thunar-archive-plugin
         thunar-volman
+        thunar-media-tags-plugin
       ];
     };
   };
 
   # Services Configuration
   services = {
-    # Desktop Portal
-    xserver = {
-      enable = false;
-      desktopManager.plasma5.enable = false;
-      displayManager = {
-        defaultSession = "hyprland";
-      };
-    };
-    
+    # X11 disabled for Wayland-only setup
+    xserver.enable = false;
+
     # Services are configured in modules/system/services.nix
   };
 
@@ -252,7 +250,7 @@
   security = {
     polkit.enable = true;
     rtkit.enable = true;
-    
+
     # Sudo configuration
     sudo = {
       enable = true;
@@ -280,7 +278,7 @@
 
   # Time Zone and Localization
   time.timeZone = "Europe/Moscow";
-  
+
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
