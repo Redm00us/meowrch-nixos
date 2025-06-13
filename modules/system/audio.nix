@@ -91,8 +91,8 @@
     "snd-rawmidi"
   ];
 
-  # ALSA configuration (sound.enable removed in NixOS 25.05)
-  hardware.alsa.enable = true;
+  # ALSA configuration handled by PipeWire ALSA compatibility layer
+  # hardware.alsa.enable = true;  # Disabled to avoid conflict with PipeWire
 
   # Additional audio configuration for low latency
   boot.kernelParams = [
