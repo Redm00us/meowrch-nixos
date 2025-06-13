@@ -55,7 +55,9 @@
 
   # AMD Graphics (Primary)
   boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver = lib.mkIf config.services.xserver.enable {
+    videoDrivers = [ "amdgpu" ];
+  };
 
   # AMD GPU environment variables
   environment.variables = {

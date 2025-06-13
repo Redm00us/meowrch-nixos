@@ -6,7 +6,7 @@
     enable = true;
     powerOnBoot = true;
     package = pkgs.bluez;
-    
+
     settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";
@@ -16,13 +16,13 @@
         MultiProfile = "multiple";
         FastConnectable = true;
       };
-      
+
       Policy = {
         AutoEnable = true;
         ReconnectAttempts = 7;
         ReconnectIntervals = "1, 2, 4, 8, 16, 32, 64";
       };
-      
+
       LE = {
         MinConnectionInterval = 7;
         MaxConnectionInterval = 9;
@@ -30,7 +30,7 @@
         ConnectionSupervisionTimeout = 720;
         Autoconnect = true;
       };
-      
+
       GATT = {
         ReconnectIntervals = "1, 2, 4, 8, 16, 32, 64";
         AutoEnable = true;
@@ -42,10 +42,10 @@
   services = {
     # Bluetooth manager
     blueman.enable = true;
-    
+
     # D-Bus configuration for Bluetooth
     dbus.packages = with pkgs; [ bluez blueman ];
-    
+
     # udev rules for Bluetooth devices
     udev.packages = with pkgs; [ bluez ];
   };
@@ -57,21 +57,21 @@
     bluez-tools
     bluez-alsa
     blueman
-    
-    # Audio over Bluetooth
-    pulseaudio-modules-bt
-    
+
+    # Audio over Bluetooth (handled by PipeWire)
+    # pulseaudio-modules-bt  # Not needed with PipeWire
+
     # GUI managers
     blueberry
-    
+
     # Command line tools
     bluetuith
-    
+
     # Debugging tools
     btmon
     hcitool
     rfkill
-    
+
     # Audio testing
     pactl
     bluetoothctl
@@ -89,8 +89,8 @@
     };
   };
 
-  # Enable Bluetooth audio support
-  hardware.pulseaudio.extraModules = [ pkgs.pulseaudio-modules-bt ];
+  # Bluetooth audio support is handled by PipeWire
+  # hardware.pulseaudio.extraModules = [ pkgs.pulseaudio-modules-bt ]; # Disabled - conflicts with PipeWire
 
   # PipeWire Bluetooth configuration
   services.pipewire.wireplumber.configPackages = [
@@ -126,15 +126,15 @@
 
   # Power management for Bluetooth
   powerManagement.enable = true;
-  
+
   # udev rules for Bluetooth power management
   services.udev.extraRules = ''
     # Disable USB autosuspend for Bluetooth devices
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="*", ATTRS{idProduct}=="*", TEST=="power/control", ATTR{power/control}="on"
-    
+
     # Bluetooth device permissions
     KERNEL=="rfkill", SUBSYSTEM=="rfkill", ATTR{type}=="bluetooth", TAG+="uaccess"
-    
+
     # Allow users in bluetooth group to control Bluetooth adapters
     SUBSYSTEM=="bluetooth", TAG+="uaccess"
     KERNEL=="hci[0-9]*", TAG+="uaccess"
@@ -172,11 +172,11 @@
       [General]
       Enable=Source,Sink,Media,Socket
       Disable=Headset
-      
+
       [A2DP]
       SBCFreq=44100,48000
       SBCXQ=true
-      
+
       [AVRCP]
       Class=0x000100
       Title=%s
@@ -187,14 +187,14 @@
       TrackNumber=%s
       TrackDuration=%s
     '';
-    
+
     "bluetooth/input.conf".text = ''
       [General]
       UserspaceHID=true
       ClassicBondedOnly=false
       LEAutoConnect=true
     '';
-    
+
     "bluetooth/network.conf".text = ''
       [General]
       DisableSecurity=false

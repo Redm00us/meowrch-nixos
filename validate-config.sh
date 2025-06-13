@@ -64,6 +64,46 @@ else
     print_success "No invalid systemd.user.startServices found"
 fi
 
+# Check for deprecated hardware.opengl option
+if grep -r "hardware\.opengl" . --include="*.nix" > /dev/null 2>&1; then
+    print_error "Found deprecated hardware.opengl option"
+    echo "  Replace with hardware.graphics in NixOS 24.05+"
+else
+    print_success "No deprecated hardware.opengl option found"
+fi
+
+# Check for deprecated services.logind.enable
+if grep -r "services\.logind\.enable" . --include="*.nix" > /dev/null 2>&1; then
+    print_error "Found invalid services.logind.enable option"
+    echo "  logind is always enabled in NixOS, this option doesn't exist"
+else
+    print_success "No invalid logind configuration found"
+fi
+
+# Check for string values that should be boolean
+if grep -r 'dnssec = "true"' . --include="*.nix" > /dev/null 2>&1; then
+    print_error "Found dnssec with string value, should be boolean"
+    echo "  Change dnssec = \"true\" to dnssec = true"
+else
+    print_success "DNS configuration looks correct"
+fi
+
+# Check for old X11 configuration when using Wayland
+if grep -r "services\.xserver\.enable = true" . --include="*.nix" > /dev/null 2>&1; then
+    print_warning "Found X11 server enabled while using Wayland"
+    echo "  Consider disabling X11 if using pure Wayland setup"
+fi
+
+# Check for proper file system configuration
+if [[ -f "hardware-configuration.nix" ]]; then
+    if grep -q "fileSystems\.\"/\"" hardware-configuration.nix; then
+        print_success "Root file system configuration found"
+    else
+        print_error "Root file system not configured in hardware-configuration.nix"
+        echo "  This will cause the boot to fail"
+    fi
+fi
+
 # Check for duplicate module imports
 print_status "Checking for duplicate module imports..."
 if grep -A 20 "imports = \[" configuration.nix | grep -E "(audio|bluetooth|graphics|networking|security|services|fonts)\.nix" > /dev/null 2>&1; then
@@ -118,6 +158,31 @@ else
     print_warning "NixOS version not clearly specified"
 fi
 
+# Check for proper unstable overlay usage
+if grep -q "overlay-unstable" flake.nix; then
+    print_success "Unstable overlay configured"
+else
+    print_warning "Consider adding unstable overlay for latest packages"
+fi
+
+# Check for modern service configurations
+print_status "Checking for modern NixOS 25.05 service options..."
+
+# Check for zram-generator availability
+if grep -r "zram-generator" . --include="*.nix" > /dev/null 2>&1; then
+    print_success "Modern zram-generator configuration found"
+fi
+
+# Check for earlyoom availability
+if grep -r "services\.earlyoom" . --include="*.nix" > /dev/null 2>&1; then
+    print_success "EarlyOOM configuration found"
+fi
+
+# Check for proper graphics configuration
+if grep -r "hardware\.graphics" . --include="*.nix" > /dev/null 2>&1; then
+    print_success "Modern graphics configuration (hardware.graphics) found"
+fi
+
 # Final validation attempt
 print_status "Performing final validation..."
 if nix build .#nixosConfigurations.meowrch.config.system.build.toplevel --dry-run > /dev/null 2>&1; then
@@ -132,6 +197,12 @@ fi
 echo
 print_success "🎉 Configuration validation completed successfully!"
 echo
+print_status "⚠️  IMPORTANT: Before applying this configuration:"
+print_status "1. Generate proper hardware configuration:"
+print_status "   sudo nixos-generate-config --root /mnt --dir ."
+print_status "2. Edit hardware-configuration.nix to match your actual disk setup"
+print_status "3. Replace UUID placeholders with your actual partition UUIDs"
+echo
 print_status "To apply this configuration:"
 print_status "  sudo nixos-rebuild switch --flake .#meowrch"
 echo
@@ -140,3 +211,7 @@ print_status "  nix flake update"
 echo
 print_status "To check what will be built:"
 print_status "  nixos-rebuild dry-build --flake .#meowrch"
+echo
+print_status "To find your disk UUIDs:"
+print_status "  lsblk -f"
+print_status "  blkid"

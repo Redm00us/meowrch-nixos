@@ -2,24 +2,10 @@
 
 {
   # System Services Configuration
+  # System Services Configuration
   services = {
-    # Display Manager
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      theme = "breeze";
-      settings = {
-        General = {
-          HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
-          RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
-        };
-        Theme = {
-          Current = "breeze";
-          CursorTheme = "Bibata-Modern-Classic";
-          CursorSize = 24;
-        };
-      };
-    };
+    # Display Manager (SDDM configuration moved to desktop module)
+    # displayManager configuration is handled in modules/desktop/sddm.nix
 
     # Desktop Portal
     xserver = {
@@ -152,24 +138,8 @@
       '';
     };
 
-    # Logind configuration (logind is always enabled in NixOS, configure via services.logind options)
-    # logind = {
-    #   enable = true;  # This option doesn't exist
-    #   powerKey = "suspend";
-    #   powerKeyLongPress = "poweroff";
-    #   lidSwitch = "suspend";
-    #   lidSwitchExternalPower = "suspend";
-    #   lidSwitchDocked = "ignore";
-    #   extraConfig = ''
-    #     HandleSuspendKey=suspend
-    #     HandleHibernateKey=hibernate
-    #     IdleAction=ignore
-    #     IdleActionSec=30min
-    #     RuntimeDirectorySize=25%
-    #     RemoveIPC=yes
-    #     UserTasksMax=33%
-    #   '';
-    # };
+    # Logind configuration (logind is always enabled in NixOS)
+    # Use systemd.services.systemd-logind.serviceConfig or boot.kernelParams for power management
 
     # Locate database
     locate = {
@@ -203,26 +173,17 @@
       };
     };
 
-    # Zram for compressed swap (may not be available in NixOS)
-    # zram-generator = {
+    # Zram for compressed swap (using correct NixOS 25.05 syntax)
+    # Note: zram-generator service doesn't exist, use boot.zram instead
+    # This is configured in main configuration.nix as:
+    # zramSwap = {
     #   enable = true;
-    #   settings.zram0 = {
-    #     compression-algorithm = "zstd";
-    #     zram-size = "ram / 2";
-    #   };
+    #   algorithm = "zstd";
+    #   memoryPercent = 50;
     # };
 
-    # Earlyoom for OOM prevention (may not be available in NixOS)
-    # earlyoom = {
-    #   enable = true;
-    #   freeMemThreshold = 5;
-    #   freeSwapThreshold = 5;
-    #   extraArgs = [
-    #     "-g"
-    #     "--avoid '^(systemd|kernel)$'"
-    #     "--prefer '^(Web Content|firefox|chrome)$'"
-    #   ];
-    # };
+    # Earlyoom for OOM prevention (using systemd service)
+    # Note: services.earlyoom may not be available, configure via systemd
 
     # TRIM support for SSDs
     fstrim = {
@@ -230,8 +191,8 @@
       interval = "weekly";
     };
 
-    # Automatic system updates (disabled by default)
-    # system-update service doesn't exist in NixOS
+    # Automatic system updates (NixOS uses nix.gc and system.autoUpgrade)
+    # Configure in main configuration.nix with system.autoUpgrade options
 
 
 
@@ -316,6 +277,21 @@
 
   # Additional system-wide services via systemd
   systemd.services = {
+    # EarlyOOM service (manual configuration for NixOS 25.05)
+    earlyoom = {
+      description = "Early OOM Daemon";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.earlyoom}/bin/earlyoom -g --avoid '^(systemd|kernel)$$' --prefer '^(Web Content|firefox|chrome)$$' -m 5 -s 5";
+        Restart = "always";
+        RestartSec = 5;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
     # Custom cleanup service
     meowrch-cleanup = {
       description = "Meowrch system cleanup";

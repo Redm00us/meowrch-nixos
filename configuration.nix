@@ -158,6 +158,9 @@
 
       # Authentication
       polkit_gnome
+
+      # System monitoring and OOM prevention
+      earlyoom
     ];
 
     # Session Variables
@@ -304,6 +307,13 @@
   virtualisation = {
     docker.enable = true;
     waydroid.enable = true;
+  };
+
+  # Zram swap configuration (NixOS 25.05)
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
   };
 
   # Systemd Services

@@ -203,9 +203,10 @@
   };
 
   # ────────────── XDG настройки ──────────────
+  # XDG настройки ──────────────
   xdg.portal = {
     enable = true;
-    config.common.default = "*";
+    config.common.default = [ "hyprland" "gtk" ];
   };
 
   # ────────────── Программы с темами ──────────────
@@ -214,8 +215,12 @@
     dconf.enable = true;
   };
 
-  # Qt5 platform theme configuration
-  qt5.platformTheme = "qt5ct";
+  # Qt platform theme configuration (updated for NixOS 25.05)
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+    style = "adwaita-dark";
+  };
 
   # ────────────── Systemd сервисы ──────────────
   systemd.user.services = {
