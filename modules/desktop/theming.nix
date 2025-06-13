@@ -1,95 +1,14 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Global System Theming Configuration
-  
-  # GRUB Theme configuration
-  boot.loader = {
-    grub = {
-      enable = lib.mkDefault true;
-      efiSupport = true;
-      useOSProber = true;
-      configurationLimit = 10;
-      theme = pkgs.stdenv.mkDerivation {
-        pname = "meowrch-grub-theme";
-        version = "1.0.0";
-        
-        src = ../../../dotfiles/grub_theme;
-        
-        # If src doesn't exist, create a basic theme
-        buildPhase = ''
-          if [ ! -d "$src" ]; then
-            mkdir -p $out/grub/themes/meowrch
-            
-            # Create a basic theme.txt
-            cat > $out/grub/themes/meowrch/theme.txt << EOF
-            # GRUB2 gfxmenu theme for Meowrch
-            
-            # Global settings
-            title-text: ""
-            desktop-image: "background.png"
-            desktop-color: "#1e1e2e"
-            terminal-font: "JetBrainsMono Regular 16"
-            terminal-left: "0"
-            terminal-top: "0"
-            terminal-width: "100%"
-            terminal-height: "100%"
-            terminal-border: "0"
-            
-            # Boot menu
-            + boot_menu {
-                left = 15%
-                top = 30%
-                width = 70%
-                height = 40%
-                item_font = "JetBrainsMono Regular 16"
-                item_color = "#cdd6f4"
-                selected_item_color = "#89b4fa"
-                item_height = 36
-                item_spacing = 10
-                selected_item_pixmap_style = "select_*.png"
-            }
-            
-            # Progress bar
-            + progress_bar {
-                id = "__timeout__"
-                left = 15%
-                top = 80%
-                width = 70%
-                height = 18
-                bg_color = "#313244"
-                fg_color = "#89b4fa"
-                border_color = "#45475a"
-                text_color = "#cdd6f4"
-                text = "Booting in %d seconds"
-            }
-            EOF
-            
-            # Create a basic background
-            convert -size 1920x1080 xc:#1e1e2e $out/grub/themes/meowrch/background.png
-            
-            # Create selection images
-            mkdir -p $out/grub/themes/meowrch/select
-            for i in {1..3}; do
-              convert -size 10x36 xc:#89b4fa $out/grub/themes/meowrch/select_$i.png
-            done
-          else
-            mkdir -p $out/grub/themes/meowrch
-            cp -r $src/* $out/grub/themes/meowrch/
-          fi
-        '';
-        
-        installPhase = ''
-          mkdir -p $out
-          cp -r grub $out/
-        '';
-        
-        buildInputs = with pkgs; [ imagemagick ];
-      };
-    };
-  };
+  # ╔════════════════════════════════════════════════════════════════════════════╗
+  # ║                           ГЛОБАЛЬНАЯ ТЕМАТИЗАЦИЯ                         ║
+  # ╚════════════════════════════════════════════════════════════════════════════╝
 
-  # Plymouth boot splash
+  # Boot loader theming (systemd-boot конфигурируется в configuration.nix)
+  # GRUB отключен для избежания конфликтов
+
+  # ────────────── Plymouth (загрузочный экран) ──────────────
   boot.plymouth = {
     enable = true;
     theme = "spinner";
@@ -97,80 +16,226 @@
       (pkgs.plymouth-theme-spinner.overrideAttrs (old: {
         postInstall = ''
           ${old.postInstall or ""}
-          
-          # Override spinner color to match Meowrch theme
+
+          # Изменяем цвета spinner под Catppuccin Mocha
           sed -i 's/Window.SetBackgroundTopColor(0.0, 0.0, 0.0);/Window.SetBackgroundTopColor(0.12, 0.12, 0.18);/g' $out/share/plymouth/themes/spinner/spinner.script
           sed -i 's/Window.SetBackgroundBottomColor(0.0, 0.0, 0.0);/Window.SetBackgroundBottomColor(0.12, 0.12, 0.18);/g' $out/share/plymouth/themes/spinner/spinner.script
-          sed -i 's/spinner_sprite.SetOpacity(0.1);/spinner_sprite.SetOpacity(0.8);/g' $out/share/plymouth/themes/spinner/spinner.script
         '';
       }))
     ];
   };
 
-  # GTK/GNOME System-wide themes
+  # ────────────── Системные пакеты для тем ──────────────
   environment.systemPackages = with pkgs; [
-    # GTK Themes
+    # GTK темы
     adwaita-qt
     qgnomeplatform-qt6
-    
-    # Icon themes
+
+    # Темы иконок
     papirus-icon-theme
-    
-    # Cursor themes
+
+    # Курсоры
     bibata-cursors
+
+    # Catppuccin темы
+    catppuccin-gtk
+    catppuccin-qt5ct
+
+    # Дополнительные темы
+    gnome-themes-extra
+    gsettings-desktop-schemas
   ];
 
-  # Default themes for system-wide apps
+  # ────────────── Конфигурационные файлы ──────────────
   environment.etc = {
     # GTK2 system-wide
     "gtk-2.0/gtkrc".text = ''
-      gtk-theme-name = "Adwaita-dark"
+      gtk-theme-name = "Catppuccin-Mocha-Standard-Blue-Dark"
       gtk-icon-theme-name = "Papirus-Dark"
       gtk-cursor-theme-name = "Bibata-Modern-Classic"
       gtk-cursor-theme-size = 24
       gtk-font-name = "Noto Sans 11"
     '';
-    
+
     # GTK3 system-wide
     "gtk-3.0/settings.ini".text = ''
       [Settings]
-      gtk-theme-name=Adwaita-dark
+      gtk-theme-name=Catppuccin-Mocha-Standard-Blue-Dark
       gtk-icon-theme-name=Papirus-Dark
       gtk-cursor-theme-name=Bibata-Modern-Classic
       gtk-cursor-theme-size=24
       gtk-font-name=Noto Sans 11
       gtk-application-prefer-dark-theme=1
     '';
-    
-    # Icons theme
+
+    # Тема иконок по умолчанию
     "icons/default/index.theme".text = ''
       [Icon Theme]
+      Name=Default
+      Comment=Default Cursor Theme
       Inherits=Bibata-Modern-Classic
     '';
   };
 
-  # System fonts
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    noto-fonts-extra
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" "Hack" "Iosevka" ]; })
-    jetbrains-mono
-    fira-code
-    ubuntu-font-family
-  ];
+  # ────────────── Шрифты ──────────────
+  fonts = {
+    enableDefaultPackages = true;
 
-  # Meowrch theming for system programs
+    packages = with pkgs; [
+      # Основные шрифты
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      noto-fonts-extra
+
+      # Программистские шрифты
+      (nerdfonts.override {
+        fonts = [
+          "JetBrainsMono"
+          "FiraCode"
+          "Hack"
+          "Iosevka"
+          "UbuntuMono"
+          "DejaVuSansMono"
+          "SourceCodePro"
+          "Meslo"
+        ];
+      })
+      jetbrains-mono
+      fira-code
+      fira-code-symbols
+      source-code-pro
+      ubuntu-font-family
+      dejavu_fonts
+
+      # UI шрифты
+      inter
+      roboto
+      open-sans
+    ];
+
+    fontconfig = {
+      enable = true;
+      antialias = true;
+      cache32Bit = true;
+      hinting.enable = true;
+      hinting.style = "slight";
+      subpixel.rgba = "rgb";
+      subpixel.lcdfilter = "default";
+
+      defaultFonts = {
+        monospace = [ "JetBrainsMono Nerd Font" "Hack Nerd Font" "FiraCode Nerd Font" ];
+        sansSerif = [ "Noto Sans" "Inter" "Roboto" ];
+        serif = [ "Noto Serif" "DejaVu Serif" ];
+        emoji = [ "Noto Color Emoji" ];
+      };
+
+      localConf = ''
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <!-- Использовать JetBrainsMono для моноширинных шрифтов -->
+          <alias>
+            <family>monospace</family>
+            <prefer>
+              <family>JetBrainsMono Nerd Font</family>
+              <family>Hack Nerd Font</family>
+              <family>FiraCode Nerd Font</family>
+            </prefer>
+          </alias>
+
+          <!-- Улучшенный рендеринг шрифтов -->
+          <match target="font">
+            <edit name="lcdfilter" mode="assign">
+              <const>lcddefault</const>
+            </edit>
+          </match>
+
+          <match target="font">
+            <edit name="rgba" mode="assign">
+              <const>rgb</const>
+            </edit>
+          </match>
+
+          <!-- Отключить автохинтинг для некоторых шрифтов -->
+          <match target="font">
+            <test name="family" compare="contains">
+              <string>JetBrainsMono</string>
+            </test>
+            <edit name="autohint" mode="assign">
+              <bool>false</bool>
+            </edit>
+          </match>
+        </fontconfig>
+      '';
+    };
+  };
+
+  # ────────────── Переменные окружения ──────────────
   environment.variables = {
-    # Base theme variables
-    GTK_THEME = "Adwaita:dark";
-    
-    # Icon and cursor theme
+    # GTK темы
+    GTK_THEME = "Catppuccin-Mocha-Standard-Blue-Dark";
+
+    # Курсоры
     XCURSOR_THEME = "Bibata-Modern-Classic";
     XCURSOR_SIZE = "24";
+
+    # Qt темы
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+    QT_STYLE_OVERRIDE = "Adwaita-Dark";
+
+    # Catppuccin
+    CATPPUCCIN_FLAVOR = "mocha";
   };
-  
-  # XDG settings
-  xdg.portal.config.common.default = "*";
+
+  # ────────────── Сессионные переменные ──────────────
+  environment.sessionVariables = {
+    # GTK настройки
+    GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+
+    # Qt настройки
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+
+    # Курсоры
+    XCURSOR_PATH = "/usr/share/icons:$XDG_DATA_HOME/icons";
+  };
+
+  # ────────────── XDG настройки ──────────────
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+  };
+
+  # ────────────── Программы с темами ──────────────
+  programs = {
+    # Qt5ct для настройки Qt5 приложений
+    qt5ct.enable = true;
+
+    # Dconf для GTK настроек
+    dconf.enable = true;
+  };
+
+  # ────────────── Systemd сервисы ──────────────
+  systemd.user.services = {
+    # Применение GTK настроек
+    apply-gtk-theme = {
+      description = "Apply GTK theme settings";
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      script = ''
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface gtk-theme "Catppuccin-Mocha-Standard-Blue-Dark"
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme "Bibata-Modern-Classic"
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name "Noto Sans 11"
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface monospace-font-name "JetBrainsMono Nerd Font 11"
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+    };
+  };
 }

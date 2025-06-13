@@ -116,7 +116,7 @@
       inherit system;
       specialArgs = {
         # Передача переменных и пакетов в модули
-        inherit inputs pkgs pkgs-unstable yandex-music spicetify-nix catppuccin-nix zen-browser;
+        inherit inputs pkgs-unstable yandex-music spicetify-nix catppuccin-nix zen-browser;
         inherit hyprland hyprland-plugins;
       };
       modules = [
