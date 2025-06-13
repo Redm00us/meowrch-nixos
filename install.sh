@@ -2,14 +2,14 @@
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
 # ║                                                                          ║
-# ║                    Установщик NixOS 25.05 Meowrch                       ║
-# ║                         Автор: Redm00us                                  ║
+# ║                    NixOS 25.05 Meowrch Installer                        ║
+# ║                         Author: Redm00us                                 ║
 # ║                                                                          ║
 # ╚════════════════════════════════════════════════════════════════════════════╝
 
 set -euo pipefail
 
-# ────────────── Цвета для вывода ──────────────
+# ────────────── Colors for output ──────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -34,17 +34,17 @@ show_logo() {
     ║    ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚══════╝╚══════╝ ╚═════╝   ║
     ║                                                                          ║
     ║                    🐱 Meowrch Configuration 🐱                           ║
-    ║                      Оптимизированная версия                             ║
+    ║                      Optimized Version                                   ║
     ║                                                                          ║
     ╚════════════════════════════════════════════════════════════════════════════╝
 EOF
     echo -e "${NC}"
-    echo -e "${CYAN}Добро пожаловать в установщик NixOS 25.05 Meowrch!${NC}"
-    echo -e "${WHITE}Этот скрипт поможет вам установить и настроить систему.${NC}"
+    echo -e "${CYAN}Welcome to NixOS 25.05 Meowrch Installer!${NC}"
+    echo -e "${WHITE}This script will help you install and configure the system.${NC}"
     echo ""
 }
 
-# ────────────── Функции логирования ──────────────
+# ────────────── Logging functions ──────────────
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -65,7 +65,7 @@ log_step() {
     echo -e "${PURPLE}[STEP]${NC} $1"
 }
 
-# ────────────── Функция подтверждения ──────────────
+# ────────────── Confirmation function ──────────────
 confirm() {
     local prompt="$1"
     local default="${2:-n}"
@@ -86,189 +86,189 @@ confirm() {
     fi
 }
 
-# ────────────── Проверка системы ──────────────
+# ────────────── System check ──────────────
 check_system() {
-    log_step "Проверка системы..."
+    log_step "Checking system..."
 
-    # Проверяем, что мы на NixOS
+    # Check if we're on NixOS
     if [[ ! -f /etc/NIXOS ]]; then
-        log_error "Этот скрипт должен запускаться на NixOS!"
+        log_error "This script must be run on NixOS!"
         exit 1
     fi
 
-    # Проверяем версию NixOS
+    # Check NixOS version
     if command -v nixos-version &> /dev/null; then
         local version
         version=$(nixos-version)
-        log_info "Версия NixOS: $version"
+        log_info "NixOS Version: $version"
     fi
 
-    # Проверяем права root
+    # Check if running as root
     if [[ $EUID -eq 0 ]]; then
-        log_error "Не запускайте этот скрипт от root!"
-        log_info "Используйте обычного пользователя. Скрипт сам запросит sudo когда нужно."
+        log_error "Don't run this script as root!"
+        log_info "Use a regular user. The script will ask for sudo when needed."
         exit 1
     fi
 
-    # Проверяем наличие sudo
+    # Check sudo availability
     if ! command -v sudo &> /dev/null; then
-        log_error "sudo не найден! Установите sudo и добавьте пользователя в группу wheel."
+        log_error "sudo not found! Install sudo and add user to wheel group."
         exit 1
     fi
 
-    # Проверяем доступ sudo
+    # Check sudo access
     if ! sudo -n true 2>/dev/null; then
-        log_info "Проверяем доступ sudo..."
+        log_info "Checking sudo access..."
         if ! sudo true; then
-            log_error "Нет доступа к sudo!"
+            log_error "No sudo access!"
             exit 1
         fi
     fi
 
-    log_success "Проверка системы завершена"
+    log_success "System check completed"
 }
 
-# ────────────── Копирование hardware-configuration.nix ──────────────
+# ────────────── Setup hardware configuration ──────────────
 setup_hardware_config() {
-    log_step "Настройка конфигурации оборудования..."
+    log_step "Setting up hardware configuration..."
 
     if [[ -f hardware-configuration.nix ]]; then
-        log_warning "hardware-configuration.nix уже существует"
-        if confirm "Перезаписать существующий файл?"; then
+        log_warning "hardware-configuration.nix already exists"
+        if confirm "Overwrite existing file?"; then
             sudo cp /etc/nixos/hardware-configuration.nix .
-            log_success "hardware-configuration.nix обновлен"
+            log_success "hardware-configuration.nix updated"
         else
-            log_info "Использую существующий hardware-configuration.nix"
+            log_info "Using existing hardware-configuration.nix"
         fi
     else
         if [[ -f /etc/nixos/hardware-configuration.nix ]]; then
             sudo cp /etc/nixos/hardware-configuration.nix .
             sudo chown $USER:users hardware-configuration.nix
-            log_success "hardware-configuration.nix скопирован"
+            log_success "hardware-configuration.nix copied"
         else
-            log_warning "Не найден /etc/nixos/hardware-configuration.nix"
-            log_info "Генерирую новый hardware-configuration.nix..."
+            log_warning "/etc/nixos/hardware-configuration.nix not found"
+            log_info "Generating new hardware-configuration.nix..."
             sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
-            log_success "hardware-configuration.nix сгенерирован"
+            log_success "hardware-configuration.nix generated"
         fi
     fi
 }
 
-# ────────────── Настройка пользователя ──────────────
+# ────────────── Configure user ──────────────
 configure_user() {
-    log_step "Настройка пользователя..."
+    log_step "Configuring user..."
 
     local current_user
     current_user=$(whoami)
 
-    echo -e "${CYAN}Текущий пользователь: ${WHITE}$current_user${NC}"
+    echo -e "${CYAN}Current user: ${WHITE}$current_user${NC}"
 
-    if confirm "Использовать текущего пользователя ($current_user)?"; then
+    if confirm "Use current user ($current_user)?"; then
         local username="$current_user"
     else
-        read -p "Введите имя пользователя: " username
+        read -p "Enter username: " username
     fi
 
-    # Обновляем configuration.nix
+    # Update configuration.nix
     if [[ "$username" != "redm00us" ]]; then
-        log_info "Обновляю имя пользователя в configuration.nix..."
+        log_info "Updating username in configuration.nix..."
         sed -i "s/redm00us/$username/g" configuration.nix
-        log_success "configuration.nix обновлен"
+        log_success "configuration.nix updated"
 
-        # Обновляем home.nix
-        log_info "Обновляю имя пользователя в home/home.nix..."
+        # Update home.nix
+        log_info "Updating username in home/home.nix..."
         sed -i "s/redm00us/$username/g" home/home.nix
-        log_success "home/home.nix обновлен"
+        log_success "home/home.nix updated"
 
-        # Обновляем flake.nix
-        log_info "Обновляю имя пользователя в flake.nix..."
+        # Update flake.nix
+        log_info "Updating username in flake.nix..."
         sed -i "s/redm00us/$username/g" flake.nix
-        log_success "flake.nix обновлен"
+        log_success "flake.nix updated"
     else
-        log_info "Имя пользователя не изменяется"
+        log_info "Username unchanged"
     fi
 
-    # Настройка Git (если нужно)
+    # Git configuration (if needed)
     echo ""
-    if confirm "Настроить Git конфигурацию?"; then
-        read -p "Введите ваше имя для Git: " git_name
-        read -p "Введите ваш email для Git: " git_email
+    if confirm "Configure Git settings?"; then
+        read -p "Enter your name for Git: " git_name
+        read -p "Enter your email for Git: " git_email
 
-        # Обновляем home.nix
+        # Update home.nix
         sed -i "s/userName = \"Redm00us\";/userName = \"$git_name\";/g" home/home.nix
         sed -i "s/userEmail = \"krokismau@icloud.com\";/userEmail = \"$git_email\";/g" home/home.nix
-        log_success "Git конфигурация обновлена"
+        log_success "Git configuration updated"
     fi
 }
 
-# ────────────── Настройка системы ──────────────
+# ────────────── Configure system ──────────────
 configure_system() {
-    log_step "Настройка системы..."
+    log_step "Configuring system..."
 
-    # Часовой пояс
-    echo -e "${CYAN}Настройка часового пояса${NC}"
+    # Timezone
+    echo -e "${CYAN}Timezone Configuration${NC}"
     local current_timezone
     current_timezone=$(timedatectl show --property=Timezone --value 2>/dev/null || echo "Europe/Moscow")
-    echo "Текущий часовой пояс: $current_timezone"
+    echo "Current timezone: $current_timezone"
 
-    if confirm "Изменить часовой пояс? (текущий: $current_timezone)"; then
-        echo "Примеры часовых поясов:"
+    if confirm "Change timezone? (current: $current_timezone)"; then
+        echo "Example timezones:"
         echo "  Europe/Moscow"
         echo "  Europe/Kiev"
         echo "  Europe/London"
         echo "  America/New_York"
         echo "  Asia/Tokyo"
         echo ""
-        read -p "Введите часовой пояс: " timezone
+        read -p "Enter timezone: " timezone
 
-        # Обновляем configuration.nix
+        # Update configuration.nix
         sed -i "s|time.timeZone = \".*\";|time.timeZone = \"$timezone\";|g" configuration.nix
-        log_success "Часовой пояс обновлен: $timezone"
+        log_success "Timezone updated: $timezone"
     fi
 
-    # Локаль
+    # Locale
     echo ""
-    echo -e "${CYAN}Настройка локали${NC}"
-    if confirm "Изменить локаль? (текущая: ru_UA.UTF-8)"; then
-        echo "Примеры локалей:"
+    echo -e "${CYAN}Locale Configuration${NC}"
+    if confirm "Change locale? (current: ru_UA.UTF-8)"; then
+        echo "Example locales:"
         echo "  en_US.UTF-8"
         echo "  ru_RU.UTF-8"
         echo "  uk_UA.UTF-8"
         echo ""
-        read -p "Введите локаль: " locale
+        read -p "Enter locale: " locale
 
-        # Обновляем configuration.nix
+        # Update configuration.nix
         sed -i "s|i18n.defaultLocale = \".*\";|i18n.defaultLocale = \"$locale\";|g" configuration.nix
-        log_success "Локаль обновлена: $locale"
+        log_success "Locale updated: $locale"
     fi
 }
 
-# ────────────── Сборка системы ──────────────
+# ────────────── Build system ──────────────
 build_system() {
-    log_step "Сборка и применение конфигурации..."
+    log_step "Building and applying configuration..."
 
-    echo -e "${YELLOW}Это может занять некоторое время...${NC}"
+    echo -e "${YELLOW}This may take some time...${NC}"
     echo ""
 
-    # Проверяем flake
-    log_info "Проверяю flake конфигурацию..."
+    # Check flake
+    log_info "Checking flake configuration..."
     if ! nix flake check --no-build 2>/dev/null; then
-        log_warning "Обнаружены проблемы с flake, но продолжаем..."
+        log_warning "Found issues with flake, but continuing..."
     fi
 
-    # Собираем систему
-    log_info "Собираю систему..."
+    # Build system
+    log_info "Building system..."
     if sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure; then
-        log_success "Система успешно собрана и применена!"
+        log_success "System successfully built and applied!"
     else
-        log_error "Ошибка при сборке системы!"
+        log_error "Error building system!"
         echo ""
-        log_info "Возможные решения:"
-        echo "  1. Проверьте hardware-configuration.nix"
-        echo "  2. Проверьте настройки в configuration.nix"
-        echo "  3. Запустите: sudo nixos-rebuild switch --flake .#meowrch --show-trace"
+        log_info "Possible solutions:"
+        echo "  1. Check hardware-configuration.nix"
+        echo "  2. Check settings in configuration.nix"
+        echo "  3. Run: sudo nixos-rebuild switch --flake .#meowrch --show-trace"
         echo ""
-        if confirm "Попробовать еще раз с подробным выводом?"; then
+        if confirm "Try again with verbose output?"; then
             sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure --show-trace
         else
             exit 1
@@ -276,62 +276,62 @@ build_system() {
     fi
 }
 
-# ────────────── Настройка Home Manager ──────────────
+# ────────────── Setup Home Manager ──────────────
 setup_home_manager() {
-    log_step "Настройка Home Manager..."
+    log_step "Setting up Home Manager..."
 
-    # Применяем конфигурацию Home Manager
-    log_info "Применяю конфигурацию Home Manager..."
+    # Apply Home Manager configuration
+    log_info "Applying Home Manager configuration..."
     if home-manager switch --flake .#$(whoami); then
-        log_success "Home Manager успешно настроен!"
+        log_success "Home Manager successfully configured!"
     else
-        log_warning "Ошибка при настройке Home Manager"
-        log_info "Попробуйте позже выполнить: home-manager switch --flake .#$(whoami)"
+        log_warning "Error setting up Home Manager"
+        log_info "Try later: home-manager switch --flake .#$(whoami)"
     fi
 }
 
-# ────────────── Пост-установка ──────────────
+# ────────────── Post-installation ──────────────
 post_install() {
-    log_step "Завершающие настройки..."
+    log_step "Final setup..."
 
-    # Добавляем Flathub (если нужно)
-    if confirm "Добавить Flathub репозиторий для Flatpak?"; then
-        log_info "Добавляю Flathub..."
+    # Add Flathub (if needed)
+    if confirm "Add Flathub repository for Flatpak?"; then
+        log_info "Adding Flathub..."
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        log_success "Flathub добавлен"
+        log_success "Flathub added"
     fi
 
-    # Создаем важные директории
-    log_info "Создаю пользовательские директории..."
+    # Create important directories
+    log_info "Creating user directories..."
     mkdir -p ~/.local/bin
     mkdir -p ~/.config/meowrch
-    log_success "Директории созданы"
+    log_success "Directories created"
 
-    # Проверяем систему
-    log_info "Проверяю систему..."
+    # Check system
+    log_info "Checking system..."
     if command -v fastfetch &> /dev/null; then
         echo ""
         fastfetch
     fi
 }
 
-# ────────────── Главное меню ──────────────
+# ────────────── Main menu ──────────────
 main_menu() {
     while true; do
         show_logo
-        echo -e "${WHITE}Выберите действие:${NC}"
+        echo -e "${WHITE}Choose an action:${NC}"
         echo ""
-        echo "  1) 🚀 Полная установка (рекомендуется)"
-        echo "  2) ⚙️  Только проверка системы"
-        echo "  3) 🔧 Настройка hardware-configuration.nix"
-        echo "  4) 👤 Настройка пользователя"
-        echo "  5) 🌍 Настройка системы (timezone, locale)"
-        echo "  6) 🏗️  Сборка системы"
-        echo "  7) 🏠 Настройка Home Manager"
-        echo "  8) 📋 Показать информацию о системе"
-        echo "  9) ❌ Выход"
+        echo "  1) 🚀 Full installation (recommended)"
+        echo "  2) ⚙️  System check only"
+        echo "  3) 🔧 Setup hardware-configuration.nix"
+        echo "  4) 👤 Configure user"
+        echo "  5) 🌍 Configure system (timezone, locale)"
+        echo "  6) 🏗️  Build system"
+        echo "  7) 🏠 Setup Home Manager"
+        echo "  8) 📋 Show system information"
+        echo "  9) ❌ Exit"
         echo ""
-        read -p "Введите номер (1-9): " choice
+        read -p "Enter number (1-9): " choice
 
         case $choice in
             1)
@@ -340,51 +340,51 @@ main_menu() {
                 ;;
             2)
                 check_system
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             3)
                 setup_hardware_config
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             4)
                 configure_user
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             5)
                 configure_system
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             6)
                 build_system
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             7)
                 setup_home_manager
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             8)
                 show_system_info
-                read -p "Нажмите Enter для продолжения..."
+                read -p "Press Enter to continue..."
                 ;;
             9)
-                log_info "До свидания!"
+                log_info "Goodbye!"
                 exit 0
                 ;;
             *)
-                log_error "Неверный выбор!"
+                log_error "Invalid choice!"
                 sleep 2
                 ;;
         esac
     done
 }
 
-# ────────────── Полная установка ──────────────
+# ────────────── Full installation ──────────────
 full_installation() {
     show_logo
-    echo -e "${WHITE}Начинаю полную установку NixOS 25.05 Meowrch...${NC}"
+    echo -e "${WHITE}Starting full NixOS 25.05 Meowrch installation...${NC}"
     echo ""
 
-    if ! confirm "Продолжить полную установку?" "y"; then
+    if ! confirm "Continue with full installation?" "y"; then
         return
     fi
 
@@ -399,37 +399,37 @@ full_installation() {
     echo ""
     echo -e "${GREEN}╔════════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${GREEN}║                                                                  ║${NC}"
-    echo -e "${GREEN}║            🎉 УСТАНОВКА УСПЕШНО ЗАВЕРШЕНА! 🎉                    ║${NC}"
+    echo -e "${GREEN}║            🎉 INSTALLATION COMPLETED SUCCESSFULLY! 🎉            ║${NC}"
     echo -e "${GREEN}║                                                                  ║${NC}"
     echo -e "${GREEN}╚════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
-    echo -e "${CYAN}Что дальше:${NC}"
-    echo "  1. Перезагрузите систему: ${WHITE}sudo reboot${NC}"
-    echo "  2. После перезагрузки войдите в Hyprland"
-    echo "  3. Используйте алиасы Fish shell:"
-    echo "     • ${WHITE}f${NC} - показать информацию о системе"
-    echo "     • ${WHITE}c${NC} - открыть конфиг в Zed Editor"
-    echo "     • ${WHITE}b${NC} - пересобрать систему"
-    echo "     • ${WHITE}u${NC} - обновить и пересобрать"
+    echo -e "${CYAN}What's next:${NC}"
+    echo "  1. Reboot the system: ${WHITE}sudo reboot${NC}"
+    echo "  2. After reboot, log into Hyprland"
+    echo "  3. Use Fish shell aliases:"
+    echo "     • ${WHITE}f${NC} - show system information"
+    echo "     • ${WHITE}c${NC} - open config in Zed Editor"
+    echo "     • ${WHITE}b${NC} - rebuild system"
+    echo "     • ${WHITE}u${NC} - update and rebuild"
     echo ""
-    echo -e "${PURPLE}Горячие клавиши Hyprland:${NC}"
-    echo "  • ${WHITE}Super + Enter${NC} - терминал"
-    echo "  • ${WHITE}Super + D${NC} - меню приложений"
+    echo -e "${PURPLE}Hyprland shortcuts:${NC}"
+    echo "  • ${WHITE}Super + Enter${NC} - terminal"
+    echo "  • ${WHITE}Super + D${NC} - application menu"
     echo "  • ${WHITE}Super + Alt + C${NC} - Zed Editor"
-    echo "  • ${WHITE}Super + E${NC} - файловый менеджер"
+    echo "  • ${WHITE}Super + E${NC} - file manager"
     echo ""
 
-    if confirm "Перезагрузить систему сейчас?" "y"; then
-        log_info "Перезагружаю систему..."
+    if confirm "Reboot system now?" "y"; then
+        log_info "Rebooting system..."
         sudo reboot
     fi
 }
 
-# ────────────── Информация о системе ──────────────
+# ────────────── System information ──────────────
 show_system_info() {
     clear
     echo -e "${PURPLE}╔════════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${PURPLE}║                    ИНФОРМАЦИЯ О СИСТЕМЕ                          ║${NC}"
+    echo -e "${PURPLE}║                        SYSTEM INFORMATION                        ║${NC}"
     echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 
@@ -444,21 +444,21 @@ show_system_info() {
     fi
 
     echo ""
-    echo -e "${CYAN}Статус конфигурации:${NC}"
-    [[ -f hardware-configuration.nix ]] && echo "✓ hardware-configuration.nix найден" || echo "✗ hardware-configuration.nix отсутствует"
-    [[ -f flake.nix ]] && echo "✓ flake.nix найден" || echo "✗ flake.nix отсутствует"
-    [[ -f configuration.nix ]] && echo "✓ configuration.nix найден" || echo "✗ configuration.nix отсутствует"
-    [[ -f home/home.nix ]] && echo "✓ home.nix найден" || echo "✗ home.nix отсутствует"
+    echo -e "${CYAN}Configuration status:${NC}"
+    [[ -f hardware-configuration.nix ]] && echo "✓ hardware-configuration.nix found" || echo "✗ hardware-configuration.nix missing"
+    [[ -f flake.nix ]] && echo "✓ flake.nix found" || echo "✗ flake.nix missing"
+    [[ -f configuration.nix ]] && echo "✓ configuration.nix found" || echo "✗ configuration.nix missing"
+    [[ -f home/home.nix ]] && echo "✓ home.nix found" || echo "✗ home.nix missing"
 
     echo ""
-    echo -e "${CYAN}Доступные команды:${NC}"
+    echo -e "${CYAN}Available commands:${NC}"
     command -v nixos-rebuild >/dev/null && echo "✓ nixos-rebuild" || echo "✗ nixos-rebuild"
     command -v home-manager >/dev/null && echo "✓ home-manager" || echo "✗ home-manager"
     command -v nix >/dev/null && echo "✓ nix" || echo "✗ nix"
     command -v git >/dev/null && echo "✓ git" || echo "✗ git"
 }
 
-# ────────────── Обработка аргументов командной строки ──────────────
+# ────────────── Command line arguments handling ──────────────
 case "${1:-}" in
     --check)
         check_system
@@ -485,27 +485,27 @@ case "${1:-}" in
         show_system_info
         ;;
     --help|-h)
-        echo "Использование: $0 [ОПЦИЯ]"
+        echo "Usage: $0 [OPTION]"
         echo ""
-        echo "Опции:"
-        echo "  --check     Проверить систему"
-        echo "  --hardware  Настроить hardware-configuration.nix"
-        echo "  --user      Настроить пользователя"
-        echo "  --system    Настроить систему (timezone, locale)"
-        echo "  --build     Собрать систему"
-        echo "  --home      Настроить Home Manager"
-        echo "  --full      Полная установка"
-        echo "  --info      Показать информацию о системе"
-        echo "  --help      Показать эту справку"
+        echo "Options:"
+        echo "  --check     Check system"
+        echo "  --hardware  Setup hardware-configuration.nix"
+        echo "  --user      Configure user"
+        echo "  --system    Configure system (timezone, locale)"
+        echo "  --build     Build system"
+        echo "  --home      Setup Home Manager"
+        echo "  --full      Full installation"
+        echo "  --info      Show system information"
+        echo "  --help      Show this help"
         echo ""
-        echo "Без аргументов запускается интерактивное меню."
+        echo "Without arguments, runs interactive menu."
         ;;
     "")
         main_menu
         ;;
     *)
-        log_error "Неизвестная опция: $1"
-        echo "Используйте --help для справки."
+        log_error "Unknown option: $1"
+        echo "Use --help for help."
         exit 1
         ;;
 esac

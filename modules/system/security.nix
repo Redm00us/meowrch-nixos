@@ -25,14 +25,14 @@
                 return polkit.Result.YES;
             }
         });
-        
+
         polkit.addRule(function(action, subject) {
             if (action.id == "org.freedesktop.NetworkManager.settings.modify.system" &&
                 subject.isInGroup("networkmanager")) {
                 return polkit.Result.YES;
             }
         });
-        
+
         polkit.addRule(function(action, subject) {
             if (action.id == "org.freedesktop.udisks2.filesystem-mount-system" &&
                 subject.isInGroup("users")) {
@@ -85,11 +85,11 @@
         passwd.enableGnomeKeyring = true;
         gdm.enableGnomeKeyring = true;
         sddm.enableGnomeKeyring = true;
-        
+
         # Enable fingerprint authentication if available
         login.fprintAuth = false;
         sudo.fprintAuth = false;
-        
+
         # Security settings
         su.requireWheel = true;
       };
@@ -100,7 +100,7 @@
       enable = true;
       wheelNeedsPassword = true;
       execWheelOnly = true;
-      
+
       extraRules = [
         {
           commands = [
@@ -145,7 +145,7 @@
           groups = [ "wheel" ];
         }
       ];
-      
+
       extraConfig = ''
         Defaults timestamp_timeout=30
         Defaults insults
@@ -172,9 +172,9 @@
       killUnconfinedConfinables = false;
     };
 
-    # Process information hiding
-    hideProcessInformation = false;
-    
+    # Process information hiding (removed in NixOS 25.05)
+    # hideProcessInformation option no longer exists
+
     # User namespaces (security vs compatibility trade-off)
     allowUserNamespaces = true;
   };
@@ -184,26 +184,26 @@
     # Authentication
     polkit_gnome
     gnome.gnome-keyring
-    
+
     # Security tools (fail2ban and clamav may not be available)
     # fail2ban
     # clamav
-    
+
     # Password management
     keepassxc
-    
+
     # Encryption tools
     gnupg
     openssl
-    
+
     # System monitoring
     lynis
     chkrootkit
-    
+
     # Network security
     nmap
     wireshark
-    
+
     # Firewall management
     ufw
     gufw
@@ -213,32 +213,32 @@
   boot.kernel.sysctl = {
     # Kernel pointer restriction
     "kernel.kptr_restrict" = 2;
-    
+
     # Restrict access to kernel logs
     "kernel.printk" = "3 3 3 3";
-    
+
     # Restrict kernel log access
     "kernel.dmesg_restrict" = 1;
-    
+
     # Enable ASLR
     "kernel.randomize_va_space" = 2;
-    
+
     # Restrict ptrace
     "kernel.yama.ptrace_scope" = 1;
-    
+
     # Disable kexec
     "kernel.kexec_load_disabled" = 1;
-    
+
     # Disable user namespaces for unprivileged users
     "kernel.unprivileged_userns_clone" = 1;
-    
+
     # Network security
     "net.core.bpf_jit_harden" = 2;
-    
+
     # Memory protection
     "vm.mmap_rnd_bits" = 32;
     "vm.mmap_rnd_compat_bits" = 16;
-    
+
     # Filesystem security
     "fs.protected_hardlinks" = 1;
     "fs.protected_symlinks" = 1;
@@ -254,7 +254,7 @@
     "sctp"
     "rds"
     "tipc"
-    
+
     # Rare filesystems
     "freevxfs"
     "jffs2"
@@ -262,18 +262,18 @@
     "hfsplus"
     "squashfs"
     "udf"
-    
+
     # Firewire (can be used for DMA attacks)
     "firewire-core"
     "firewire-ohci"
     "firewire-sbp2"
-    
+
     # Thunderbolt (can be used for DMA attacks)
     "thunderbolt"
-    
+
     # USB storage (uncomment if you want to disable USB storage)
     # "usb-storage"
-    
+
     # Webcam (uncomment if you want to disable webcam)
     # "uvcvideo"
   ];
@@ -291,7 +291,7 @@
     #     maxtime = "48h";
     #     factor = "2";
     #   };
-    #   
+    #
     #   jails = {
     #     sshd = {
     #       settings = {
@@ -334,7 +334,7 @@
     # Harden memory allocator
     MALLOC_CHECK_ = "2";
     MALLOC_PERTURB_ = "1";
-    
+
     # Browser security
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_USE_XINPUT2 = "1";
@@ -344,13 +344,13 @@
   system.activationScripts.security = ''
     # Secure /tmp
     chmod 1777 /tmp
-    
-    # Secure /var/tmp  
+
+    # Secure /var/tmp
     chmod 1777 /var/tmp
-    
+
     # Secure home directories
     chmod 755 /home
-    
+
     # Secure system files
     chmod 600 /etc/shadow
     chmod 644 /etc/passwd

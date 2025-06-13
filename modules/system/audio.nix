@@ -3,26 +3,18 @@
 {
   # Audio Configuration
   security.rtkit.enable = true;
-  
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-    
+
     # Wireplumber configuration
     wireplumber.enable = true;
-    
-    # Additional audio packages
-    extraConfig.pipewire."92-low-latency" = {
-      context.properties = {
-        default.clock.rate = 48000;
-        default.clock.quantum = 32;
-        default.clock.min-quantum = 32;
-        default.clock.max-quantum = 32;
-      };
-    };
+
+
   };
 
   # Audio packages
@@ -31,15 +23,15 @@
     pavucontrol
     pamixer
     playerctl
-    
+
     # Audio codecs and libraries
     pipewire
     wireplumber
-    
+
     # Audio production tools (optional)
     # audacity
     # ardour
-    
+
     # System sound theme
     sound-theme-freedesktop
   ];
@@ -51,7 +43,7 @@
   hardware = {
     # Enable audio hardware
     enableAllFirmware = true;
-    
+
     # Bluetooth audio support
     bluetooth = {
       enable = true;
@@ -99,8 +91,8 @@
     "snd-rawmidi"
   ];
 
-  # ALSA configuration
-  sound.enable = true;
+  # ALSA configuration (sound.enable removed in NixOS 25.05)
+  hardware.alsa.enable = true;
 
   # Additional audio configuration for low latency
   boot.kernelParams = [
@@ -112,7 +104,7 @@
   services = {
     # Bluetooth for audio devices
     blueman.enable = true;
-    
+
     # Audio device management
     udev.extraRules = ''
       # Audio device permissions
@@ -121,34 +113,32 @@
     '';
   };
 
-  # PipeWire configuration files
-  environment.etc = {
-    "pipewire/pipewire.conf.d/92-low-latency.conf".text = ''
-      context.properties = {
-          default.clock.rate          = 48000
-          default.clock.quantum       = 32
-          default.clock.min-quantum   = 32
-          default.clock.max-quantum   = 32
+  # PipeWire configuration using new method
+  services.pipewire.extraConfig.pipewire."92-low-latency" = {
+    context.properties = {
+      default.clock.rate = 48000;
+      default.clock.quantum = 32;
+      default.clock.min-quantum = 32;
+      default.clock.max-quantum = 32;
+    };
+  };
+
+  services.pipewire.extraConfig.pipewire-pulse."92-low-latency" = {
+    context.modules = [
+      {
+        name = "libpipewire-module-protocol-pulse";
+        args = {
+          pulse.min.req = "32/48000";
+          pulse.default.req = "32/48000";
+          pulse.max.req = "32/48000";
+          pulse.min.quantum = "32/48000";
+          pulse.max.quantum = "32/48000";
+        };
       }
-    '';
-    
-    "pipewire/pipewire-pulse.conf.d/92-low-latency.conf".text = ''
-      context.modules = [
-          {   name = libpipewire-module-protocol-pulse
-              args = {
-                  pulse.min.req          = 32/48000
-                  pulse.default.req      = 32/48000
-                  pulse.max.req          = 32/48000
-                  pulse.min.quantum      = 32/48000
-                  pulse.max.quantum      = 32/48000
-              }
-          }
-      ]
-      
-      stream.properties = {
-          node.latency             = 32/48000
-          resample.quality         = 1
-      }
-    '';
+    ];
+    stream.properties = {
+      node.latency = "32/48000";
+      resample.quality = 1;
+    };
   };
 }

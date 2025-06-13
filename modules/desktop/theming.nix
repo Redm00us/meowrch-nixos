@@ -210,12 +210,12 @@
 
   # ────────────── Программы с темами ──────────────
   programs = {
-    # Qt5ct для настройки Qt5 приложений
-    qt5ct.enable = true;
-
     # Dconf для GTK настроек
     dconf.enable = true;
   };
+
+  # Qt5 platform theme configuration
+  qt5.platformTheme = "qt5ct";
 
   # ────────────── Systemd сервисы ──────────────
   systemd.user.services = {

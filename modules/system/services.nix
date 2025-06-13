@@ -70,7 +70,7 @@
         WIFI_PWR_ON_BAT = "on";
       };
     };
-    
+
     # Power profiles daemon (alternative power management - disabled in favor of TLP)
     # power-profiles-daemon.enable = false;
 
@@ -129,24 +129,24 @@
         gnome.gnome-settings-daemon
         android-udev-rules
       ];
-      
+
       extraRules = ''
         # USB device rules
         SUBSYSTEM=="usb", ATTR{idVendor}=="*", ATTR{idProduct}=="*", MODE="0664", GROUP="users"
-        
+
         # Android devices
         SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="users"
-        
+
         # Gaming controllers
         KERNEL=="hidraw*", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="*", MODE="0666"
         KERNEL=="hidraw*", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="*", MODE="0666"
-        
+
         # Brightness control
         ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w $sys$devpath/brightness"
-        
+
         # Input devices
         SUBSYSTEM=="input", GROUP="input", MODE="0664"
-        
+
         # Storage devices
         SUBSYSTEM=="block", TAG+="systemd"
       '';
@@ -175,7 +175,6 @@
     locate = {
       enable = true;
       package = pkgs.mlocate;
-      localuser = null;
       interval = "02:15";
     };
 
@@ -325,10 +324,10 @@
         ExecStart = pkgs.writeShellScript "meowrch-cleanup" ''
           # Clean package cache
           ${pkgs.nix}/bin/nix-collect-garbage --delete-older-than 7d
-          
+
           # Clean journal logs
           ${pkgs.systemd}/bin/journalctl --vacuum-time=7d
-          
+
           # Clean temporary files
           ${pkgs.findutils}/bin/find /tmp -type f -atime +3 -delete || true
           ${pkgs.findutils}/bin/find /var/tmp -type f -atime +7 -delete || true
@@ -345,10 +344,10 @@
         ExecStart = pkgs.writeShellScript "fix-permissions" ''
           # Fix audio group permissions
           ${pkgs.coreutils}/bin/chmod 664 /dev/snd/* || true
-          
-          # Fix video group permissions  
+
+          # Fix video group permissions
           ${pkgs.coreutils}/bin/chmod 664 /dev/dri/* || true
-          
+
           # Fix input group permissions
           ${pkgs.coreutils}/bin/chmod 664 /dev/input/* || true
         '';
@@ -369,7 +368,7 @@
         ExecStart = pkgs.writeShellScript "user-cleanup" ''
           # Clean user cache
           ${pkgs.findutils}/bin/find $HOME/.cache -type f -atime +7 -delete || true
-          
+
           # Clean browser cache (if too large)
           if [ -d "$HOME/.cache/mozilla" ]; then
             ${pkgs.coreutils}/bin/du -sh "$HOME/.cache/mozilla" | ${pkgs.gawk}/bin/awk '$1 ~ /G/ && $1 > 1 {exit 1}'
