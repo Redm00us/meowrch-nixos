@@ -125,24 +125,49 @@
   </tr>
 </table>
 
+## 🆕 What's New in Version 2.0!
+
+### 🎯 Universal Installer
+**No more hardcoded usernames!**
+
+🔄 **Works with any username** - system automatically configures for you  
+🎛️ **Interactive menu** - choose exactly what to install  
+✨ **Smart configuration** - asks for your details and updates everything  
+🛡️ **Safe and secure** - creates backups before making changes  
+⚡ **Quick user switching** - change username after installation  
+
+### 🎮 What this means for you?
+- **Simply run** `./install.sh` and follow the prompts
+- **System will ask** for your name, email, and other details  
+- **Everything configures automatically** - Git, aliases, file paths
+- **Easy to share** configuration with other people
+- **One command** to change user: `./change-user.sh`
+
 <!-- INSTALLATION -->
-## 🛠 Installation
-If you already have NixOS installed, follow these steps:
+### 🎯 New! Universal Installer
+**Now works with any username!**
+- 🔄 **Automatic configuration** of your username
+- ✨ **Simple interactive installer** with menu
+- 🎛️ **Choose what to install** - everything at once or step by step
+- 🛡️ **Safe** - creates backups
+
+### If you already have NixOS installed:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Redm00us/meowrch-nixos.git
 cd meowrch-nixos
 ```
-### 2. Generate hardware configuration
-```bash
-sudo nixos-generate-config
-cp /etc/nixos/hardware-configuration.nix .
-```
-### 3. Run automatic installation
+### 2. Run the smart installer
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
+
+**The installer will do everything else!**
+- Ask for your username and details
+- Configure the system for you
+- Check for errors
+- Install everything needed
 
 > [!important]
 > After installation, you **must** reboot to apply all changes.
@@ -152,13 +177,53 @@ chmod +x install.sh
 > - Select menu item: Press Spacebar to select the desired item
 > - Advance to next step: Press Enter to proceed to the next step
 
-### Manual Installation (Advanced Users)
+### 🔧 What can the installer do?
+
+**The installer will show you a menu with options:**
+
+1. **🚀 Full Installation** *(recommended for beginners)*
+   - Configure your username
+   - Auto-detect your hardware  
+   - Check everything for errors
+   - Install the complete system
+
+2. **⚙️ Configure User Only**
+   - Change username if needed
+   - Update email and other details
+
+3. **🔧 Generate Hardware Config**
+   - Detect your disks and devices
+   - Only needed once
+
+4. **✅ Validate Configuration**
+   - Find errors before installation
+   - Show what needs fixing
+
+5. **📦 Build System Only**
+   - Apply changes without other setup
+
+6. **🏠 Setup User Environment**
+   - Configure your desktop and programs
+
+### 🎮 Quick User Change
+
+If you already installed the system but want to change username:
+
 ```bash
-# Build and switch to the configuration
+# Interactive mode (with questions)
+./change-user.sh
+
+# Quick command mode
+./change-user.sh -u newname -n "Your Name" -e "email@example.com"
+```
+
+### 🤓 For Advanced Users
+```bash
+# Build system directly
 sudo nixos-rebuild switch --flake .#meowrch
 
-# Apply Home Manager configuration
-home-manager switch --flake .#redm00us
+# Apply user settings  
+home-manager switch --flake .#your_username
 
 # Reboot system
 sudo reboot
