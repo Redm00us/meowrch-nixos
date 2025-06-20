@@ -12,11 +12,11 @@
 	</a>
 	<br>
 	<br>
-	<a href="./README.ru.md">
-		<img src="https://img.shields.io/badge/README-RU-blue?color=cba6f7&labelColor=1C2325&style=for-the-badge">
-	</a>
 	<a href="./README.md">
-		<img src="https://img.shields.io/badge/README-ENG-blue?color=C9CBFF&labelColor=C9CBFF&style=for-the-badge">
+		<img src="https://img.shields.io/badge/README-RU-blue?color=cba6f7&labelColor=cba6f7&style=for-the-badge">
+	</a>
+	<a href="./README.en.md">
+		<img src="https://img.shields.io/badge/README-ENG-blue?color=C9CBFF&labelColor=1C2325&style=for-the-badge">
 	</a>
 </div>
 
@@ -25,11 +25,11 @@
 <!-- INFORMATION -->
 <table align="right">
 	<tr>
-	    <td colspan="2" align="center">System Parameters</td>
+	    <td colspan="2" align="center">Системные параметры</td>
 	</tr>
 	<tr>
-	    <th>Component</th>
-	    <th>Name</th>
+	    <th>Компонент</th>
+	    <th>Название</th>
 	</tr>
 	<tr>
 	    <td>OS</td>
@@ -73,27 +73,27 @@
 	</tr>
 </table>
 <div align="left">
-	<h3> 📝 About the project</h2> 
+	<h3> 📝 О проекте</h2> 
 	<p>
-	Meowrch NixOS is a beautiful and optimized NixOS 25.05 configuration inspired by the original Meowrch Arch Linux rice. Built with reproducibility and performance in mind, featuring Hyprland with modern tools and stunning aesthetics.
+	Meowrch NixOS - красивая и оптимизированная конфигурация NixOS 25.05, вдохновленная оригинальным Meowrch Arch Linux rice. Создана с учетом воспроизводимости и производительности, включает Hyprland с современными инструментами и потрясающей эстетикой.
 	</p>
-	<h3>🚀 Features</h2>
+	<h3>🚀 Особенности</h2>
 	<p>
-	• Complete NixOS configuration with Hyprland Wayland compositor<br>
-	• Beautiful Catppuccin theming across the entire system<br>
-	• Optimized for AMD graphics with gaming support (Steam, Flatpak)<br>
-	• Reproducible builds with Nix flakes and Home Manager<br>
-	• Custom keybindings designed for maximum productivity<br>
-	• Modern audio system with PipeWire and Bluetooth support<br>
-	• Automatic installation script with interactive setup<br>
-	• Fish shell with custom aliases and Starship prompt<br>
+	• Полная конфигурация NixOS с Wayland композитором Hyprland<br>
+	• Красивая тематизация Catppuccin для всей системы<br>
+	• Оптимизирована для AMD графики с поддержкой игр (Steam, Flatpak)<br>
+	• Воспроизводимые сборки с Nix flakes и Home Manager<br>
+	• Пользовательские горячие клавиши для максимальной продуктивности<br>
+	• Современная аудиосистема с PipeWire и поддержкой Bluetooth<br>
+	• Автоматический скрипт установки с интерактивной настройкой<br>
+	• Fish shell с пользовательскими алиасами и Starship prompt<br>
 	</p>
 </div>
 
 > [!WARNING]
-> THIS CONFIGURATION IS OPTIMIZED FOR AMD GRAPHICS CARDS.
-> NVIDIA USERS MAY NEED TO MAKE MANUAL ADJUSTMENTS.
-> PLEASE REPORT ANY ISSUES YOU ENCOUNTER.
+> ДАННАЯ КОНФИГУРАЦИЯ ОПТИМИЗИРОВАНА ДЛЯ ВИДЕОКАРТ AMD.
+> ПОЛЬЗОВАТЕЛЯМ NVIDIA МОЖЕТ ПОТРЕБОВАТЬСЯ РУЧНАЯ НАСТРОЙКА.
+> ПОЖАЛУЙСТА, СООБЩАЙТЕ О ЛЮБЫХ ПРОБЛЕМАХ, С КОТОРЫМИ СТОЛКНЕТЕСЬ.
 
 <!-- IMAGES -->
 <table align="center">
@@ -113,263 +113,263 @@
 </table>
 
 <!-- INSTALLATION -->
-## 🛠 Installation
-If you already have NixOS installed, follow these steps:
-### 1. Clone the repository
+## 🛠 Установка
+Если у вас уже установлен NixOS, выполните следующие шаги:
+### 1. Клонируем репозиторий
 ```bash
 git clone https://github.com/Redm00us/meowrch-nixos.git
 cd meowrch-nixos
 ```
-### 2. Generate hardware configuration
+### 2. Генерируем конфигурацию оборудования
 ```bash
 sudo nixos-generate-config
 cp /etc/nixos/hardware-configuration.nix .
 ```
-### 3. Run automatic installation
+### 3. Запускаем автоматическую установку
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
 > [!important]
-> After installation, you **must** reboot to apply all changes.
+> После установки вам нужно **обязательно** перезагрузиться для применения всех изменений.
 
 > [!note]
-> Instructions for navigating the installer menu:
-> - Select menu item: Press Spacebar to select the desired item
-> - Advance to next step: Press Enter to proceed to the next step
+> Инструкции по навигации в меню установщика:
+> - Выбор элемента в меню: Нажмите Пробел для выбора нужного элемента
+> - Переход к следующему шагу: Нажмите Enter для перехода к следующему шагу
 
-### Manual Installation (Advanced Users)
+### Ручная установка (для продвинутых пользователей)
 ```bash
-# Build and switch to the configuration
+# Собрать и переключиться на конфигурацию
 sudo nixos-rebuild switch --flake .#meowrch
 
-# Apply Home Manager configuration
+# Применить конфигурацию Home Manager
 home-manager switch --flake .#redm00us
 
-# Reboot system
+# Перезагрузить систему
 sudo reboot
 ```
 
-<h2>💻 Help & Support</h2>
-If you have questions or need help with the project, please visit our <a href="https://github.com/Redm00us/meowrch-nixos/issues">Issues</a> section.<br><br>
-You can also check the original <a href="https://github.com/meowrch/meowrch">Meowrch project</a> for additional inspiration and themes.<br><br>
-For quick support and discussions, join our <a href="https://t.me/meowrch">Telegram channel</a> or contact directly <a href="https://t.me/Redm00us">@Redm00us</a>.<br><br>
-For NixOS-specific questions, refer to the <a href="https://nixos.org/manual/nixos/stable/">NixOS Manual</a> and <a href="https://nix-community.github.io/home-manager/">Home Manager documentation</a>.<br><br>
-Your feedback helps us improve the project and make it even more convenient for users.
+<h2>💻 Помощь и поддержка</h2>
+Если у вас возникли вопросы или нужна помощь с проектом, пожалуйста, посетите раздел <a href="https://github.com/Redm00us/meowrch-nixos/issues">Issues</a>.<br><br>
+Также вы можете изучить оригинальный <a href="https://github.com/meowrch/meowrch">проект Meowrch</a> для дополнительного вдохновения и тем.<br><br>
+Для быстрой поддержки и обсуждений присоединяйтесь к нашему <a href="https://t.me/meowrch">Telegram каналу</a> или обращайтесь напрямую к <a href="https://t.me/Redm00us">@Redm00us</a>.<br><br>
+По вопросам, связанным с NixOS, обращайтесь к <a href="https://nixos.org/manual/nixos/stable/">Руководству NixOS</a> и <a href="https://nix-community.github.io/home-manager/">документации Home Manager</a>.<br><br>
+Ваши отзывы помогают нам улучшить проект и сделать его еще более удобным для пользователей.
 
-<h2>💻 Hotkeys</h2>
+<h2>💻 Горячие клавиши</h2>
 <table align="center">
 	<tr>
-		<td colspan="2" align="center">Key combinations</td>
+		<td colspan="2" align="center">Сочетания клавиш</td>
 	</tr>
     <tr>
-        <th>Action</th>
+        <th>Действие</th>
         <th>Hyprland</th>
     </tr>
 	<tr>
-        <td>Open terminal</td>
+        <td>Открыть терминал</td>
 		<td align="center">super + enter</td>
     </tr>
     <tr>
-        <td>Open application menu</td>
+        <td>Открыть меню приложений</td>
 		<td align="center">super + d</td>
     </tr>
 	<tr>
-        <td>Open file manager</td>
+        <td>Открыть файловый менеджер</td>
 		<td align="center">super + e</td>
     </tr>
 	<tr>
-        <td>Open Firefox</td>
+        <td>Открыть Firefox</td>
 		<td align="center">super + shift + f</td>
     </tr>
 	<tr>
-        <td>Open task manager (btop)</td>
+        <td>Открыть диспетчер задач (btop)</td>
 		<td align="center">ctrl + shift + esc</td>
     </tr>
 	<tr>
-        <td>Open emoji picker</td>
+        <td>Открыть выбор эмодзи</td>
 		<td align="center">super + .</td>
     </tr>
     <tr>
-        <td>Open power menu</td>
+        <td>Открыть меню питания</td>
 		<td align="center">super + x</td>
     </tr>
 	<tr>
-        <td>Take screenshot</td>
+        <td>Сделать скриншот</td>
 		<td align="center">PrintScreen</td>
     </tr>
 	<tr>
-        <td>Change wallpaper</td>
+        <td>Сменить обои</td>
 		<td align="center">super + w</td>
     </tr>
 	<tr>
-        <td>Change theme</td>
+        <td>Сменить тему</td>
 		<td align="center">super + t</td>
     </tr>
 	<tr>
-        <td>Change keyboard layout</td>
+        <td>Сменить раскладку клавиатуры</td>
 		<td align="center">shift + alt</td>
     </tr>
     <tr>
-        <td>Color picker</td>
+        <td>Пипетка цветов</td>
 		<td align="center">super + c</td>
     </tr>
     <tr>
-        <td>Lock screen</td>
+        <td>Заблокировать экран</td>
         <td align="center">super + l</td>
     </tr>
 	<tr>
-        <td>Switch workspace</td>
+        <td>Переключить рабочую область</td>
 		<td align="center">super + 1-10</td>
     </tr>
     <tr>
-        <td>Move window to workspace</td>
+        <td>Переместить окно в рабочую область</td>
 		<td align="center">super + shift + 1-10</td>
     </tr>
     <tr>
-        <td>Toggle floating mode</td>
+        <td>Переключить плавающий режим</td>
 		<td align="center">super + space</td>
     </tr>
 	<tr>
-        <td>Toggle fullscreen</td>
+        <td>Переключить полноэкранный режим</td>
 		<td align="center">alt + enter</td>
     </tr>
     <tr>
-        <td>Close window</td>
+        <td>Закрыть окно</td>
 		<td align="center">super + q</td>
     </tr>
     <tr>
-        <td>Restart window manager</td>
+        <td>Перезапустить оконный менеджер</td>
 		<td align="center">ctrl + shift + r</td>
     </tr>
 	<tr>
-		<td>Full configuration in:</td>
+		<td>Полная конфигурация в:</td>
 		<td>home/modules/hyprland.nix</td>
 	</tr>
 </table>
 
-## 🎨 Customization
+## 🎨 Кастомизация
 
-### Adding Packages
-Edit `configuration.nix` for system packages:
+### Добавление пакетов
+Редактируйте `configuration.nix` для системных пакетов:
 ```nix
 environment.systemPackages = with pkgs; [
-  # Add your packages here
+  # Добавьте ваши пакеты здесь
   neofetch
   discord
 ];
 ```
 
-Edit `home/home.nix` for user packages:
+Редактируйте `home/home.nix` для пользовательских пакетов:
 ```nix
 home.packages = with pkgs; [
-  # Add user packages here
+  # Добавьте пользовательские пакеты здесь
   spotify
   gimp
 ];
 ```
 
-### Theme Management
+### Управление темами
 ```bash
-# Switch between Catppuccin variants
-theme-switch mocha    # Dark theme
-theme-switch latte    # Light theme
+# Переключение между вариантами Catppuccin
+theme-switch mocha    # Темная тема
+theme-switch latte    # Светлая тема
 
-# Apply changes
+# Применить изменения
 sudo nixos-rebuild switch --flake .#meowrch
 ```
 
-### Custom Keybindings
-Edit `home/modules/hyprland.nix`:
+### Пользовательские горячие клавиши
+Редактируйте `home/modules/hyprland.nix`:
 ```nix
 bind = [
   "$mainMod, Y, exec, your-custom-command"
-  # Add more bindings here
+  # Добавьте больше привязок здесь
 ];
 ```
 
-## 🔧 Troubleshooting
+## 🔧 Решение проблем
 
-### Common Issues
+### Частые проблемы
 ```bash
-# Clear Nix store
+# Очистить хранилище Nix
 sudo nix-collect-garbage -d
 
-# Rebuild system
+# Пересобрать систему
 sudo nixos-rebuild switch --flake .#meowrch
 
-# Check system logs
+# Проверить системные логи
 journalctl -xe
 
-# Check Hyprland logs
+# Проверить логи Hyprland
 journalctl --user -u hyprland
 ```
 
-### Audio Issues
+### Проблемы со звуком
 ```bash
-# Restart PipeWire
+# Перезапустить PipeWire
 systemctl --user restart pipewire pipewire-pulse wireplumber
 ```
 
-### Graphics Issues
+### Проблемы с графикой
 ```bash
-# Check AMD GPU status
+# Проверить статус AMD GPU
 lspci | grep VGA
 glxinfo | grep vendor
 ```
 
-## 🔄 Updates
+## 🔄 Обновления
 
-### Update System
+### Обновление системы
 ```bash
-# Update flake inputs
+# Обновить входы flake
 nix flake update
 
-# Rebuild system
+# Пересобрать систему
 sudo nixos-rebuild switch --flake .#meowrch
 
-# Update Home Manager
+# Обновить Home Manager
 home-manager switch --flake .#redm00us
 ```
 
-## 🤝 Contributing
+## 🤝 Участие в разработке
 
-We welcome contributions! Here's how you can help:
+Мы приветствуем вклад! Вот как вы можете помочь:
 
-1. **🐛 Report bugs** - Open issues with detailed information
-2. **💡 Suggest features** - Share ideas for improvements  
-3. **🔧 Submit fixes** - Fork, fix, and create pull requests
-4. **📚 Improve docs** - Help make documentation better
-5. **🎨 Create themes** - Design new color schemes
+1. **🐛 Сообщать об ошибках** - Открывайте issues с подробной информацией
+2. **💡 Предлагать функции** - Делитесь идеями для улучшений
+3. **🔧 Отправлять исправления** - Форкните, исправьте и создайте pull request
+4. **📚 Улучшать документацию** - Помогите сделать документацию лучше
+5. **🎨 Создавать темы** - Разрабатывайте новые цветовые схемы
 
-### Development Setup
+### Настройка разработки
 ```bash
 git clone https://github.com/Redm00us/meowrch-nixos.git
 cd meowrch-nixos
 nix develop
 ```
 
-## 📚 Resources
+## 📚 Ресурсы
 
-- **🏠 [NixOS Manual](https://nixos.org/manual/nixos/stable/)** - Official documentation
-- **❄️ [Nix Pills](https://nixos.org/guides/nix-pills/)** - Learn Nix language
-- **🏡 [Home Manager](https://nix-community.github.io/home-manager/)** - User configuration
-- **🪟 [Hyprland Wiki](https://wiki.hyprland.org/)** - Wayland compositor guide
-- **🎨 [Catppuccin](https://catppuccin.com/)** - Theme collection
-- **🐱 [Original Meowrch](https://github.com/meowrch/meowrch)** - Arch Linux inspiration
+- **🏠 [Руководство NixOS](https://nixos.org/manual/nixos/stable/)** - Официальная документация
+- **❄️ [Nix Pills](https://nixos.org/guides/nix-pills/)** - Изучите язык Nix
+- **🏡 [Home Manager](https://nix-community.github.io/home-manager/)** - Конфигурация пользователя
+- **🪟 [Hyprland Wiki](https://wiki.hyprland.org/)** - Руководство по Wayland композитору
+- **🎨 [Catppuccin](https://catppuccin.com/)** - Коллекция тем
+- **🐱 [Оригинальный Meowrch](https://github.com/meowrch/meowrch)** - Вдохновение от Arch Linux
 
-## ☕ Support project
-If you would like to support the original Meowrch project, you can donate to their cryptocurrency wallets:
+## ☕ Поддержать проект
+Если вы хотите поддержать оригинальный проект Meowrch, вы можете отправить пожертвование на криптовалютные кошельки:
 
-| CryptoCurrency | Address                                        |
+| Криптовалюта | Адрес                                        		|
 | ------------ | -------------------------------------------------- |
 | **TON**      | `UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3` |
 | **Ethereum** | `0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13`       |
 | **Bitcoin**  | `bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn`       |
 | **Tron**     | `TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs`               |
 
-## 📊 Star History
+## 📊 История звезд
 <a href="https://star-history.com/#Redm00us/meowrch-nixos&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Redm00us/meowrch-nixos&type=Date&theme=dark" />
@@ -381,6 +381,6 @@ If you would like to support the original Meowrch project, you can donate to the
 ---
 
 <div align="center">
-<p><strong>Made with 💜 by the Meowrch community</strong></p>
-<p><em>NixOS port inspired by the original <a href="https://github.com/meowrch/meowrch">Meowrch</a> Arch Linux rice</em></p>
+<p><strong>Сделано с 💜 сообществом Meowrch</strong></p>
+<p><em>Порт на NixOS, вдохновленный оригинальным <a href="https://github.com/meowrch/meowrch">Meowrch</a> Arch Linux rice</em></p>
 </div>
