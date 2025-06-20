@@ -1,748 +1,299 @@
-# 🐱 Оптимизированная NixOS 25.05 Конфигурация ≽ܫ≼
+# 🐱 Meowrch NixOS Configuration ≽ܫ≼
 
-![NixOS Logo](https://nixos.org/logo/nixos-logo-only-hires.png)
+<div align="center">
 
-Оптимизированная конфигурация NixOS 25.05 с Hyprland, основанная на проекте NixOS-Meowrch. Включает в себя последние пакеты, Zen Browser, Yandex Music, Spicetify с темой Catppuccin и множество улучшений производительности.
+![NixOS](https://img.shields.io/badge/NixOS-25.05-5277C3.svg?style=for-the-badge&logo=nixos&logoColor=white)
+![Hyprland](https://img.shields.io/badge/Hyprland-Wayland-00D9FF.svg?style=for-the-badge&logo=wayland&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
-## 📋 Table of Contents
+*A beautiful, optimized NixOS configuration inspired by the Meowrch Arch Linux rice*
 
-- [Overview](#overview)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+[Features](#-features) • [Installation](#-quick-installation) • [Screenshots](#-screenshots) • [Customization](#-customization) • [Support](#-support)
 
-## 🌟 Обзор
+</div>
 
-Эта оптимизированная конфигурация NixOS 25.05 предоставляет:
-- **Hyprland** как основной Wayland композитор
-- **Zen Browser** - современный браузер с автосборкой
-- **Yandex Music** - неофициальный клиент с автообновлениями
-- **Spicetify** с темой Catppuccin Mocha для Spotify
-- **Zed Editor** из нестабильного канала
-- **Kitty** терминал с поддержкой GPU
-- **Fish** shell с умными алиасами
-- **Zed Editor** с настроенной конфигурацией
-- **Catppuccin** тема для всей системы
-- **Flatpak** поддержка для дополнительных приложений
-- **Home Manager** для пользовательских настроек
+---
+
+## 🌟 Overview
+
+This is a complete NixOS 25.05 configuration that recreates the beautiful Meowrch desktop experience with modern tools and optimizations. Built with reproducibility and performance in mind, it provides a stunning Wayland desktop environment powered by Hyprland.
+
+### ✨ What makes this special?
+- 🎨 **Beautiful theming** with Catppuccin color schemes
+- ⚡ **Optimized performance** for both productivity and gaming
+- 🔧 **Highly customizable** modular configuration
+- 📦 **Reproducible builds** with Nix flakes
+- 🛡️ **Secure by default** with hardened settings
+
+---
+
+## 🚀 Quick Installation
+
+### Option 1: Automated Installation (Recommended)
+```bash
+curl -fsSL https://raw.githubusercontent.com/Redm00us/meowrch-nixos/main/install.sh | bash
+```
+
+### Option 2: Manual Installation
+```bash
+# Clone the repository
+git clone https://github.com/Redm00us/meowrch-nixos.git
+cd meowrch-nixos
+
+# Generate hardware configuration
+nixos-generate-config --root /mnt
+cp /mnt/etc/nixos/hardware-configuration.nix .
+
+# Install the system
+sudo nixos-install --flake .#meowrch
+```
+
+---
 
 ## ✨ Features
 
-### ✨ Ключевые особенности
+### 🎨 Desktop Environment
+- **🪟 Hyprland** - Modern Wayland compositor with stunning animations
+- **📊 Waybar** - Highly customized status bar with system monitoring
+- **🚀 Rofi** - Beautiful application launcher with custom menus
+- **🔔 Dunst** - Stylish notification daemon
+- **🖥️ SDDM** - Clean login manager with Wayland support
 
-#### 🎨 Рабочая среда
-- **Hyprland**: Последний стабильный Wayland композитор
-- **SDDM**: Менеджер входа с поддержкой Wayland
-- **Catppuccin Mocha**: Единая тема для всей системы
+### 🛠️ Applications & Tools
+- **🐱 Kitty** - GPU-accelerated terminal with JetBrains Mono
+- **🐟 Fish Shell** - Modern shell with custom functions and starship prompt
+- **🦊 Firefox** - Web browser with privacy optimizations
+- **📁 Nemo** - Feature-rich file manager
+- **🎮 Steam** - Gaming platform with full compatibility
+- **📦 Flatpak** - Universal package management
 
-#### 🛠️ Приложения
-- **Zen Browser**: Современный браузер (автосборка из unstable)
-- **Yandex Music**: Неофициальный клиент (автосборка)
-- **Zed Editor**: Быстрый редактор кода (unstable)
-- **Zed Editor**: Быстрый современный редактор кода
-- **Kitty**: GPU-терминал с JetBrainsMono Nerd Font
-- **Spotify** с Spicetify и темой Catppuccin
+### 🎯 System Features
+- **🔄 NixOS 25.05** - Stable base with unstable overlay for select packages
+- **❄️ Flake-based** - Reproducible and declarative configuration
+- **🏠 Home Manager** - User-space configuration management
+- **🔊 PipeWire** - Modern audio system with low latency
+- **🔗 Bluetooth** - Full wireless device support
+- **🎮 AMD Graphics** - Optimized GPU drivers and performance
 
-#### 🎯 Системные возможности
-- **NixOS 25.05**: Стабильная база с overlay для fresh пакетов
-- **Flake**: Воспроизводимая конфигурация
-- **Home Manager**: Управление пользовательскими настройками
-- **Flatpak**: Поддержка дополнительных приложений
-- **AMD/Intel/NVIDIA**: Поддержка всех типов GPU
-- **Gaming**: Steam, GameMode, MangoHUD
-- **Разработка**: Python 3.11, Node.js, клиенты Git
+### 🎨 Theming
+- **🌈 Catppuccin** - Beautiful pastel color schemes (Mocha & Latte)
+- **🎭 Dynamic themes** - Easy switching between light and dark modes
+- **🖼️ Custom wallpapers** - Curated collection of beautiful backgrounds
+- **🎪 GRUB theme** - Stylish bootloader with custom icons
 
-#### 🔧 Оптимизации
-- **Умные алиасы**: Быстрые команды для управления системой
-- **Автообновления**: Zen Browser и Yandex Music
-- **Производительность**: Оптимизированные настройки GPU
-- **Безопасность**: GNOME Keyring, Polkit настройки
+---
 
 ## 📋 Requirements
 
 ### Hardware
-- **CPU**: x86_64 processor (Intel/AMD)
+- **CPU**: x86_64 architecture (Intel/AMD)
 - **RAM**: 4GB minimum, 8GB+ recommended
-- **Storage**: 20GB minimum, 50GB+ recommended
-- **Graphics**: Any GPU (Intel/AMD/NVIDIA supported)
-
-### Software
-- Fresh NixOS installation (25.05 or later)
-- Git for cloning the repository
-- Internet connection for package downloads
-
-## 🚀 Installation
-
-### 🎯 Быстрая установка (Рекомендуется)
-
-```bash
-# 1. Клонируем репозиторий
-git clone https://github.com/Redm00use/NixOS-Meowrch.git NixOS-25.05
-cd NixOS-25.05
-
-# 2. Запускаем умный установщик
-./install.sh
-```
-
-**Или для полностью автоматической установки:**
-
-```bash
-# Автоматическая установка без интерактивного меню
-./install.sh --full
-```
-
-### 🔧 Ручная установка (для продвинутых пользователей)
-
-<details>
-<summary>Нажмите для развертывания инструкций по ручной установке</summary>
-
-#### 1. Клонирование репозитория
-
-```bash
-git clone https://github.com/Redm00use/NixOS-Meowrch.git NixOS-25.05
-cd NixOS-25.05
-```
-
-#### 2. Конфигурация оборудования
-
-```bash
-# Копируем hardware-configuration.nix
-sudo cp /etc/nixos/hardware-configuration.nix .
-
-# Или генерируем новый (если отсутствует)
-sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
-```
-
-#### 3. Настройка конфигурации
-
-Отредактируйте файлы под вашу систему:
-- Имя пользователя (по умолчанию: `redm00us`)
-- Часовой пояс (по умолчанию: `Europe/Moscow`)
-- Git настройки в `home/home.nix`
-
-#### 4. Сборка и применение
-
-```bash
-# Собираем систему
-sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure
-
-# Применяем Home Manager
-home-manager switch --flake .#имя_пользователя
-
-# Перезагружаемся
-sudo reboot
-```
-
-</details>
-
-### 📋 Возможности установщика
-
-Умный установщик `install.sh` предоставляет:
-
-**🎮 Интерактивный режим:**
-- Красивое ASCII лого и меню
-- Пошаговая настройка системы
-- Автоматическая диагностика проблем
-- Проверка совместимости
-
-**⚡ Быстрые команды:**
-```bash
-./install.sh --check    # Check system
-./install.sh --hardware # Setup hardware-configuration.nix  
-./install.sh --user     # Configure user
-./install.sh --build    # Build system
-./install.sh --home     # Setup Home Manager
-./install.sh --info     # Show system information
-./install.sh --help     # Show help
-```
-
-**🔧 Автоматические настройки:**
-- Копирование `hardware-configuration.nix`
-- Настройка имени пользователя во всех файлах
-- Конфигурация Git (имя, email)
-- Настройка часового пояса и локали
-- Добавление Flathub репозитория
-- Проверка зависимостей
-- **Интерфейс на английском языке** (избегает проблем с шрифтами)
-
-### 🎉 После установки
-
-После перезагрузки система будет готова к работе с:
-- Hyprland как основной рабочей средой
-- Zed Editor настроенным с темой Catppuccin
-- Всеми удобными алиасами Fish shell
-- Zen Browser и Yandex Music
-- Spotify с кастомной темой Spicetify
-
-## ⚙️ Конфигурация
-
-### Управление пользователями
-
-Чтобы изменить имя пользователя с `redm00us`:
-
-1. Отредактируйте `configuration.nix`:
-```nix
-users.users.YOUR_USERNAME = {
-  isNormalUser = true;
-  description = "Your Description";
-  extraGroups = [ "wheel" "networkmanager" /* ... */ ];
-  shell = pkgs.fish;
-};
-```
-
-2. Отредактируйте `home/home.nix`:
-```nix
-home.username = "YOUR_USERNAME";
-home.homeDirectory = "/home/YOUR_USERNAME";
-```
-
-3. Обновите flake.nix:
-```nix
-home-manager.users.YOUR_USERNAME = {
-  # ...
-};
-```
-
-### Graphics Drivers
-
-The configuration automatically detects and configures graphics drivers. For manual override:
-
-```nix
-# In configuration.nix
-hardware.opengl = {
-  enable = true;
-  driSupport = true;
-  driSupport32Bit = true;
-  
-  # For NVIDIA users
-  extraPackages = with pkgs; [ nvidia-vaapi-driver ];
-};
-```
-
-### Monitor Configuration
-
-Edit `home/modules/hyprland.nix` to configure your monitors:
-
-```nix
-monitor = [
-  "DP-1,1920x1080@144,0x0,1"
-  "HDMI-1,1920x1080@60,1920x0,1"
-  # Add more monitors as needed
-];
-```
-
-## 🎮 Usage
-
-### Keyboard Shortcuts
-
-| Действие | Сочетание клавиш |
-|----------|------------------|
-| Открыть терминал | `Super + Enter` |
-| Запуск приложений | `Super + D` |
-| Файловый менеджер | `Super + E` |
-| Открыть Zed Editor | `Super + Alt + C` |
-| Скриншот | `Print Screen` |
-| Заблокировать экран | `Super + L` |
-| Закрыть окно | `Super + Q` |
-| Плавающий режим | `Super + Space` |
-| Полный экран | `Alt + Enter` |
-| Переключить рабочий стол | `Super + 1-10` |
-| Переместить окно | `Super + Shift + 1-10` |
-| Громкость +/- | `XF86AudioRaiseVolume/LowerVolume` |
-| Яркость +/- | `XF86MonBrightnessUp/Down` |
-
-### Удобные алиасы Fish Shell
-
-Конфигурация включает множество полезных алиасов:
-
-```bash
-# Быстрые команды системы
-b          # Пересобрать систему
-u          # Обновить флейк и пересобрать
-c          # Открыть конфиг в Zed Editor
-f          # Показать информацию о системе
-dell       # Очистить мусор Nix
-hm         # Применить Home Manager
-
-# Git сокращения
-g          # git
-gs         # git status
-ga         # git add
-gc         # git commit
-gp         # git push
-
-# Файловая система
-ll, la, l  # ls варианты
-..         # cd ..
-...        # cd ../..
-cls        # clear
-```
-
-### Настройка Zed Editor
-
-Zed настроен с темой Catppuccin Mocha и включает:
-
-**Основные возможности:**
-- Тема Catppuccin Mocha для единообразия с системой
-- Шрифт JetBrainsMono Nerd Font
-- Поддержка Nix с LSP (nil) и форматтером (alejandra)
-- Автосохранение и форматирование при сохранении
-- Git интеграция с inline blame
-
-**Горячие клавиши Zed:**
-```bash
-Ctrl + /           # Переключить комментарии
-Ctrl + D           # Выбрать следующее вхождение
-Ctrl + Shift + K   # Удалить строку
-Ctrl + Shift + D   # Дублировать строку
-Ctrl + P           # Быстрый поиск файлов
-Ctrl + Shift + P   # Палитра команд
-Ctrl + Shift + F   # Поиск и замена
-Ctrl + `           # Переключить терминал
-```
-
-**Настройка языков:**
-- Nix: автоматическое форматирование с alejandra
-- Git: встроенная интеграция
-- Поддержка множества языков программирования
-
-### Theme Management
-
-```bash
-# List available themes
-python ~/.config/meowrch/meowrch.py --action list-themes
-
-# Apply a theme
-python ~/.config/meowrch/meowrch.py --action select-theme
-
-# Change wallpaper
-python ~/.config/meowrch/meowrch.py --action select-wallpaper
-```
-
-## 🎨 Customization
-
-### Adding New Packages
-
-#### Системные пакеты
-Добавьте в `modules/packages/packages.nix`:
-```nix
-environment.systemPackages = with pkgs; [
-  # Ваши пакеты здесь
-  neovim
-  discord
-  telegram-desktop
-];
-```
-
-#### Пользовательские пакеты
-Добавьте в `home/home.nix`:
-```nix
-home.packages = with pkgs; [
-  # Ваши пакеты здесь
-  gimp
-  blender
-  obs-studio
-];
-```
-
-#### Flatpak приложения
-```bash
-# Установка через Flatpak
-flatpak install flathub org.telegram.desktop
-flatpak install flathub com.discordapp.Discord
-```
-
-### Creating Custom Themes
-
-1. Create theme directory:
-```bash
-mkdir -p ~/.local/share/themes/MyTheme
-```
-
-2. Add theme files (GTK, Qt, etc.)
-
-3. Register with theme manager:
-```bash
-python ~/.config/meowrch/meowrch.py --action add-theme MyTheme
-```
-
-### Modifying Waybar
-
-Edit `home/modules/waybar.nix` to customize the status bar:
-- Add new modules
-- Change colors and styling
-- Modify layout and positioning
-
-### Custom Keybindings
-
-Edit `home/modules/hyprland.nix` to add or modify keybindings:
-```nix
-bind = [
-  # Your custom bindings
-  "$mainMod, Y, exec, your-command"
-];
-```
-
-## 🔧 Troubleshooting
-
-### ✅ Исправленные ошибки (обновлено 13.06.2025)
-
-#### 🔧 "boot.loader.grub.enable has conflicting definition values"
-**Исправлено!** Удален конфликт между GRUB и systemd-boot:
-- ✅ Отключен GRUB в `modules/desktop/theming.nix`
-- ✅ Используется только systemd-boot из `configuration.nix`
-
-#### 📦 "You have set specialArgs.pkgs" предупреждение
-**Исправлено!** Убрано предупреждение nixpkgs.config:
-- ✅ Удален `pkgs` из `specialArgs` в `flake.nix`
-- ✅ Исправлена передача overlays
-
-#### 🔊 "sound.enable no longer has any effect"
-**Исправлено!** Обновлена аудио конфигурация:
-- ✅ Заменен `sound.enable` на `hardware.alsa.enable`
-- ✅ Обновлен PipeWire на `services.pipewire.extraConfig`
-- ✅ Убраны устаревшие `environment.etc` конфигурации
-
-#### 🔒 "security.hideProcessInformation no longer has any effect"
-**Исправлено!** Удалена устаревшая опция безопасности:
-- ✅ Удален `security.hideProcessInformation`
-- ✅ Добавлены комментарии о removed функциональности
-
-#### 🎨 "programs.qt5ct.enable no longer has any effect"
-**Исправлено!** Обновлена конфигурация Qt5:
-- ✅ Заменен `programs.qt5ct.enable` на `qt5.platformTheme = "qt5ct"`
-- ✅ Улучшена система тематизации
-
-#### 🔍 "services.locate.localuser no longer has any effect"
-**Исправлено!** Обновлена конфигурация locate:
-- ✅ Удален `services.locate.localuser`
-- ✅ Обновлена конфигурация поиска файлов
-
-#### 🌐 "Environment.etc pipewire no longer supported"
-**Исправлено!** Обновлена конфигурация PipeWire:
-- ✅ Убраны прямые `environment.etc` конфигурации
-- ✅ Используется `services.pipewire.extraConfig`
-
-#### 🔤 Русские шрифты в установщике
-**Исправлено!** Установщик переведен на английский:
-- ✅ Полный перевод `install.sh` на English
-- ✅ Исправлены проблемы с отображением русских символов
-- ✅ Сохранена вся функциональность
-
-### Проблемы с установщиком
-
-#### 🚫 "Этот скрипт должен запускаться на NixOS!"
-```bash
-# Убедитесь, что вы запускаете на NixOS
-cat /etc/NIXOS  # Файл должен существовать
-
-# Если вы на другой системе, сначала установите NixOS
-```
-
-#### 🔐 Проблемы с правами sudo
-```bash
-# Добавьте пользователя в группу wheel
-sudo usermod -aG wheel $USER
-
-# Или настройте sudo вручную
-sudo visudo
-```
-
-#### 📁 "hardware-configuration.nix не найден"
-```bash
-# Сгенерируйте hardware-configuration.nix
-sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
-
-# Или скопируйте из системы
-sudo cp /etc/nixos/hardware-configuration.nix .
-```
-
-#### ⚠️ Ошибки при сборке flake
-```bash
-# Инициализируйте Git репозиторий
-git init
-git add .
-git commit -m "Initial commit"
-
-# Проверьте flake
-nix flake check --no-build
-```
-
-### Системные проблемы
-
-#### 1. Ошибки сборки системы
-```bash
-# Очистите кэш
-sudo nix-collect-garbage -d
-nix-collect-garbage -d
-
-# Обновите flake
-nix flake update
-
-# Пересоберите с подробным выводом
-sudo nixos-rebuild switch --flake .#meowrch --show-trace
-```
-
-#### 2. Проблемы с графикой
-```bash
-# Проверьте драйверы
-lspci | grep VGA
-glxinfo | grep vendor
-
-# Для NVIDIA проверьте загрузку драйверов
-lsmod | grep nvidia
-
-# Для AMD проверьте
-lsmod | grep amdgpu
-```
-
-#### 3. Проблемы со звуком
-```bash
-# Проверьте PipeWire
-systemctl --user status pipewire
-systemctl --user status wireplumber
-
-# Перезапустите аудио
-systemctl --user restart pipewire pipewire-pulse wireplumber
-```
-
-#### 4. Проблемы с Home Manager
-```bash
-# Проверьте конфигурацию
-home-manager switch --flake .#$(whoami)
-
-# Посмотрите новости Home Manager
-home-manager news
-
-# Сбросьте конфигурацию
-home-manager switch --flake .#$(whoami) --recreate-lock-file
-```
-
-#### 5. Проблемы с Hyprland
-```bash
-# Проверьте логи Hyprland
-cat ~/.cache/hyprland/hyprland.log
-
-# Проверьте конфигурацию
-hyprctl monitors
-hyprctl workspaces
-```
-
-### Полезные команды для диагностики
-
-```bash
-# Информация о системе
-./install.sh --info
-
-# Проверка системы
-./install.sh --check
-
-# Системные логи
-journalctl -xe
-
-# Логи последнего boot
-journalctl -b
-
-# Проверка статуса сервисов
-systemctl status
-systemctl --user status
-
-# Проверка места на диске
-df -h
-nix-store --gc --print-roots | head -20
-```
-
-### Если ничего не помогает
-
-1. **Восстановите предыдущую конфигурацию:**
-   ```bash
-   sudo nixos-rebuild switch --rollback
-   ```
-
-2. **Создайте issue с информацией:**
-   - Версия NixOS: `nixos-version`
-   - Тип GPU: `lspci | grep VGA`
-   - Ошибки из `journalctl -xe`
-   - Вывод `./install.sh --info`
-
-3. **Попробуйте минимальную установку:**
-   ```bash
-   # Временно отключите сложные модули
-   # и соберите базовую систему
-   ```
-
-## 🔄 Updates
-
-### Обновление системы
-
-```bash
-# Используйте удобный алиас
-u          # Обновить флейк и пересобрать систему
-
-# Или полные команды:
-cd ~/NixOS-25.05
-nix flake update
-sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure
-home-manager switch --flake .#redm00us
-```
-
-### Updating Individual Packages
-
-```bash
-# Update specific package from unstable
-nix shell nixpkgs#package-name
-
-# Add to unstable overlay in configuration
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-### Development Environment
-
-```bash
-# Enter development shell
-nix develop
-
-# Available commands will be shown
-```
-
-## 📚 Ресурсы
-
-- [Оригинальный проект NixOS-Meowrch](https://github.com/Redm00use/NixOS-Meowrch)
-- [Документация NixOS](https://nixos.org/manual/nixos/stable/)
-- [Документация Home Manager](https://nix-community.github.io/home-manager/)
-- [Wiki Hyprland](https://wiki.hyprland.org/)
-- [Catppuccin Theme](https://github.com/catppuccin)
-- [Zen Browser](https://zen-browser.app/)
-- [Spicetify](https://spicetify.app/)
-
-## 🔧 Поддержка
-
-Если у вас возникли проблемы:
-
-1. Проверьте логи: `journalctl -xe`
-2. Проверьте статус Home Manager: `home-manager news`
-3. Очистите кеш: `dell` (алиас для очистки)
-4. Пересоберите систему: `b` (алиас для rebuild)
-
-## ⭐ Особенности этой версии
-
-- ✅ Оптимизирована для NixOS 25.05
-- ✅ Исправлены устаревшие параметры
-- ✅ Добавлена поддержка Flatpak
-- ✅ Интеграция Zen Browser и Yandex Music
-- ✅ Spicetify с темой Catppuccin
-- ✅ Улучшенные алиасы для Fish Shell
-- ✅ Настроенный Zed Editor с темой Catppuccin
-- ✅ Автоматические обновления пакетов unstable
-- ✅ Исправлены все критические ошибки конфигурации
-- ✅ Улучшена система тематизации Catppuccin
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Meowrch Team**: For the original beautiful rice
-- **NixOS Community**: For the amazing package manager and OS
-- **Hyprland Developers**: For the excellent Wayland compositor
-- **Catppuccin Team**: For the beautiful color schemes
-- **All Contributors**: Who help make this project better
+- **Storage**: 20GB minimum, 50GB+ recommended for full experience
+- **GPU**: AMD graphics card (optimized configuration)
+
+### Knowledge Level
+- **Beginner**: Use automated installer
+- **Intermediate**: Manual installation with customization
+- **Advanced**: Full configuration modification
 
 ---
 
-*Создано с ❤️ на основе проекта Redm00us*
+## 🖼️ Screenshots
 
-*Если вам нравится эта конфигурация, поставьте звезду репозиторию и поделитесь с друзьями!*
+*Coming soon - beautiful desktop screenshots showcasing the Meowrch experience*
 
-## 📅 Changelog
+---
 
-### v2.1 - 13.06.2025 🎉
-- **🔧 Исправлены ВСЕ критические ошибки**: boot loader, specialArgs, sound.enable, security, qt5ct, locate, pipewire
-- **🔤 Установщик на английском**: Исправлены проблемы с русскими шрифтами
-- **🎨 Заменен VS Code на Zed IDE** с полной конфигурацией и темой Catppuccin
-- **🚀 Умный установщик**: Интерактивное меню, автоматическая настройка
-- **📦 Новые приложения**: Zen Browser, Yandex Music, Spicetify
-- **🎭 Catppuccin Mocha**: Единая тема для всей системы
-- **📱 Flatpak**: Поддержка дополнительных приложений
-- **⚡ Fish Shell**: Улучшенные алиасы для быстрого управления
-- **📚 Документация**: Полностью обновленные инструкции
+## 🎮 Usage
 
-### v2.0 - 13.06.2025
-- Базовые исправления и оптимизации
-- Первоначальная замена VS Code на Zed
-- Начальная версия установщика
+### 🔥 Keyboard Shortcuts
+| Shortcut | Action |
+|----------|--------|
+| `Super + Return` | Open terminal (Kitty) |
+| `Super + D` | Application launcher (Rofi) |
+| `Super + Q` | Close window |
+| `Super + F` | Toggle fullscreen |
+| `Super + Space` | Toggle floating |
+| `Super + 1-9` | Switch workspace |
+| `Super + Shift + 1-9` | Move window to workspace |
+| `Super + Print` | Screenshot |
+| `Super + L` | Lock screen |
 
-### v1.0 - Начальная версия
-- Базовая конфигурация NixOS 25.05 с Hyprland
-- Home Manager интеграция
-- Основные приложения и темы
-
-## 🎯 Быстрый старт
-
-### ⚡ Автоматическая установка (1 команда)
-
+### 🐟 Fish Shell Aliases
 ```bash
-# Клонируем и запускаем умный установщик
-git clone https://github.com/Redm00use/NixOS-Meowrch.git NixOS-25.05
-cd NixOS-25.05
-./install.sh --full
+# System management
+ll          # ls -la with colors
+la          # ls -A with colors
+rebuild     # Rebuild NixOS configuration
+update      # Update system packages
+cleanup     # Clean old generations
+
+# Git shortcuts
+gst         # git status
+gco         # git checkout
+gp          # git push
+gl          # git pull
 ```
 
-### 🎮 Интерактивная установка (рекомендуется)
+---
 
+## 🎨 Customization
+
+### 🎭 Changing Themes
 ```bash
-# Клонируем репозиторий
-git clone https://github.com/Redm00use/NixOS-Meowrch.git NixOS-25.05
-cd NixOS-25.05
+# Switch to light theme
+theme-switch latte
 
-# Запускаем интерактивный установщик
-./install.sh
+# Switch to dark theme  
+theme-switch mocha
 
-# Выбираем: 1) 🚀 Полная установка
-# Следуем инструкциям на экране
-# Перезагружаемся после завершения
+# Apply changes
+rebuild
 ```
 
-### 🔧 Ручная установка (для экспертов)
+### 📦 Adding Packages
 
-```bash
-# Клонируем и настраиваем
-git clone https://github.com/Redm00use/NixOS-Meowrch.git NixOS-25.05
-cd NixOS-25.05
-
-# Копируем hardware-configuration.nix
-sudo cp /etc/nixos/hardware-configuration.nix .
-
-# Изменяем пользователя (если нужно)
-sed -i 's/redm00us/ваш_пользователь/g' configuration.nix home/home.nix flake.nix
-
-# Собираем систему
-sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure
-
-# Настраиваем Home Manager
-home-manager switch --flake .#ваш_пользователь
-
-# Перезагружаемся
-sudo reboot
+#### System packages (configuration.nix)
+```nix
+environment.systemPackages = with pkgs; [
+  # Add your packages here
+  neofetch
+  htop
+];
 ```
 
-**🎉 После установки используйте удобные алиасы:**
-- `f` - показать fastfetch
-- `c` - открыть конфиг в Zed
-- `b` - пересобрать систему
-- `u` - обновить и пересобрать
+#### User packages (home.nix)
+```nix
+home.packages = with pkgs; [
+  # Add user-specific packages
+  discord
+  spotify
+];
+```
+
+#### Flatpak applications
+```bash
+flatpak install flathub com.spotify.Client
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### 🚫 "Hardware configuration not found"
+```bash
+# Generate hardware config
+sudo nixos-generate-config
+cp /etc/nixos/hardware-configuration.nix .
+```
+
+#### 🔊 Audio not working
+```bash
+# Restart PipeWire
+systemctl --user restart pipewire
+```
+
+#### 🖥️ Display issues
+```bash
+# Check Hyprland logs
+journalctl --user -u hyprland
+```
+
+#### 📦 Package build failures
+```bash
+# Clear nix store
+sudo nix-collect-garbage -d
+# Rebuild
+sudo nixos-rebuild switch --flake .#meowrch
+```
+
+---
+
+## 🔄 Updates
+
+### Update System
+```bash
+# Update flake inputs
+nix flake update
+
+# Rebuild system
+sudo nixos-rebuild switch --flake .#meowrch
+```
+
+### Update Individual Packages
+```bash
+# Update specific input
+nix flake lock --update-input nixpkgs
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. **🐛 Report bugs** - Open an issue with detailed information
+2. **💡 Suggest features** - Share your ideas for improvements
+3. **🔧 Submit fixes** - Fork, fix, and create a pull request
+4. **📚 Improve docs** - Help make the documentation better
+5. **🎨 Create themes** - Design new color schemes or layouts
+
+### Development Setup
+```bash
+git clone https://github.com/Redm00us/meowrch-nixos.git
+cd meowrch-nixos
+nix develop  # Enter development shell
+```
+
+---
+
+## 📚 Resources
+
+- **🏠 [NixOS Manual](https://nixos.org/manual/nixos/stable/)** - Official documentation
+- **❄️ [Nix Pills](https://nixos.org/guides/nix-pills/)** - Learn Nix language
+- **🏡 [Home Manager](https://nix-community.github.io/home-manager/)** - User configuration
+- **🪟 [Hyprland Wiki](https://wiki.hyprland.org/)** - Wayland compositor guide
+- **🎨 [Catppuccin](https://catppuccin.com/)** - Theme collection
+
+---
+
+## 💬 Support
+
+### 🆘 Need Help?
+- **📧 Issues**: [GitHub Issues](https://github.com/Redm00us/meowrch-nixos/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/Redm00us/meowrch-nixos/discussions)
+- **🐱 Matrix**: `#meowrch:matrix.org`
+
+### 🐛 Reporting Bugs
+When reporting issues, please include:
+- Your hardware configuration
+- NixOS version (`nixos-version`)
+- Error messages or logs
+- Steps to reproduce
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **🎨 [Catppuccin](https://catppuccin.com/)** - Beautiful color schemes
+- **🪟 [Hyprland](https://hyprland.org/)** - Amazing Wayland compositor  
+- **❄️ [NixOS](https://nixos.org/)** - Reproducible system configuration
+- **🐱 [Meowrch](https://github.com/meowrch)** - Original Arch Linux rice inspiration
+
+---
+
+<div align="center">
+
+**⭐ If you found this helpful, please consider giving it a star! ⭐**
+
+*Made with 💜 and lots of ☕*
+
+</div>
