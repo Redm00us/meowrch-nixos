@@ -112,6 +112,8 @@
 
     # ────────────── Overlay для фикса портала Hyprland ──────────────
     overlay-portal-gbm-fix = import ./overlays/portal-gbm-fix.nix;
+    # ────────────── Overlay для использования портала из unstable ──────────────
+    overlay-portal-unstable = import ./overlays/portal-unstable.nix;
 
   in
   {
@@ -125,7 +127,7 @@
       };
       modules = [
         # Apply unstable and portal overlays
-        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-portal-gbm-fix ]; })
+        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-portal-gbm-fix overlay-portal-unstable ]; })
 
         # Основная системная конфигурация
         ./configuration.nix
