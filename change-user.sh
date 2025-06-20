@@ -84,7 +84,7 @@ validate_email() {
 
 validate_name() {
     local name="$1"
-    if [[ ! "$name" =~ ^[A-Za-z ]+$ ]]; then
+    if [[ ! "$name" =~ ^[A-Za-z[:space:]]+$ ]]; then
         log_error "Name must contain only letters and spaces"
         return 1
     fi

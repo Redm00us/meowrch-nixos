@@ -24,6 +24,7 @@ CURRENT_USER_FULLNAME=""
 CURRENT_USER_EMAIL=""
 CURRENT_GIT_NAME=""
 CONFIG_DIR="/home/$USER/meowrch-nixos"
+FORCE_INSTALL="false"
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
 # ║                                COLORS                                    ║
@@ -108,16 +109,21 @@ check_permissions() {
 check_system() {
     log_header "System Requirements Check"
 
-    # Проверка NixOS
-    if [[ ! -f /etc/NIXOS ]]; then
+    # Проверка NixOS (можно пропустить с --force)
+    if [[ ! -f /etc/NIXOS ]] && [[ "$FORCE_INSTALL" != "true" ]]; then
         log_error "This script must be run on NixOS!"
+        log_info "Use --force flag to skip this check for testing"
         exit 1
     fi
 
-    log_success "Running on NixOS ✓"
+    if [[ -f /etc/NIXOS ]]; then
+        log_success "Running on NixOS ✓"
+    else
+        log_warning "Not running on NixOS (--force mode)"
+    fi
 
     # Проверка команд
-    local commands=("git" "nix" "sudo")
+    local commands=("git" "nix")
     for cmd in "${commands[@]}"; do
         if ! command -v "$cmd" &> /dev/null; then
             log_error "Required command not found: $cmd"
@@ -125,15 +131,16 @@ check_system() {
         fi
     done
 
-    log_success "All required commands available ✓"
+    log_success "Required commands available ✓"
 
-    # Проверка sudo
-    if ! sudo -n true 2>/dev/null; then
-        log_info "Testing sudo access..."
-        sudo true
+    # Проверка sudo (только если на NixOS)
+    if [[ -f /etc/NIXOS ]]; then
+        if ! sudo -n true 2>/dev/null; then
+            log_info "Testing sudo access..."
+            sudo true
+        fi
+        log_success "Sudo access confirmed ✓"
     fi
-
-    log_success "Sudo access confirmed ✓"
 }
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -162,12 +169,13 @@ prompt_input() {
             result="$default"
         fi
 
-        # Валидация
-        if [[ "$result" =~ $validation_regex ]]; then
+        # Валидация - убираем экранирование и используем более простую проверку
+        if [[ -z "$validation_regex" ]] || [[ "$validation_regex" == ".*" ]] || [[ "$result" =~ $validation_regex ]]; then
             echo "$result"
             return 0
         else
-            log_error "$error_msg"
+            log_error "$error_msg: '$result'"
+            echo
         fi
     done
 }
@@ -180,32 +188,32 @@ configure_user() {
     echo
 
     # Имя пользователя
-    CURRENT_USERNAME=$(prompt_input \
-        "Username" \
-        "$DEFAULT_USERNAME" \
-        "^[a-z][a-z0-9_-]*$" \
-        "Username must start with lowercase letter and contain only lowercase letters, numbers, hyphens, and underscores")
+    echo -ne "${CYAN}Username ${YELLOW}[$DEFAULT_USERNAME]${NC}: "
+    read -r CURRENT_USERNAME
+    if [[ -z "$CURRENT_USERNAME" ]]; then
+        CURRENT_USERNAME="$DEFAULT_USERNAME"
+    fi
 
     # Полное имя
-    CURRENT_USER_FULLNAME=$(prompt_input \
-        "Full Name" \
-        "$DEFAULT_USER_FULLNAME" \
-        "^[A-Za-z ]+$" \
-        "Full name must contain only letters and spaces")
+    echo -ne "${CYAN}Full Name ${YELLOW}[$DEFAULT_USER_FULLNAME]${NC}: "
+    read -r CURRENT_USER_FULLNAME
+    if [[ -z "$CURRENT_USER_FULLNAME" ]]; then
+        CURRENT_USER_FULLNAME="$DEFAULT_USER_FULLNAME"
+    fi
 
     # Email
-    CURRENT_USER_EMAIL=$(prompt_input \
-        "Email" \
-        "$DEFAULT_USER_EMAIL" \
-        "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" \
-        "Please enter a valid email address")
+    echo -ne "${CYAN}Email ${YELLOW}[$DEFAULT_USER_EMAIL]${NC}: "
+    read -r CURRENT_USER_EMAIL
+    if [[ -z "$CURRENT_USER_EMAIL" ]]; then
+        CURRENT_USER_EMAIL="$DEFAULT_USER_EMAIL"
+    fi
 
     # Git имя
-    CURRENT_GIT_NAME=$(prompt_input \
-        "Git Name" \
-        "$CURRENT_USER_FULLNAME" \
-        "^[A-Za-z ]+$" \
-        "Git name must contain only letters and spaces")
+    echo -ne "${CYAN}Git Name ${YELLOW}[$CURRENT_USER_FULLNAME]${NC}: "
+    read -r CURRENT_GIT_NAME
+    if [[ -z "$CURRENT_GIT_NAME" ]]; then
+        CURRENT_GIT_NAME="$CURRENT_USER_FULLNAME"
+    fi
 
     echo
     log_info "Configuration summary:"
@@ -217,7 +225,11 @@ configure_user() {
 
     # Подтверждение
     local confirm
-    confirm=$(prompt_input "Is this correct? (y/n)" "y" "^[yYnN]$" "Please enter y or n")
+    echo -ne "${CYAN}Is this correct? (y/n) ${YELLOW}[y]${NC}: "
+    read -r confirm
+    if [[ -z "$confirm" ]]; then
+        confirm="y"
+    fi
 
     if [[ "$confirm" =~ ^[nN]$ ]]; then
         log_info "Let's try again..."
@@ -317,7 +329,11 @@ generate_hardware_config() {
     # Проверяем, есть ли уже hardware-configuration.nix
     if [[ -f ./hardware-configuration.nix ]]; then
         local replace
-        replace=$(prompt_input "hardware-configuration.nix already exists. Replace it? (y/n)" "n" "^[yYnN]$")
+        echo -ne "${CYAN}hardware-configuration.nix already exists. Replace it? (y/n) ${YELLOW}[n]${NC}: "
+        read -r replace
+        if [[ -z "$replace" ]]; then
+            replace="n"
+        fi
 
         if [[ "$replace" =~ ^[nN]$ ]]; then
             log_info "Keeping existing hardware-configuration.nix"
@@ -493,7 +509,8 @@ show_main_menu() {
         echo
 
         local choice
-        choice=$(prompt_input "Your choice" "1" "^[1-9]$" "Please enter a number from 1-9")
+        echo -ne "${CYAN}Your choice (1-9): ${NC}"
+        read -r choice
 
         case $choice in
             1) full_installation ;;
@@ -505,7 +522,15 @@ show_main_menu() {
             7) show_system_info ;;
             8) show_help ;;
             9) exit 0 ;;
-            *) log_error "Invalid option" ;;
+            "")
+                choice="1"
+                full_installation
+                ;;
+            *)
+                echo -e "${RED}Invalid option: '$choice'. Please enter a number from 1-9${NC}"
+                echo
+                continue
+                ;;
         esac
 
         echo
@@ -654,6 +679,13 @@ handle_arguments() {
         --help|-h)
             show_help
             exit 0
+            ;;
+        --force)
+            FORCE_INSTALL="true"
+            # Обрабатываем следующий аргумент если есть
+            if [[ -n "${2:-}" ]]; then
+                handle_arguments "$2"
+            fi
             ;;
         --user-config)
             configure_user
