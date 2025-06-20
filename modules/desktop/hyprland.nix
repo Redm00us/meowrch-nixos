@@ -4,7 +4,7 @@
   # Hyprland Configuration
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = pkgs.hyprland;
     xwayland.enable = true;
   };
 
@@ -12,15 +12,14 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
     config = {
       common = {
-        default = [ "hyprland" "gtk" ];
+        default = [ "gtk" ];
       };
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [ "gtk" ];
       };
     };
   };
@@ -52,7 +51,6 @@
   environment.systemPackages = with pkgs; [
     # Core dependencies
     hyprland
-    xdg-desktop-portal-hyprland
     waybar
 
     # Screen management tools
@@ -99,7 +97,7 @@
         export XDG_SESSION_TYPE=wayland
         export XDG_SESSION_DESKTOP=Hyprland
         export XDG_CURRENT_DESKTOP=Hyprland
-        exec ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland $@
+        exec ${pkgs.hyprland}/bin/Hyprland $@
       '';
     })
   ];
@@ -131,19 +129,7 @@
   # Systemd services for Hyprland
   systemd = {
     user.services = {
-      # Auto-start Hyprland session components
-      xdg-desktop-portal-hyprland = {
-        description = "Portal service for Hyprland";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session-pre.target" ];
-        after = [ "graphical-session-pre.target" ];
-        serviceConfig = {
-          Type = "dbus";
-          BusName = "org.freedesktop.impl.portal.desktop.hyprland";
-          ExecStart = "${pkgs.xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland";
-          Restart = "on-failure";
-        };
-      };
+      # Services configured via portal packages
     };
   };
 

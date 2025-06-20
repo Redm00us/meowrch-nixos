@@ -189,11 +189,7 @@
   };
 
   # ────────────── XDG настройки ──────────────
-  # XDG настройки ──────────────
-  xdg.portal = {
-    enable = true;
-    config.common.default = [ "hyprland" "gtk" ];
-  };
+  # XDG portal configuration moved to hyprland.nix to avoid conflicts
 
   # ────────────── Программы с темами ──────────────
   programs = {

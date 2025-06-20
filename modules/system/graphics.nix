@@ -16,6 +16,9 @@
       libva-utils
       libdrm
 
+      # Graphics Buffer Manager and mesa libraries
+      mesa
+
       # Vulkan support
       vulkan-loader
       vulkan-validation-layers
@@ -81,6 +84,7 @@
     # Graphics libraries
     libGL
     libGLU
+    mesa
 
     # Wayland development
     wayland
@@ -88,6 +92,18 @@
 
     # Graphics benchmarking
     glmark2
+
+    # Additional graphics dependencies for Hyprland
+    seatd
+    libinput
+    libxkbcommon
+    xorg.libxcb
+    pipewire
+    libgbm
+  ];
+
+  environment.extraPkgConfigPackages = with pkgs; [
+    mesa
   ];
 
   # Kernel parameters for AMD Graphics

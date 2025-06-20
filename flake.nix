@@ -109,6 +109,10 @@
     # ────────────── Кастомные пакеты ──────────────
     meowrch-scripts = pkgs.callPackage ./packages/meowrch-scripts.nix { };
     meowrch-themes = pkgs.callPackage ./packages/meowrch-themes.nix { };
+
+    # ────────────── Overlay для фикса портала Hyprland ──────────────
+    overlay-portal-gbm-fix = import ./overlays/portal-gbm-fix.nix;
+
   in
   {
     # ────────────── Конфигурация NixOS ──────────────
@@ -120,8 +124,8 @@
         inherit hyprland hyprland-plugins;
       };
       modules = [
-        # Apply unstable overlay
-        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+        # Apply unstable and portal overlays
+        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-portal-gbm-fix ]; })
 
         # Основная системная конфигурация
         ./configuration.nix
