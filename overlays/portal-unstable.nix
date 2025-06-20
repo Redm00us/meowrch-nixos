@@ -1,3 +1,3 @@
 self: super: {
-  xdg-desktop-portal-hyprland = super.pkgs-unstable.xdg-desktop-portal-hyprland;
+  xdg-desktop-portal-hyprland = self.inputs.nixpkgs-unstable.legacyPackages.${super.system}.xdg-desktop-portal-hyprland;
 }
