@@ -18,6 +18,11 @@
 	<a href="./README.en.md">
 		<img src="https://img.shields.io/badge/README-ENG-blue?color=C9CBFF&labelColor=C9CBFF&style=for-the-badge">
 	</a>
+	<br>
+	<br>
+	<a href="./ALIASES.md">
+		<img src="https://img.shields.io/badge/📋_Aliases_&_Commands-Reference-purple?color=a6e3a1&labelColor=1C2325&style=for-the-badge">
+	</a>
 </div>
 
 ***
@@ -70,6 +75,10 @@
 	<tr>
 	    <td>Theme</td>
 	    <td><a href="https://catppuccin.com/">Catppuccin</a></td>
+	</tr>
+	<tr>
+	    <td>📋 Aliases</td>
+	    <td><a href="./ALIASES.md">150+ commands</a></td>
 	</tr>
 </table>
 <div align="left">
@@ -248,6 +257,20 @@ Your feedback helps us improve the project and make it even more convenient for 
 		<td>home/modules/hyprland.nix</td>
 	</tr>
 </table>
+
+## 📋 Quick Commands & Aliases
+
+The system includes over **150 convenient aliases** for NixOS management:
+
+```bash
+b           # Quick system rebuild
+u           # Update and rebuild
+validate    # Check configuration
+c           # Open config in editor
+cleanup     # Clean system
+```
+
+🔗 **[Complete Aliases & Functions Reference →](./ALIASES.md)**
 
 ## 🎨 Customization
 

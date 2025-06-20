@@ -1,5 +1,14 @@
 # 🐱 Универсальные алиасы и функции для Meowrch NixOS ≽ܫ≼
 
+<div align="center">
+
+[![⬅️ Назад к README](https://img.shields.io/badge/⬅️_Назад_к-README-blue?color=cba6f7&labelColor=1C2325&style=for-the-badge)](./README.md)
+[![🇺🇸 English README](https://img.shields.io/badge/🇺🇸_English-README-blue?color=C9CBFF&labelColor=1C2325&style=for-the-badge)](./README.en.md)
+
+</div>
+
+---
+
 Это руководство содержит полный список алиасов и функций Fish shell для удобного управления NixOS системой.
 
 ## 📋 Содержание
@@ -363,4 +372,11 @@ home
 
 ---
 
+<div align="center">
+
+[![⬅️ Назад к README](https://img.shields.io/badge/⬅️_Назад_к-README-blue?color=cba6f7&labelColor=1C2325&style=for-the-badge)](./README.md)
+[![🏠 Главная страница](https://img.shields.io/badge/🏠_Главная-страница-green?color=fab387&labelColor=1C2325&style=for-the-badge)](https://github.com/Redm00us/meowrch-nixos)
+
 *Создано с 💜 для сообщества Meowrch NixOS*
+
+</div>

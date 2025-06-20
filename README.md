@@ -18,6 +18,11 @@
 	<a href="./README.en.md">
 		<img src="https://img.shields.io/badge/README-ENG-blue?color=C9CBFF&labelColor=1C2325&style=for-the-badge">
 	</a>
+	<br>
+	<br>
+	<a href="./ALIASES.md">
+		<img src="https://img.shields.io/badge/📋_Алиасы_и_команды-Справочник-purple?color=a6e3a1&labelColor=1C2325&style=for-the-badge">
+	</a>
 </div>
 
 ***
@@ -70,6 +75,10 @@
 	<tr>
 	    <td>Theme</td>
 	    <td><a href="https://catppuccin.com/">Catppuccin</a></td>
+	</tr>
+	<tr>
+	    <td>📋 Алиасы</td>
+	    <td><a href="./ALIASES.md">150+ команд</a></td>
 	</tr>
 </table>
 <div align="left">
@@ -248,6 +257,20 @@ sudo reboot
 		<td>home/modules/hyprland.nix</td>
 	</tr>
 </table>
+
+## 📋 Быстрые команды и алиасы
+
+Система включает более **150 удобных алиасов** для управления NixOS:
+
+```bash
+b           # Быстрая пересборка системы
+u           # Обновление и пересборка
+validate    # Проверка конфигурации
+c           # Открыть конфигурацию в редакторе
+cleanup     # Очистка системы
+```
+
+🔗 **[Полный справочник алиасов и функций →](./ALIASES.md)**
 
 ## 🎨 Кастомизация
 
