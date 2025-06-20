@@ -26,7 +26,6 @@ mkdir -p dotfiles/meowrch
 mkdir -p dotfiles/wallpapers
 mkdir -p dotfiles/themes
 mkdir -p dotfiles/icons
-mkdir -p dotfiles/grub_theme
 mkdir -p dotfiles/sddm_theme
 
 # Message
@@ -63,16 +62,8 @@ else
     echo -e "${GREEN}✓ Sample wallpaper placeholder created${NC}"
 fi
 
-# Copy GRUB theme if available
-if [ -d "../misc/grub_theme" ]; then
-    echo -e "${YELLOW}Copying GRUB theme...${NC}"
-    cp -r ../misc/grub_theme/* dotfiles/grub_theme/
-    echo -e "${GREEN}✓ GRUB theme copied${NC}"
-else
-    echo -e "${YELLOW}Creating placeholder GRUB theme...${NC}"
-    echo "This is a placeholder for the GRUB theme" > dotfiles/grub_theme/README.md
-    echo -e "${GREEN}✓ GRUB theme placeholder created${NC}"
-fi
+# Note: GRUB theme not used - system configured with systemd-boot
+echo -e "${BLUE}ℹ System uses systemd-boot (no GRUB theme needed)${NC}"
 
 # Copy SDDM theme if available
 if [ -d "../misc/sddm_theme" ]; then

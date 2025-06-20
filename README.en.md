@@ -53,6 +53,10 @@
 	    <td>Built-in</td>
 	</tr>
 	<tr>
+	    <td>Bootloader</td>
+	    <td><a href="https://www.freedesktop.org/wiki/Software/systemd/systemd-boot/">systemd-boot</a></td>
+	</tr>
+	<tr>
 	    <td>Terminal</td>
 	    <td><a href="https://github.com/kovidgoyal/kitty">Kitty</a></td>
 	</tr>

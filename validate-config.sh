@@ -183,6 +183,29 @@ if grep -r "hardware\.graphics" . --include="*.nix" > /dev/null 2>&1; then
     print_success "Modern graphics configuration (hardware.graphics) found"
 fi
 
+# Check for proper bootloader configuration
+print_status "Checking bootloader configuration..."
+if grep -r "boot\.loader\.systemd-boot\.enable = true" . --include="*.nix" > /dev/null 2>&1; then
+    print_success "systemd-boot bootloader configured"
+
+    # Check for EFI variables access
+    if grep -r "boot\.loader\.efi\.canTouchEfiVariables = true" . --include="*.nix" > /dev/null 2>&1; then
+        print_success "EFI variables access enabled"
+    else
+        print_warning "EFI variables access not configured"
+        echo "  Consider enabling boot.loader.efi.canTouchEfiVariables"
+    fi
+else
+    print_warning "systemd-boot not found"
+    echo "  This configuration is designed for systemd-boot"
+
+    # Check if GRUB is accidentally enabled
+    if grep -r "boot\.loader\.grub\.enable = true" . --include="*.nix" > /dev/null 2>&1; then
+        print_error "GRUB bootloader detected - conflicts with systemd-boot"
+        echo "  Disable GRUB or switch to systemd-boot for this configuration"
+    fi
+fi
+
 # Final validation attempt
 print_status "Performing final validation..."
 if nix build .#nixosConfigurations.meowrch.config.system.build.toplevel --dry-run > /dev/null 2>&1; then

@@ -51,11 +51,19 @@
     allowUnfreePredicate = pkg: true;
   };
 
-  # Boot Configuration
+  # ╔════════════════════════════════════════════════════════════════════════════╗
+  # ║                           BOOT CONFIGURATION                             ║
+  # ╚════════════════════════════════════════════════════════════════════════════╝
+
+  # Используем systemd-boot вместо GRUB для современной UEFI загрузки
+  # systemd-boot легче, быстрее и проще в настройке
   boot = {
     loader = {
+      # Включаем systemd-boot (НЕ GRUB!)
       systemd-boot.enable = true;
+      # Разрешаем модификацию EFI переменных (необходимо для systemd-boot)
       efi.canTouchEfiVariables = true;
+      # Таймаут выбора в секундах
       timeout = 3;
     };
 
