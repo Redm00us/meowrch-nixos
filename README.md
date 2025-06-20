@@ -81,7 +81,7 @@
 	    <td><a href="https://catppuccin.com/">Catppuccin</a></td>
 	</tr>
 	<tr>
-	    <td>📋 Alias</td>
+	    <td>Alias</td>
 	    <td><a href="./ALIASES.md">150+ команд</a></td>
 	</tr>
 </table>
