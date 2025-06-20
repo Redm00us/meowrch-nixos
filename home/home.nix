@@ -47,33 +47,152 @@
   programs.fish = {
     enable = true;
 
-    # --- Алиасы ---
+    # --- Универсальные алиасы для NixOS ---
     shellAliases = {
+      # === УПРАВЛЕНИЕ NIXOS ===
       # Быстрая пересборка системы
-      b = "sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure";
-      # Открыть конфиг NixOS в редакторе
-      c = "cd /home/redm00us/NixOS-25.05 && zed .";
-      # Обновить флейк и пересобрать систему
-      u = "cd /home/redm00us/NixOS-25.05 && nix flake update && sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure";
-      # Быстрый вывод информации о системе
-      f = "fastfetch";
-      # Очистка мусора Nix
-      dell = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
-      # Home Manager
-      hm = "home-manager switch --flake .#redm00us";
-      # Быстрые команды
-      ll = "ls -la";
-      la = "ls -la";
-      l = "ls -l";
+      rebuild = "sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure";
+      b = "rebuild";  # короткий алиас
+
+      # Проверка конфигурации без применения
+      check = "sudo nixos-rebuild dry-build --flake .#meowrch";
+      test = "sudo nixos-rebuild test --flake .#meowrch";
+
+      # Обновление системы
+      update = "cd /home/redm00us/NixOS-25.05 && nix flake update && rebuild";
+      u = "update";  # короткий алиас
+
+      # Валидация конфигурации
+      validate = "cd /home/redm00us/NixOS-25.05 && ./validate-config.sh";
+
+      # === УПРАВЛЕНИЕ NIX ===
+      # Очистка мусора
+      cleanup = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
+      clean = "cleanup";
+      dell = "cleanup";  # оставляем старый алиас для совместимости
+
+      # Оптимизация store
+      optimize = "sudo nix-store --optimise";
+
+      # Показать поколения
+      generations = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
+      gens = "generations";
+
+      # Откат к предыдущему поколению
+      rollback = "sudo nixos-rebuild switch --rollback";
+
+      # === HOME MANAGER ===
+      # Применить конфигурацию Home Manager
+      home = "home-manager switch --flake .#redm00us";
+      hm = "home";
+
+      # Поколения Home Manager
+      home-gens = "home-manager generations";
+
+      # === РЕДАКТИРОВАНИЕ КОНФИГУРАЦИИ ===
+      # Открыть конфиг в редакторе
+      config = "cd /home/redm00us/NixOS-25.05 && zed .";
+      c = "config";
+
+      # Быстрое редактирование основных файлов
+      edit-config = "zed /home/redm00us/NixOS-25.05/configuration.nix";
+      edit-home = "zed /home/redm00us/NixOS-25.05/home/home.nix";
+      edit-flake = "zed /home/redm00us/NixOS-25.05/flake.nix";
+
+      # === ИНФОРМАЦИЯ О СИСТЕМЕ ===
+      # Системная информация
+      sysinfo = "fastfetch";
+      f = "sysinfo";
+
+      # Версии и статус
+      nixos-version = "nixos-version";
+      nix-version = "nix --version";
+
+      # Размер Nix store
+      store-size = "du -sh /nix/store";
+
+      # === ПОИСК И ПАКЕТЫ ===
+      # Поиск пакетов
+      search = "nix search nixpkgs";
+      find-pkg = "search";
+
+      # Информация о пакете
+      pkg-info = "nix show-derivation";
+
+      # Установка пакета временно
+      try = "nix shell nixpkgs#";
+
+      # === FLAKE КОМАНДЫ ===
+      # Проверка flake
+      flake-check = "nix flake check";
+      flake-show = "nix flake show";
+      flake-update = "nix flake update";
+
+      # === СИСТЕМНЫЕ КОМАНДЫ ===
+      # Журналы
+      logs = "journalctl -xe";
+      logs-boot = "journalctl -b";
+      logs-hypr = "journalctl --user -u hyprland";
+
+      # Сервисы
+      services = "systemctl list-units --type=service";
+      user-services = "systemctl --user list-units --type=service";
+
+      # === ФАЙЛОВАЯ СИСТЕМА ===
+      ll = "ls -la --color=auto";
+      la = "ls -la --color=auto";
+      l = "ls -l --color=auto";
+      ls = "ls --color=auto";
+
+      # Навигация
       ".." = "cd ..";
       "..." = "cd ../..";
+      "...." = "cd ../../..";
+
+      # Утилиты
       cls = "clear";
-      # Git сокращения
+      grep = "grep --color=auto";
+
+      # === GIT СОКРАЩЕНИЯ ===
       g = "git";
       gs = "git status";
       ga = "git add";
+      gaa = "git add --all";
       gc = "git commit";
+      gcm = "git commit -m";
       gp = "git push";
+      gpl = "git pull";
+      gco = "git checkout";
+      gb = "git branch";
+      gd = "git diff";
+      gl = "git log --oneline";
+
+      # === БЫСТРЫЕ КОМАНДЫ ===
+      # Перезагрузка и выключение
+      reboot = "sudo systemctl reboot";
+      shutdown = "sudo systemctl poweroff";
+
+      # Сеть
+      ip = "ip --color=auto";
+      ping = "ping -c 4";
+
+      # Процессы
+      ps = "ps aux";
+      top = "btop";
+
+      # Диски
+      df = "df -h";
+      du = "du -sh";
+
+      # === СПЕЦИАЛЬНЫЕ MEOWRCH КОМАНДЫ ===
+      # Смена темы
+      theme = "python ~/.config/meowrch/meowrch.py --action select-theme";
+      wallpaper = "python ~/.config/meowrch/meowrch.py --action select-wallpaper";
+
+      # Быстрый доступ к конфигурации
+      cd-config = "cd /home/redm00us/NixOS-25.05";
+      cd-home = "cd /home/redm00us/NixOS-25.05/home";
+      cd-modules = "cd /home/redm00us/NixOS-25.05/modules";
     };
 
     # --- Пользовательские функции ---
@@ -91,6 +210,147 @@
       # Функция для создания и перехода в директорию
       mkcd = ''
         mkdir -p $argv[1] && cd $argv[1]
+      '';
+
+      # === РАСШИРЕННЫЕ NIXOS ФУНКЦИИ ===
+
+      # Умный rebuild с валидацией
+      smart-rebuild = ''
+        echo "🔍 Проверка конфигурации..."
+        if ./validate-config.sh
+          echo "✅ Конфигурация валидна. Начинаем сборку..."
+          sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake .#meowrch --impure
+        else
+          echo "❌ Найдены ошибки в конфигурации. Сборка отменена."
+        end
+      '';
+
+      # Backup конфигурации перед изменениями
+      backup-config = ''
+        set backup_dir "/home/redm00us/config-backups"
+        set timestamp (date '+%Y%m%d_%H%M%S')
+        set backup_name "nixos-config-$timestamp"
+
+        mkdir -p $backup_dir
+        cp -r /home/redm00us/NixOS-25.05 "$backup_dir/$backup_name"
+        echo "📦 Конфигурация сохранена в: $backup_dir/$backup_name"
+      '';
+
+      # Показать размер разных компонентов системы
+      system-size = ''
+        echo "📊 Размеры компонентов системы:"
+        echo "┌─────────────────┬──────────────┐"
+        echo "│ Компонент       │ Размер       │"
+        echo "├─────────────────┼──────────────┤"
+        printf "│ Nix Store       │ %12s │\n" (du -sh /nix/store 2>/dev/null | cut -f1)
+        printf "│ Boot            │ %12s │\n" (du -sh /boot 2>/dev/null | cut -f1)
+        printf "│ Home            │ %12s │\n" (du -sh /home 2>/dev/null | cut -f1)
+        printf "│ Var             │ %12s │\n" (du -sh /var 2>/dev/null | cut -f1)
+        echo "└─────────────────┴──────────────┘"
+      '';
+
+      # Анализ поколений системы
+      generation-size = ''
+        echo "📈 Анализ поколений системы:"
+        sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | while read gen
+          set gen_num (echo $gen | awk '{print $1}')
+          if test -n "$gen_num" -a "$gen_num" != "Generation"
+            set gen_path "/nix/var/nix/profiles/system-$gen_num-link"
+            if test -L $gen_path
+              set size (du -sh $gen_path 2>/dev/null | cut -f1)
+              printf "Поколение %s: %s\n" $gen_num $size
+            end
+          end
+        end
+      '';
+
+      # Поиск пакета с описанием
+      pkg-search = ''
+        if test (count $argv) -eq 0
+          echo "Использование: pkg-search <название_пакета>"
+          return 1
+        end
+
+        echo "🔍 Поиск пакета: $argv[1]"
+        nix search nixpkgs $argv[1] | head -20
+      '';
+
+      # Быстрая установка пакета во временное окружение
+      quick-install = ''
+        if test (count $argv) -eq 0
+          echo "Использование: quick-install <пакет1> [пакет2] ..."
+          return 1
+        end
+
+        echo "⚡ Временная установка: $argv"
+        nix shell nixpkgs#$argv[1]
+      '';
+
+      # Проверка статуса сервисов
+      service-status = ''
+        echo "🔧 Статус основных сервисов:"
+        echo "┌─────────────────────┬──────────────┐"
+        echo "│ Сервис              │ Статус       │"
+        echo "├─────────────────────┼──────────────┤"
+
+        set services "pipewire" "bluetooth" "networkmanager" "sddm"
+        for service in $services
+          set status (systemctl is-active $service 2>/dev/null)
+          if test "$status" = "active"
+            set status_icon "✅"
+          else
+            set status_icon "❌"
+          end
+          printf "│ %-19s │ %s %-10s │\n" $service $status_icon $status
+        end
+        echo "└─────────────────────┴──────────────┘"
+      '';
+
+      # Логи последней сборки
+      build-logs = ''
+        echo "📋 Последние логи сборки NixOS:"
+        journalctl -u nixos-rebuild --since "1 hour ago" --no-pager | tail -50
+      '';
+
+      # Сравнение конфигураций между поколениями
+      diff-generations = ''
+        if test (count $argv) -lt 2
+          echo "Использование: diff-generations <поколение1> <поколение2>"
+          echo "Пример: diff-generations 1 2"
+          return 1
+        end
+
+        set gen1 $argv[1]
+        set gen2 $argv[2]
+        echo "🔄 Сравнение поколений $gen1 и $gen2:"
+        sudo nix store diff-closures /nix/var/nix/profiles/system-$gen1-link /nix/var/nix/profiles/system-$gen2-link
+      '';
+
+      # Мониторинг сборки в реальном времени
+      watch-build = ''
+        echo "👁️ Мониторинг сборки NixOS в реальном времени..."
+        echo "Нажмите Ctrl+C для остановки"
+        journalctl -u nixos-rebuild -f
+      '';
+
+      # Быстрая диагностика системы
+      system-health = ''
+        echo "🏥 Диагностика состояния системы:"
+        echo ""
+        echo "💾 Память:"
+        free -h | head -2
+        echo ""
+        echo "💿 Диски:"
+        df -h | grep -E '^(/dev/|Filesystem)'
+        echo ""
+        echo "🔥 Температура:"
+        sensors 2>/dev/null | grep -E '(Core|temp)' | head -5 || echo "  sensors не установлен"
+        echo ""
+        echo "⚡ Загрузка системы:"
+        uptime
+        echo ""
+        echo "🔧 Последние ошибки:"
+        journalctl -p err --since "1 hour ago" --no-pager | tail -5
       '';
     };
 
