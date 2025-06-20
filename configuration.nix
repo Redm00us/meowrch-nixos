@@ -2,8 +2,8 @@
 
 {
   imports = [
-    # Hardware configuration will be copied during installation
-    # ./hardware-configuration.nix
+    # Hardware configuration - REQUIRED for system boot
+    ./hardware-configuration.nix
     ./modules/system/audio.nix
     ./modules/system/bluetooth.nix
     ./modules/system/graphics.nix
@@ -15,8 +15,6 @@
     ./modules/desktop/theming.nix
     ./modules/packages/packages.nix
     ./modules/packages/flatpak.nix
-  ] ++ lib.optionals (builtins.pathExists ./hardware-configuration.nix) [
-    ./hardware-configuration.nix
   ];
 
   # System Information
