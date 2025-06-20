@@ -1,215 +1,323 @@
-# 🐱 Meowrch NixOS Configuration ≽ܫ≼
-
 <div align="center">
-
-![NixOS](https://img.shields.io/badge/NixOS-25.05-5277C3.svg?style=for-the-badge&logo=nixos&logoColor=white)
-![Hyprland](https://img.shields.io/badge/Hyprland-Wayland-00D9FF.svg?style=for-the-badge&logo=wayland&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
-
-*A beautiful, optimized NixOS configuration inspired by the Meowrch Arch Linux rice*
-
-[Features](#-features) • [Installation](#-quick-installation) • [Screenshots](#-screenshots) • [Customization](#-customization) • [Support](#-support)
-
+	<img src=".meta/logo.png" width="300px">
+	<h1> Meowrch NixOS ≽ܫ≼</h1>
+	<a href="https://github.com/Redm00us/meowrch-nixos/issues">
+		<img src="https://img.shields.io/github/issues/Redm00us/meowrch-nixos?color=ffb29b&labelColor=1C2325&style=for-the-badge">
+	</a>
+	<a href="https://github.com/Redm00us/meowrch-nixos/stargazers">
+		<img src="https://img.shields.io/github/stars/Redm00us/meowrch-nixos?color=fab387&labelColor=1C2325&style=for-the-badge">
+	</a>
+	<a href="./LICENSE">
+		<img src="https://img.shields.io/github/license/Redm00us/meowrch-nixos?color=FCA2AA&labelColor=1C2325&style=for-the-badge">
+	</a>
+	<br>
+	<br>
+	<a href="./README.ru.md">
+		<img src="https://img.shields.io/badge/README-RU-blue?color=cba6f7&labelColor=1C2325&style=for-the-badge">
+	</a>
+	<a href="./README.md">
+		<img src="https://img.shields.io/badge/README-ENG-blue?color=C9CBFF&labelColor=C9CBFF&style=for-the-badge">
+	</a>
 </div>
 
----
+***
 
-## 🌟 Overview
+<!-- INFORMATION -->
+<table align="right">
+	<tr>
+	    <td colspan="2" align="center">System Parameters</td>
+	</tr>
+	<tr>
+	    <th>Component</th>
+	    <th>Name</th>
+	</tr>
+	<tr>
+	    <td>OS</td>
+	    <td><a href="https://nixos.org/">NixOS 25.05</a></td>
+	</tr>
+	<tr>
+	    <td>WM</td>
+	    <td><a href="https://hyprland.org/">Hyprland</a></td>
+	</tr>
+	<tr>
+	    <td>Bar</td>
+	    <td><a href="https://github.com/Alexays/Waybar">Waybar</a></td>
+	</tr>
+	<tr>
+	    <td>Compositor</td>
+	    <td>Built-in</td>
+	</tr>
+	<tr>
+	    <td>Terminal</td>
+	    <td><a href="https://github.com/kovidgoyal/kitty">Kitty</a></td>
+	</tr>
+	<tr>
+	    <td>App Launcher</td>
+	    <td><a href="https://github.com/davatorium/rofi">Rofi</a></td>
+	</tr>
+	<tr>
+	    <td>Notify Daemon</td>
+	    <td><a href="https://github.com/dunst-project/dunst">Dunst</a></td>
+	</tr>
+	<tr>
+	    <td>Shell</td>
+	    <td><a href="https://github.com/fish-shell/fish-shell">Fish</a></td>
+	</tr>
+	<tr>
+	    <td>Audio</td>
+	    <td><a href="https://pipewire.org/">PipeWire</a></td>
+	</tr>
+	<tr>
+	    <td>Theme</td>
+	    <td><a href="https://catppuccin.com/">Catppuccin</a></td>
+	</tr>
+</table>
+<div align="left">
+	<h3> 📝 About the project</h2> 
+	<p>
+	Meowrch NixOS is a beautiful and optimized NixOS 25.05 configuration inspired by the original Meowrch Arch Linux rice. Built with reproducibility and performance in mind, featuring Hyprland with modern tools and stunning aesthetics.
+	</p>
+	<h3>🚀 Features</h2>
+	<p>
+	• Complete NixOS configuration with Hyprland Wayland compositor<br>
+	• Beautiful Catppuccin theming across the entire system<br>
+	• Optimized for AMD graphics with gaming support (Steam, Flatpak)<br>
+	• Reproducible builds with Nix flakes and Home Manager<br>
+	• Custom keybindings designed for maximum productivity<br>
+	• Modern audio system with PipeWire and Bluetooth support<br>
+	• Automatic installation script with interactive setup<br>
+	• Fish shell with custom aliases and Starship prompt<br>
+	</p>
+</div>
 
-This is a complete NixOS 25.05 configuration that recreates the beautiful Meowrch desktop experience with modern tools and optimizations. Built with reproducibility and performance in mind, it provides a stunning Wayland desktop environment powered by Hyprland.
+> [!WARNING]
+> THIS CONFIGURATION IS OPTIMIZED FOR AMD GRAPHICS CARDS.
+> NVIDIA USERS MAY NEED TO MAKE MANUAL ADJUSTMENTS.
+> PLEASE REPORT ANY ISSUES YOU ENCOUNTER.
 
-### ✨ What makes this special?
-- 🎨 **Beautiful theming** with Catppuccin color schemes
-- ⚡ **Optimized performance** for both productivity and gaming
-- 🔧 **Highly customizable** modular configuration
-- 📦 **Reproducible builds** with Nix flakes
-- 🛡️ **Secure by default** with hardened settings
+<!-- IMAGES -->
+<table align="center">
+  <tr>
+    <td colspan="4"><img src=".meta/assets/1.png"></td>
+  </tr>
+  <tr>
+    <td colspan="1"><img src=".meta/assets/2.png"></td>
+    <td colspan="1"><img src=".meta/assets/3.png"></td>
+    <td colspan="1"><img src=".meta/assets/4.png"></td>
+  </tr>
+  <tr>
+	<td colspan="1"><img src=".meta/assets/5.png"></td>
+	<td colspan="1"><img src=".meta/assets/6.png"></td>
+	<td colspan="1"><img src=".meta/assets/7.png"></td>
+  </tr>
+</table>
 
----
-
-## 🚀 Quick Installation
-
-### Option 1: Automated Installation (Recommended)
+<!-- INSTALLATION -->
+## 🛠 Installation
+If you already have NixOS installed, follow these steps:
+### 1. Clone the repository
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Redm00us/meowrch-nixos/main/install.sh | bash
-```
-
-### Option 2: Manual Installation
-```bash
-# Clone the repository
 git clone https://github.com/Redm00us/meowrch-nixos.git
 cd meowrch-nixos
-
-# Generate hardware configuration
-nixos-generate-config --root /mnt
-cp /mnt/etc/nixos/hardware-configuration.nix .
-
-# Install the system
-sudo nixos-install --flake .#meowrch
 ```
-
----
-
-## ✨ Features
-
-### 🎨 Desktop Environment
-- **🪟 Hyprland** - Modern Wayland compositor with stunning animations
-- **📊 Waybar** - Highly customized status bar with system monitoring
-- **🚀 Rofi** - Beautiful application launcher with custom menus
-- **🔔 Dunst** - Stylish notification daemon
-- **🖥️ SDDM** - Clean login manager with Wayland support
-
-### 🛠️ Applications & Tools
-- **🐱 Kitty** - GPU-accelerated terminal with JetBrains Mono
-- **🐟 Fish Shell** - Modern shell with custom functions and starship prompt
-- **🦊 Firefox** - Web browser with privacy optimizations
-- **📁 Nemo** - Feature-rich file manager
-- **🎮 Steam** - Gaming platform with full compatibility
-- **📦 Flatpak** - Universal package management
-
-### 🎯 System Features
-- **🔄 NixOS 25.05** - Stable base with unstable overlay for select packages
-- **❄️ Flake-based** - Reproducible and declarative configuration
-- **🏠 Home Manager** - User-space configuration management
-- **🔊 PipeWire** - Modern audio system with low latency
-- **🔗 Bluetooth** - Full wireless device support
-- **🎮 AMD Graphics** - Optimized GPU drivers and performance
-
-### 🎨 Theming
-- **🌈 Catppuccin** - Beautiful pastel color schemes (Mocha & Latte)
-- **🎭 Dynamic themes** - Easy switching between light and dark modes
-- **🖼️ Custom wallpapers** - Curated collection of beautiful backgrounds
-- **🎪 GRUB theme** - Stylish bootloader with custom icons
-
----
-
-## 📋 Requirements
-
-### Hardware
-- **CPU**: x86_64 architecture (Intel/AMD)
-- **RAM**: 4GB minimum, 8GB+ recommended
-- **Storage**: 20GB minimum, 50GB+ recommended for full experience
-- **GPU**: AMD graphics card (optimized configuration)
-
-### Knowledge Level
-- **Beginner**: Use automated installer
-- **Intermediate**: Manual installation with customization
-- **Advanced**: Full configuration modification
-
----
-
-## 🖼️ Screenshots
-
-*Coming soon - beautiful desktop screenshots showcasing the Meowrch experience*
-
----
-
-## 🎮 Usage
-
-### 🔥 Keyboard Shortcuts
-| Shortcut | Action |
-|----------|--------|
-| `Super + Return` | Open terminal (Kitty) |
-| `Super + D` | Application launcher (Rofi) |
-| `Super + Q` | Close window |
-| `Super + F` | Toggle fullscreen |
-| `Super + Space` | Toggle floating |
-| `Super + 1-9` | Switch workspace |
-| `Super + Shift + 1-9` | Move window to workspace |
-| `Super + Print` | Screenshot |
-| `Super + L` | Lock screen |
-
-### 🐟 Fish Shell Aliases
+### 2. Generate hardware configuration
 ```bash
-# System management
-ll          # ls -la with colors
-la          # ls -A with colors
-rebuild     # Rebuild NixOS configuration
-update      # Update system packages
-cleanup     # Clean old generations
-
-# Git shortcuts
-gst         # git status
-gco         # git checkout
-gp          # git push
-gl          # git pull
+sudo nixos-generate-config
+cp /etc/nixos/hardware-configuration.nix .
+```
+### 3. Run automatic installation
+```bash
+chmod +x install.sh
+./install.sh
 ```
 
----
+> [!important]
+> After installation, you **must** reboot to apply all changes.
+
+> [!note]
+> Instructions for navigating the installer menu:
+> - Select menu item: Press Spacebar to select the desired item
+> - Advance to next step: Press Enter to proceed to the next step
+
+### Manual Installation (Advanced Users)
+```bash
+# Build and switch to the configuration
+sudo nixos-rebuild switch --flake .#meowrch
+
+# Apply Home Manager configuration
+home-manager switch --flake .#redm00us
+
+# Reboot system
+sudo reboot
+```
+
+<h2>💻 Help & Support</h2>
+If you have questions or need help with the project, please visit our <a href="https://github.com/Redm00us/meowrch-nixos/issues">Issues</a> section.<br><br>
+You can also check the original <a href="https://github.com/meowrch/meowrch">Meowrch project</a> for additional inspiration and themes.<br><br>
+For quick support and discussions, join our <a href="https://t.me/meowrch">Telegram channel</a> or contact directly <a href="https://t.me/Redm00us">@Redm00us</a>.<br><br>
+For NixOS-specific questions, refer to the <a href="https://nixos.org/manual/nixos/stable/">NixOS Manual</a> and <a href="https://nix-community.github.io/home-manager/">Home Manager documentation</a>.<br><br>
+Your feedback helps us improve the project and make it even more convenient for users.
+
+<h2>💻 Hotkeys</h2>
+<table align="center">
+	<tr>
+		<td colspan="2" align="center">Key combinations</td>
+	</tr>
+    <tr>
+        <th>Action</th>
+        <th>Hyprland</th>
+    </tr>
+	<tr>
+        <td>Open terminal</td>
+		<td align="center">super + enter</td>
+    </tr>
+    <tr>
+        <td>Open application menu</td>
+		<td align="center">super + d</td>
+    </tr>
+	<tr>
+        <td>Open file manager</td>
+		<td align="center">super + e</td>
+    </tr>
+	<tr>
+        <td>Open Firefox</td>
+		<td align="center">super + shift + f</td>
+    </tr>
+	<tr>
+        <td>Open task manager (btop)</td>
+		<td align="center">ctrl + shift + esc</td>
+    </tr>
+	<tr>
+        <td>Open emoji picker</td>
+		<td align="center">super + .</td>
+    </tr>
+    <tr>
+        <td>Open power menu</td>
+		<td align="center">super + x</td>
+    </tr>
+	<tr>
+        <td>Take screenshot</td>
+		<td align="center">PrintScreen</td>
+    </tr>
+	<tr>
+        <td>Change wallpaper</td>
+		<td align="center">super + w</td>
+    </tr>
+	<tr>
+        <td>Change theme</td>
+		<td align="center">super + t</td>
+    </tr>
+	<tr>
+        <td>Change keyboard layout</td>
+		<td align="center">shift + alt</td>
+    </tr>
+    <tr>
+        <td>Color picker</td>
+		<td align="center">super + c</td>
+    </tr>
+    <tr>
+        <td>Lock screen</td>
+        <td align="center">super + l</td>
+    </tr>
+	<tr>
+        <td>Switch workspace</td>
+		<td align="center">super + 1-10</td>
+    </tr>
+    <tr>
+        <td>Move window to workspace</td>
+		<td align="center">super + shift + 1-10</td>
+    </tr>
+    <tr>
+        <td>Toggle floating mode</td>
+		<td align="center">super + space</td>
+    </tr>
+	<tr>
+        <td>Toggle fullscreen</td>
+		<td align="center">alt + enter</td>
+    </tr>
+    <tr>
+        <td>Close window</td>
+		<td align="center">super + q</td>
+    </tr>
+    <tr>
+        <td>Restart window manager</td>
+		<td align="center">ctrl + shift + r</td>
+    </tr>
+	<tr>
+		<td>Full configuration in:</td>
+		<td>home/modules/hyprland.nix</td>
+	</tr>
+</table>
 
 ## 🎨 Customization
 
-### 🎭 Changing Themes
-```bash
-# Switch to light theme
-theme-switch latte
-
-# Switch to dark theme  
-theme-switch mocha
-
-# Apply changes
-rebuild
-```
-
-### 📦 Adding Packages
-
-#### System packages (configuration.nix)
+### Adding Packages
+Edit `configuration.nix` for system packages:
 ```nix
 environment.systemPackages = with pkgs; [
   # Add your packages here
   neofetch
-  htop
+  discord
 ];
 ```
 
-#### User packages (home.nix)
+Edit `home/home.nix` for user packages:
 ```nix
 home.packages = with pkgs; [
-  # Add user-specific packages
-  discord
+  # Add user packages here
   spotify
+  gimp
 ];
 ```
 
-#### Flatpak applications
+### Theme Management
 ```bash
-flatpak install flathub com.spotify.Client
+# Switch between Catppuccin variants
+theme-switch mocha    # Dark theme
+theme-switch latte    # Light theme
+
+# Apply changes
+sudo nixos-rebuild switch --flake .#meowrch
 ```
 
----
+### Custom Keybindings
+Edit `home/modules/hyprland.nix`:
+```nix
+bind = [
+  "$mainMod, Y, exec, your-custom-command"
+  # Add more bindings here
+];
+```
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
-
-#### 🚫 "Hardware configuration not found"
 ```bash
-# Generate hardware config
-sudo nixos-generate-config
-cp /etc/nixos/hardware-configuration.nix .
-```
+# Clear Nix store
+sudo nix-collect-garbage -d
 
-#### 🔊 Audio not working
-```bash
-# Restart PipeWire
-systemctl --user restart pipewire
-```
+# Rebuild system
+sudo nixos-rebuild switch --flake .#meowrch
 
-#### 🖥️ Display issues
-```bash
+# Check system logs
+journalctl -xe
+
 # Check Hyprland logs
 journalctl --user -u hyprland
 ```
 
-#### 📦 Package build failures
+### Audio Issues
 ```bash
-# Clear nix store
-sudo nix-collect-garbage -d
-# Rebuild
-sudo nixos-rebuild switch --flake .#meowrch
+# Restart PipeWire
+systemctl --user restart pipewire pipewire-pulse wireplumber
 ```
 
----
+### Graphics Issues
+```bash
+# Check AMD GPU status
+lspci | grep VGA
+glxinfo | grep vendor
+```
 
 ## 🔄 Updates
 
@@ -220,34 +328,27 @@ nix flake update
 
 # Rebuild system
 sudo nixos-rebuild switch --flake .#meowrch
-```
 
-### Update Individual Packages
-```bash
-# Update specific input
-nix flake lock --update-input nixpkgs
+# Update Home Manager
+home-manager switch --flake .#redm00us
 ```
-
----
 
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
 
-1. **🐛 Report bugs** - Open an issue with detailed information
-2. **💡 Suggest features** - Share your ideas for improvements
-3. **🔧 Submit fixes** - Fork, fix, and create a pull request
-4. **📚 Improve docs** - Help make the documentation better
-5. **🎨 Create themes** - Design new color schemes or layouts
+1. **🐛 Report bugs** - Open issues with detailed information
+2. **💡 Suggest features** - Share ideas for improvements  
+3. **🔧 Submit fixes** - Fork, fix, and create pull requests
+4. **📚 Improve docs** - Help make documentation better
+5. **🎨 Create themes** - Design new color schemes
 
 ### Development Setup
 ```bash
 git clone https://github.com/Redm00us/meowrch-nixos.git
 cd meowrch-nixos
-nix develop  # Enter development shell
+nix develop
 ```
-
----
 
 ## 📚 Resources
 
@@ -256,44 +357,30 @@ nix develop  # Enter development shell
 - **🏡 [Home Manager](https://nix-community.github.io/home-manager/)** - User configuration
 - **🪟 [Hyprland Wiki](https://wiki.hyprland.org/)** - Wayland compositor guide
 - **🎨 [Catppuccin](https://catppuccin.com/)** - Theme collection
+- **🐱 [Original Meowrch](https://github.com/meowrch/meowrch)** - Arch Linux inspiration
 
----
+## ☕ Support project
+If you would like to support the original Meowrch project, you can donate to their cryptocurrency wallets:
 
-## 💬 Support
+| CryptoCurrency | Address                                        |
+| ------------ | -------------------------------------------------- |
+| **TON**      | `UQB9qNTcAazAbFoeobeDPMML9MG73DUCAFTpVanQnLk3BHg3` |
+| **Ethereum** | `0x56e8bf8Ec07b6F2d6aEdA7Bd8814DB5A72164b13`       |
+| **Bitcoin**  | `bc1qt5urnw7esunf0v7e9az0jhatxrdd0smem98gdn`       |
+| **Tron**     | `TBTZ5RRMfGQQ8Vpf8i5N8DZhNxSum2rzAs`               |
 
-### 🆘 Need Help?
-- **📧 Issues**: [GitHub Issues](https://github.com/Redm00us/meowrch-nixos/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/Redm00us/meowrch-nixos/discussions)
-- **🐱 Matrix**: `#meowrch:matrix.org`
-
-### 🐛 Reporting Bugs
-When reporting issues, please include:
-- Your hardware configuration
-- NixOS version (`nixos-version`)
-- Error messages or logs
-- Steps to reproduce
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **🎨 [Catppuccin](https://catppuccin.com/)** - Beautiful color schemes
-- **🪟 [Hyprland](https://hyprland.org/)** - Amazing Wayland compositor  
-- **❄️ [NixOS](https://nixos.org/)** - Reproducible system configuration
-- **🐱 [Meowrch](https://github.com/meowrch)** - Original Arch Linux rice inspiration
+## 📊 Star History
+<a href="https://star-history.com/#Redm00us/meowrch-nixos&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Redm00us/meowrch-nixos&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Redm00us/meowrch-nixos&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Redm00us/meowrch-nixos&type=Date" />
+ </picture>
+</a>
 
 ---
 
 <div align="center">
-
-**⭐ If you found this helpful, please consider giving it a star! ⭐**
-
-*Made with 💜 and lots of ☕*
-
+<p><strong>Made with 💜 by the Meowrch community</strong></p>
+<p><em>NixOS port inspired by the original <a href="https://github.com/meowrch/meowrch">Meowrch</a> Arch Linux rice</em></p>
 </div>
