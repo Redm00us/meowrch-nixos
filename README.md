@@ -82,7 +82,7 @@
 	</tr>
 	<tr>
 	    <td>Alias</td>
-	    <td><a href="./ALIASES.md">150+ команд</a></td>
+	    <td><a href="./ALIASES.md">150+ comand</a></td>
 	</tr>
 </table>
 <div align="left">
