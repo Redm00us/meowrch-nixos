@@ -102,9 +102,7 @@
     libgbm
   ];
 
-  environment.extraPkgConfigPackages = with pkgs; [
-    mesa
-  ];
+
 
   # Kernel parameters for AMD Graphics
   boot.kernelParams = [
