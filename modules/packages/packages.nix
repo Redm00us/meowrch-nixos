@@ -59,10 +59,9 @@
         gcc                        # Компилятор GCC (C/C++)
         clang                      # Компилятор Clang/LLVM (C/C++)
         nodejs                     # JavaScript runtime (Node.js)
-        npm                        # Node.js package manager
         ripgrep                    # Быстрый поиск по файлам (rg)
         cmake                      # Система сборки CMake
-        make                       # GNU Make
+        gnumake                    # GNU Make
 
         # --- Python 3.11 и пакеты ---
         python311                  # Python 3.11 интерпретатор
@@ -124,7 +123,7 @@
         unzip                      # Распаковка ZIP
         unrar                      # Распаковка RAR
         p7zip                      # 7-Zip архиватор
-        ark                        # Архиватор KDE
+        kdePackages.ark            # Архиватор KDE
 
         # --- Bluetooth ---
         blueman                    # Менеджер Bluetooth (GUI)
@@ -146,7 +145,7 @@
         # --- Система ---
         upower                     # Управление питанием
         xdg-utils                  # XDG утилиты
-        gnome.gnome-keyring        # Хранилище ключей GNOME
+        gnome-keyring              # Хранилище ключей GNOME
         libsecret                  # Библиотека для секретов
         gcr                        # Управление сертификатами
 

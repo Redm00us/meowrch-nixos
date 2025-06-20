@@ -163,21 +163,22 @@
     };
 
     # ────────────── Development shell ──────────────
-    devShells.${system}.default = pkgs.mkShell {
-      buildInputs = with pkgs; [
-        nixos-rebuild
-        home-manager
-        git
-        vim
-      ];
+    # Commented out due to compatibility issues
+    # devShells.${system}.default = pkgs.mkShell {
+    #   buildInputs = with pkgs; [
+    #     nixos-rebuild
+    #     home-manager
+    #     git
+    #     vim
+    #   ];
 
-      shellHook = ''
-        echo "🐱 Welcome to Meowrch NixOS Development Environment!"
-        echo "Available commands:"
-        echo "  - nixos-rebuild switch --flake .#meowrch"
-        echo "  - home-manager switch --flake .#redm00us"
-      '';
-    };
+    #   shellHook = ''
+    #     echo "🐱 Welcome to Meowrch NixOS Development Environment!"
+    #     echo "Available commands:"
+    #     echo "  - nixos-rebuild switch --flake .#meowrch"
+    #     echo "  - home-manager switch --flake .#redm00us"
+    #   '';
+    # };
 
     # ────────────── Standalone home-manager configuration ──────────────
     homeConfigurations = {
@@ -198,9 +199,10 @@
     };
 
     # ────────────── Custom packages ──────────────
-    packages.${system} = {
-      inherit meowrch-scripts meowrch-themes;
-      default = meowrch-scripts;
-    };
+    # Commented out due to syntax issues
+    # packages.${system} = {
+    #   inherit meowrch-scripts meowrch-themes;
+    #   default = meowrch-scripts;
+    # };
   };
 }

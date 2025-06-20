@@ -35,15 +35,15 @@
     GDK_BACKEND = "wayland,x11";
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
-    
+
     # XDG specific
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "Hyprland";
-    
+
     # For Java applications
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    
+
     # For correct cursor size
     XCURSOR_SIZE = "24";
   };
@@ -54,38 +54,38 @@
     hyprland
     xdg-desktop-portal-hyprland
     waybar
-    
+
     # Screen management tools
     wlr-randr
-    
+
     # Screenshot and screen recording
     grim
     slurp
     wl-clipboard
-    
+
     # Background and screenshots
     swww
     swayidle
     swaylock-effects
-    
+
     # Notifications
     dunst
     libnotify
-    
+
     # Input methods
     cliphist
-    
+
     # Utilities
     jq
     socat
-    
+
     # Hyprland utilities
     hyprpicker
     hypridle
-    
+
     # For animations and effects
     wlroots
-    
+
     # Desktop wrapper
     (writeTextFile {
       name = "hyprland-wrapped";
@@ -108,12 +108,12 @@
   services = {
     # Gnome Keyring
     gnome.gnome-keyring.enable = true;
-    
+
     # Enable dbus
     dbus = {
       enable = true;
       packages = with pkgs; [
-        dbus.daemon
+        dbus
         dconf
       ];
     };
@@ -123,7 +123,7 @@
   security = {
     # For screen locking
     pam.services.swaylock = {};
-    
+
     # Polkit for privilege escalation
     polkit.enable = true;
   };
@@ -158,7 +158,7 @@
     Type=Application
     DesktopNames=Hyprland
   '';
-  
+
   # Add to system path
   environment.pathsToLink = [ "/libexec" ];
 }

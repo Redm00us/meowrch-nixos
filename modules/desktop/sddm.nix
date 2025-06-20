@@ -100,13 +100,13 @@
     "d /var/lib/AccountsService/icons 0755 root root - -"
   ];
 
-  # Copy default avatar if it exists
-  system.activationScripts.userAvatar = ''
-    if [ -f "${./../../misc/.face.icon}" ]; then
-      mkdir -p /var/lib/AccountsService/icons
-      cp -f ${./../../misc/.face.icon} /var/lib/AccountsService/icons/meowrch
-    fi
-  '';
+  # Copy default avatar if it exists (temporarily disabled)
+  # system.activationScripts.userAvatar = ''
+  #   if [ -f "${./../../misc/.face.icon}" ]; then
+  #     mkdir -p /var/lib/AccountsService/icons
+  #     cp -f ${./../../misc/.face.icon} /var/lib/AccountsService/icons/meowrch
+  #   fi
+  # '';
 
   # SDDM default session
   services.displayManager.defaultSession = "hyprland";

@@ -183,7 +183,7 @@
   environment.systemPackages = with pkgs; [
     # Authentication
     polkit_gnome
-    gnome.gnome-keyring
+    gnome-keyring
 
     # Security tools (fail2ban and clamav may not be available)
     # fail2ban
@@ -204,9 +204,9 @@
     nmap
     wireshark
 
-    # Firewall management
-    ufw
-    gufw
+    # Firewall management (NixOS uses built-in firewall)
+    # ufw  # Not available in NixOS
+    # gufw # Not available in NixOS
   ];
 
   # Kernel security parameters
@@ -313,8 +313,8 @@
     #   updater.enable = false;
     # };
 
-    # GNOME Keyring
-    gnome.gnome-keyring.enable = true;
+    # GNOME Keyring (configured via PAM services)
+    # gnome-keyring.enable = true;  # This service doesn't exist
 
     # UDisks2 for secure disk management
     udisks2.enable = true;

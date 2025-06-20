@@ -67,12 +67,10 @@
     bluetuith
 
     # Debugging tools
-    btmon
-    hcitool
-    rfkill
+    # rfkill  # Not available as separate package
 
     # Audio testing
-    bluetoothctl
+    # bluetoothctl  # Included in bluez package
   ];
 
   # User permissions for Bluetooth (defined in main configuration.nix)
@@ -166,37 +164,43 @@
 
   # Bluetooth configuration files
   environment.etc = {
-    "bluetooth/audio.conf".text = ''
-      [General]
-      Enable=Source,Sink,Media,Socket
-      Disable=Headset
+    "bluetooth/audio.conf" = lib.mkForce {
+      text = ''
+        [General]
+        Enable=Source,Sink,Media,Socket
+        Disable=Headset
 
-      [A2DP]
-      SBCFreq=44100,48000
-      SBCXQ=true
+        [A2DP]
+        SBCFreq=44100,48000
+        SBCXQ=true
 
-      [AVRCP]
-      Class=0x000100
-      Title=%s
-      Artist=%s
-      Album=%s
-      Genre=%s
-      NumberOfTracks=%s
-      TrackNumber=%s
-      TrackDuration=%s
-    '';
+        [AVRCP]
+        Class=0x000100
+        Title=%s
+        Artist=%s
+        Album=%s
+        Genre=%s
+        NumberOfTracks=%s
+        TrackNumber=%s
+        TrackDuration=%s
+      '';
+    };
 
-    "bluetooth/input.conf".text = ''
-      [General]
-      UserspaceHID=true
-      ClassicBondedOnly=false
-      LEAutoConnect=true
-    '';
+    "bluetooth/input.conf" = lib.mkForce {
+      text = ''
+        [General]
+        UserspaceHID=true
+        ClassicBondedOnly=false
+        LEAutoConnect=true
+      '';
+    };
 
-    "bluetooth/network.conf".text = ''
-      [General]
-      DisableSecurity=false
-    '';
+    "bluetooth/network.conf" = lib.mkForce {
+      text = ''
+        [General]
+        DisableSecurity=false
+      '';
+    };
   };
 
   # Bluetooth mesh support

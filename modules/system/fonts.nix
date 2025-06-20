@@ -17,7 +17,7 @@
         rgba = "rgb";
         lcdfilter = "default";
       };
-      
+
       # Default fonts
       defaultFonts = {
         serif = [ "Noto Serif" "Liberation Serif" ];
@@ -25,7 +25,7 @@
         monospace = [ "JetBrainsMono Nerd Font" "Liberation Mono" ];
         emoji = [ "Noto Color Emoji" "Twemoji" ];
       };
-      
+
       # Font substitutions
       localConf = ''
         <?xml version="1.0"?>
@@ -40,7 +40,7 @@
               <family>FiraCode Nerd Font</family>
             </prefer>
           </alias>
-          
+
           <!-- Use Noto fonts for general text -->
           <alias>
             <family>sans-serif</family>
@@ -50,7 +50,7 @@
               <family>Ubuntu</family>
             </prefer>
           </alias>
-          
+
           <alias>
             <family>serif</family>
             <prefer>
@@ -58,7 +58,7 @@
               <family>Liberation Serif</family>
             </prefer>
           </alias>
-          
+
           <!-- Emoji fonts -->
           <alias>
             <family>emoji</family>
@@ -68,20 +68,20 @@
               <family>EmojiOne Color</family>
             </prefer>
           </alias>
-          
+
           <!-- Font rendering preferences -->
           <match target="font">
             <edit name="lcdfilter" mode="assign">
               <const>lcddefault</const>
             </edit>
           </match>
-          
+
           <match target="font">
             <edit name="rgba" mode="assign">
               <const>rgb</const>
             </edit>
           </match>
-          
+
           <!-- Disable bitmap fonts -->
           <selectfont>
             <rejectfont>
@@ -97,74 +97,76 @@
     # Font packages
     packages = with pkgs; [
       # Nerd Fonts
-      (nerdfonts.override { 
-        fonts = [ 
-          "JetBrainsMono" 
-          "FiraCode" 
-          "Hack" 
-          "Iosevka" 
-          "UbuntuMono"
-          "DejaVuSansMono"
-          "SourceCodePro"
-          "Meslo"
-        ]; 
-      })
-      
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.hack
+      nerd-fonts.iosevka
+      nerd-fonts.ubuntu-mono
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.sauce-code-pro
+      nerd-fonts.meslo-lg
+
       # System fonts
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-emoji
       noto-fonts-extra
-      
+
       # Programming fonts
       jetbrains-mono
       fira-code
       fira-code-symbols
       source-code-pro
-      ubuntu-font-family
+      ubuntu_font_family
       dejavu_fonts
-      
+
       # Interface fonts
       inter
-      ubuntu-font-family
-      cantarell-fonts
+      ubuntu_font_family
+      noto-fonts
       open-sans
       roboto
       roboto-mono
-      
+
       # Microsoft fonts (if needed)
       corefonts
       vistafonts
-      
+
       # Liberation fonts (Microsoft alternatives)
       liberation_ttf
-      
+
       # Additional fonts
       font-awesome
       material-icons
       material-design-icons
-      
+
       # Emoji fonts
       twemoji-color-font
       openmoji-color
-      
+
       # Asian fonts
       wqy_microhei
       wqy_zenhei
-      
+
       # Serif fonts
       crimson
       eb-garamond
-      
+
       # Math fonts
-      gyre-fonts
-      tex-gyre
-      
+      tex-gyre.adventor
+      tex-gyre.bonum
+      tex-gyre.chorus
+      tex-gyre.cursor
+      tex-gyre.heros
+      tex-gyre.pagella
+      tex-gyre.schola
+      tex-gyre.termes
+
       # Icon fonts
       siji
       unifont
-      
+
       # Gaming/Display fonts
       comic-neue
       comic-relief
@@ -172,10 +174,10 @@
 
     # Enable default fonts
     enableDefaultPackages = true;
-    
+
     # Font directories
     fontDir.enable = true;
-    
+
     # Enable ghostscript fonts
     enableGhostscriptFonts = true;
   };
@@ -185,20 +187,19 @@
     # Font management tools
     fontconfig
     fontforge
-    
+
     # Font preview and management
     font-manager
     gucharmap
-    
+
     # Font utilities
-    fonttools
     python3Packages.fonttools
-    
+
     # Icon management
     hicolor-icon-theme
     adwaita-icon-theme
     papirus-icon-theme
-    
+
     # Emoji picker
     emote
   ];
@@ -210,13 +211,13 @@
   environment.sessionVariables = {
     # Font rendering
     FREETYPE_PROPERTIES = "truetype:interpreter-version=38";
-    
+
     # Qt font settings
     QT_FONT_DPI = "96";
-    
+
     # GTK font settings
     GDK_DPI_SCALE = "1.0";
-    
+
     # Fontconfig cache
     FONTCONFIG_FILE = "${pkgs.fontconfig.out}/etc/fonts/fonts.conf";
   };
@@ -239,7 +240,7 @@
 
   # GTK font configuration
   programs.dconf.enable = true;
-  
+
   # Font substitution for better rendering
   environment.etc."fonts/conf.d/10-nix-rendering.conf".text = ''
     <?xml version='1.0'?>
@@ -249,27 +250,27 @@
       <match target="font">
         <edit name="rgba" mode="assign"><const>rgb</const></edit>
       </match>
-      
+
       <!-- Enable hinting -->
       <match target="font">
         <edit name="hinting" mode="assign"><bool>true</bool></edit>
       </match>
-      
+
       <!-- Set hinting style -->
       <match target="font">
         <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
       </match>
-      
+
       <!-- Enable anti-aliasing -->
       <match target="font">
         <edit name="antialias" mode="assign"><bool>true</bool></edit>
       </match>
-      
+
       <!-- Disable auto-hinter for better fonts -->
       <match target="font">
         <edit name="autohint" mode="assign"><bool>false</bool></edit>
       </match>
-      
+
       <!-- LCD filter -->
       <match target="font">
         <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
@@ -289,7 +290,7 @@
           <family>Noto Color Emoji</family>
         </default>
       </alias>
-      
+
       <!-- Ensure emoji fonts are used for emoji -->
       <match target="pattern">
         <test name="family">

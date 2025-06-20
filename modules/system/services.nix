@@ -104,7 +104,7 @@
       enable = true;
       packages = with pkgs; [
         gcr
-        gnome.gnome-settings-daemon
+        gnome-settings-daemon
       ];
     };
 
@@ -112,7 +112,7 @@
     udev = {
       enable = true;
       packages = with pkgs; [
-        gnome.gnome-settings-daemon
+        gnome-settings-daemon
         android-udev-rules
       ];
 

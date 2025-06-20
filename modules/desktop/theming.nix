@@ -9,21 +9,11 @@
   # GRUB отключен для избежания конфликтов
 
   # ────────────── Plymouth (загрузочный экран) ──────────────
-  boot.plymouth = {
-    enable = true;
-    theme = "spinner";
-    themePackages = [
-      (pkgs.plymouth-theme-spinner.overrideAttrs (old: {
-        postInstall = ''
-          ${old.postInstall or ""}
-
-          # Изменяем цвета spinner под Catppuccin Mocha
-          sed -i 's/Window.SetBackgroundTopColor(0.0, 0.0, 0.0);/Window.SetBackgroundTopColor(0.12, 0.12, 0.18);/g' $out/share/plymouth/themes/spinner/spinner.script
-          sed -i 's/Window.SetBackgroundBottomColor(0.0, 0.0, 0.0);/Window.SetBackgroundBottomColor(0.12, 0.12, 0.18);/g' $out/share/plymouth/themes/spinner/spinner.script
-        '';
-      }))
-    ];
-  };
+  # Plymouth disabled due to package compatibility issues in NixOS 25.05
+  # boot.plymouth = {
+  #   enable = true;
+  #   theme = "spinner";
+  # };
 
   # ────────────── Системные пакеты для тем ──────────────
   environment.systemPackages = with pkgs; [
@@ -89,23 +79,19 @@
       noto-fonts-extra
 
       # Программистские шрифты
-      (nerdfonts.override {
-        fonts = [
-          "JetBrainsMono"
-          "FiraCode"
-          "Hack"
-          "Iosevka"
-          "UbuntuMono"
-          "DejaVuSansMono"
-          "SourceCodePro"
-          "Meslo"
-        ];
-      })
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.hack
+      nerd-fonts.iosevka
+      nerd-fonts.ubuntu-mono
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.sauce-code-pro
+      nerd-fonts.meslo-lg
       jetbrains-mono
       fira-code
       fira-code-symbols
       source-code-pro
-      ubuntu-font-family
+      ubuntu_font_family
       dejavu_fonts
 
       # UI шрифты
@@ -180,9 +166,9 @@
     XCURSOR_THEME = "Bibata-Modern-Classic";
     XCURSOR_SIZE = "24";
 
-    # Qt темы
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-    QT_STYLE_OVERRIDE = "Adwaita-Dark";
+    # Qt темы (use mkForce to override system defaults)
+    QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+    QT_STYLE_OVERRIDE = lib.mkForce "Adwaita-Dark";
 
     # Catppuccin
     CATPPUCCIN_FLAVOR = "mocha";
@@ -198,8 +184,8 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
-    # Курсоры
-    XCURSOR_PATH = "/usr/share/icons:$XDG_DATA_HOME/icons";
+    # Курсоры (use mkDefault to avoid conflict with system)
+    XCURSOR_PATH = lib.mkDefault "/usr/share/icons:$XDG_DATA_HOME/icons";
   };
 
   # ────────────── XDG настройки ──────────────

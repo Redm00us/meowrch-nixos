@@ -118,9 +118,9 @@
       tree file which
 
       # Development Tools
-      gcc clang cmake make
+      gcc clang cmake gnumake
       python3 python3Packages.pip
-      nodejs npm
+      nodejs
 
       # System Utilities
       usbutils pciutils
@@ -128,7 +128,7 @@
       parted gparted
 
       # Archive Tools
-      ark
+      kdePackages.ark
 
       # Network Tools
       networkmanager
@@ -322,7 +322,7 @@
   };
 
   # Early OOM killer service (replaces earlyoom package)
-  systemd.services.earlyoom = {
+  systemd.services.earlyoom = lib.mkDefault {
     enable = true;
     description = "Early OOM Daemon";
     wantedBy = [ "multi-user.target" ];

@@ -112,7 +112,7 @@
       enable = true;
       domains = [ "~." ];
       fallbackDns = [ "1.1.1.1" "8.8.8.8" "1.0.0.1" "8.8.4.4" ];
-      dnssec = true;
+      dnssec = lib.mkDefault "true";
       extraConfig = ''
         DNS=1.1.1.1 8.8.8.8 1.0.0.1 8.8.4.4
         DNSOverTLS=yes
@@ -187,8 +187,8 @@
 
     # Wireless tools
     iw
-    wireless-tools
     wpa_supplicant
+    wirelesstools
 
     # VPN clients
     openvpn
@@ -199,8 +199,8 @@
     iftop
     bandwhich
 
-    # Firewall management
-    ufw
+    # Firewall management (NixOS uses built-in firewall)
+    # ufw  # Not available in NixOS
 
     # mDNS utilities
     avahi

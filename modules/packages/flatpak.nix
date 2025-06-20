@@ -15,13 +15,13 @@
       xdg-desktop-portal-gtk
       xdg-desktop-portal-hyprland
     ];
-    config.common.default = "*";
+    config.common.default = lib.mkDefault "*";
   };
 
   # Системные пакеты для поддержки Flatpak
   environment.systemPackages = with pkgs; [
     flatpak
-    gnome.gnome-software  # Графический менеджер для Flatpak
+    gnome-software  # Графический менеджер для Flatpak
   ];
 
   # Настройка групп пользователей для Flatpak
@@ -36,7 +36,7 @@
 
   # Настройка переменных окружения для Flatpak
   environment.sessionVariables = {
-    XDG_DATA_DIRS = "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
+    XDG_DATA_DIRS = lib.mkDefault "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
   };
 
   # Systemd сервисы для Flatpak
