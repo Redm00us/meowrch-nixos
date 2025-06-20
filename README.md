@@ -154,7 +154,7 @@ sudo reboot
 <h2>💻 Помощь и поддержка</h2>
 Если у вас возникли вопросы или нужна помощь с проектом, пожалуйста, посетите раздел <a href="https://github.com/Redm00us/meowrch-nixos/issues">Issues</a>.<br><br>
 Также вы можете изучить оригинальный <a href="https://github.com/meowrch/meowrch">проект Meowrch</a> для дополнительного вдохновения и тем.<br><br>
-Для быстрой поддержки и обсуждений присоединяйтесь к нашему <a href="https://t.me/meowrch">Telegram каналу</a> или обращайтесь напрямую к <a href="https://t.me/Redm00us">@Redm00us</a>.<br><br>
+Для быстрой поддержки и обсуждений присоединяйтесь к нашему <a href="https://t.me/meowrch">Telegram каналу</a> или обращайтесь напрямую в Telegram к <a href="https://t.me/Redm00us">@Redm00us</a>.<br><br>
 По вопросам, связанным с NixOS, обращайтесь к <a href="https://nixos.org/manual/nixos/stable/">Руководству NixOS</a> и <a href="https://nix-community.github.io/home-manager/">документации Home Manager</a>.<br><br>
 Ваши отзывы помогают нам улучшить проект и сделать его еще более удобным для пользователей.
 
