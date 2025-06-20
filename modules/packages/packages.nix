@@ -14,6 +14,7 @@
     # ║                           ФАЙЛОВЫЕ МЕНЕДЖЕРЫ                            ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
         nemo                       # Файловый менеджер Cinnamon (графический)
+        ranger                     # Файловый менеджер для терминала
         zenity                     # Диалоговые окна GTK+ через shell (скрипты)
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -38,13 +39,9 @@
     # ║                              ВЕБ И СЕТЬ                                  ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
         firefox                    # Веб-браузер Firefox
-        cloudflare-warp            # VPN от Cloudflare (WireGuard)
         wget                       # Загрузка файлов по HTTP/FTP
         curl                       # HTTP-клиент для командной строки
-        modemmanager               # Управление мобильными модемами (3G/4G)
         networkmanagerapplet       # Апплет NetworkManager для панели
-        usb-modeswitch             # Переключение режимов USB-модемов
-        dig                        # DNS lookup утилита (анализ DNS)
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
     # ║                              РАЗРАБОТКА                                  ║
@@ -54,31 +51,26 @@
         nil                        # Язык спецификации Nix (форматирование)
         nixd                       # Язык-сервер для Nix (LSP)
         alejandra                  # Форматтер для Nix (используется в Zed)
+
         # --- Системы контроля версий ---
         git                        # Система контроля версий Git
+
         # --- Компиляторы и инструменты сборки ---
         gcc                        # Компилятор GCC (C/C++)
         clang                      # Компилятор Clang/LLVM (C/C++)
         nodejs                     # JavaScript runtime (Node.js)
+        npm                        # Node.js package manager
         ripgrep                    # Быстрый поиск по файлам (rg)
+        cmake                      # Система сборки CMake
+        make                       # GNU Make
+
         # --- Python 3.11 и пакеты ---
         python311                  # Python 3.11 интерпретатор
         python311Packages.pip      # pip для Python 3.11 (менеджер пакетов)
-        python311Packages.numpy    # Математическая библиотека NumPy
-        python311Packages.pandas   # Анализ данных Pandas
-        python311Packages.psutil   # Информация о процессах/системе
-        python311Packages.meson    # Система сборки Meson (Python)
-        python311Packages.pillow   # Работа с изображениями (Pillow)
-        python311Packages.pyyaml   # Работа с YAML файлами
-        python311Packages.setuptools # setuptools для Python (build system)
-        python311Packages.uv       # Быстрый менеджер пакетов Python (uv)
-        python311Packages.pkgconfig # pkg-config для Python (build deps)
-        pyenv                      # Менеджер версий Python
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
     # ║                                ОБЩЕНИЕ                                   ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
-        viber                      # Мессенджер Viber (VoIP, чат)
         discord                    # Discord клиент (чат, голос)
         pkgs-unstable.materialgram # Клиент Telegram Materialgram (unstable, Qt)
 
@@ -89,6 +81,8 @@
         mpv                        # Видеоплеер MPV (универсальный)
         obs-studio                 # OBS Studio для записи/стриминга
         feh                        # Просмотр изображений (легковесный)
+        ffmpeg                     # Мультимедийный фреймворк
+        imagemagick                # Работа с изображениями
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
     # ║                          ИГРЫ И ГРАФИКА                                  ║
@@ -96,13 +90,13 @@
         # --- Оптимизация и overlay ---
         gamemode                   # Оптимизация производительности игр
         mangohud                   # Overlay с FPS и статистикой
-        # --- Платформы и совместимость ---
-        steam                      # Клиент Steam (игры)
+
+        # --- Совместимость Windows ---
         wine                       # Запуск Windows-приложений
         winetricks                 # Скрипты для настройки Wine
+
         # --- Графические библиотеки и драйверы ---
         mesa                       # OpenGL реализация (Mesa)
-        mesa.drivers               # Драйверы Mesa (GPU)
         libGL                      # OpenGL библиотеки
         libva                      # Аппаратное ускорение видео VA-API
         libvdpau                   # Аппаратное ускорение видео VDPAU
@@ -112,82 +106,60 @@
         amdvlk                     # Vulkan-драйвер AMD (GPU)
         dxvk                       # DirectX 9/10/11 → Vulkan (DXVK)
         mesa-demos                 # Демо-программы для Mesa (тесты)
-        virtualgl                  # Виртуализация OpenGL (удалённо)
-        virtualglLib               # Библиотеки VirtualGL
-
-    # ╔════════════════════════════════════════════════════════════════════════════╗
-    # ║                           ВИРТУАЛИЗАЦИЯ                                  ║
-    # ╚════════════════════════════════════════════════════════════════════════════╝
-        qemu_full                  # Полная сборка QEMU (виртуализация)
-        gnome-boxes                # Виртуальные машины GNOME Boxes (GUI)
-        libvirt                    # Менеджер виртуализации libvirt (hypervisor)
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
     # ║                        СИСТЕМНЫЕ УТИЛИТЫ                                 ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
-        gnome-disk-utility         # Управление дисками GNOME (разметка, монтирование)
-        gnome-system-monitor       # Монитор системы GNOME (процессы, ресурсы)
+        # --- Мониторинг системы ---
+        htop                       # Интерактивный монитор процессов
+        btop                       # Современный монитор ресурсов
+        radeontop                  # Монитор AMD GPU
+
+        # --- Управление дисками ---
+        gnome-disk-utility         # Управление дисками GNOME
+        parted                     # Разметка дисков (CLI)
+        gparted                    # Разметка дисков (GUI)
+
+        # --- Архивы ---
+        unzip                      # Распаковка ZIP
+        unrar                      # Распаковка RAR
+        p7zip                      # 7-Zip архиватор
+        ark                        # Архиватор KDE
+
+        # --- Bluetooth ---
+        blueman                    # Менеджер Bluetooth (GUI)
+        bluez                      # Стек Bluetooth
+        bluez-tools                # Инструменты Bluetooth (CLI)
+
+        # --- Сеть ---
+        openssh                    # SSH клиент и сервер
+
+        # --- Системная информация ---
+        usbutils                   # USB утилиты (lsusb)
+        pciutils                   # PCI утилиты (lspci)
+        lshw                       # Информация об оборудовании
+        dmidecode                  # DMI/SMBIOS информация
+        tree                       # Отображение структуры каталогов
+        file                       # Определение типа файлов
+        which                      # Поиск команд в PATH
+
+        # --- Система ---
+        upower                     # Управление питанием
+        xdg-utils                  # XDG утилиты
+        gnome.gnome-keyring        # Хранилище ключей GNOME
+        libsecret                  # Библиотека для секретов
+        gcr                        # Управление сертификатами
+
+        # --- Утилиты рабочего стола ---
         gnome-calculator           # Калькулятор GNOME
-        qbittorrent                # Торрент-клиент qBittorrent
-        remmina                    # Удалённый рабочий стол Remmina (RDP, VNC)
-        upower                     # Управление питанием (battery, AC)
-        blueman                    # Менеджер Bluetooth Blueman (GUI)
-        bluez                      # Стек Bluetooth BlueZ (ядро)
-        bluez-tools                # Инструменты BlueZ (CLI)
-        glibc                      # GNU C Library (базовые библиотеки)
-        xdg-utils                  # XDG-утилиты (открытие файлов, mime)
-        gnome.gnome-keyring        # Хранилище ключей GNOME (пароли, ключи SSH)
-        libsecret                  # Библиотека для доступа к хранилищу секретов
-        gnome.seahorse             # Графический интерфейс для GNOME Keyring
-        gcr                        # GNOME управление доступом к хранилищу секретов
+        qbittorrent                # Торрент-клиент
 
     # ╔════════════════════════════════════════════════════════════════════════════╗
     # ║                           ТЕМЫ И ИКОНКИ                                  ║
     # ╚════════════════════════════════════════════════════════════════════════════╝
-        catppuccin-gtk             # GTK-тема Catppuccin (оформление)
+        catppuccin-gtk             # GTK-тема Catppuccin
         gnome-themes-extra         # Дополнительные темы GNOME
         gsettings-desktop-schemas  # Схемы настроек рабочего стола
-        catppuccin-qt5ct           # Catppuccin тема для qt5ct (Qt приложения)
-
-    # ╔════════════════════════════════════════════════════════════════════════════╗
-    # ║                      ДОПОЛНИТЕЛЬНЫЕ УТИЛИТЫ                              ║
-    # ╚════════════════════════════════════════════════════════════════════════════╝
-        # Core System Tools
-        htop btop
-        unzip unrar p7zip
-        tree file which
-
-        # Development Tools
-        cmake make
-        npm
-
-        # System Utilities
-        usbutils pciutils
-        lshw dmidecode
-        parted gparted
-
-        # Archive Tools
-        ark
-
-        # Network Tools
-        openssh
-
-        # Media Tools
-        ffmpeg
-        imagemagick
-
-        # File Management
-        ranger
-
-        # System Monitoring
-        radeontop
-
-        # Graphics utilities
-        glxinfo
-        vulkan-tools
-        mesa-demos
-
-        # Authentication
-        polkit_gnome
+        catppuccin-qt5ct           # Catppuccin тема для Qt
   ];
 }

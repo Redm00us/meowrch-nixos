@@ -143,13 +143,7 @@
       nemo
 
       # System Monitoring
-      htop
-      btop
       radeontop
-
-      # Bluetooth
-      bluez
-      blueman
 
       # Graphics utilities
       glxinfo
@@ -214,7 +208,7 @@
     };
   };
 
-  # Programs Configuration (hyprland and steam configured in their respective modules)
+  # Programs Configuration
   programs = {
     # Fish Shell
     fish.enable = true;
@@ -239,6 +233,17 @@
         thunar-media-tags-plugin
       ];
     };
+
+    # Steam gaming platform
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+    };
+
+    # Gaming mode optimization
+    gamemode.enable = true;
   };
 
   # Services Configuration
@@ -313,7 +318,20 @@
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 50;
+    memoryPercent = 25;
+  };
+
+  # Early OOM killer service (replaces earlyoom package)
+  systemd.services.earlyoom = {
+    enable = true;
+    description = "Early OOM Daemon";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.earlyoom}/bin/earlyoom -p -r 60 -m 5 -s 10";
+      Restart = "always";
+      RestartSec = "5s";
+      StandardOutput = "journal";
+    };
   };
 
   # Systemd Services

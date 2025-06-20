@@ -59,7 +59,6 @@
     blueman
 
     # Audio over Bluetooth (handled by PipeWire)
-    # pulseaudio-modules-bt  # Not needed with PipeWire
 
     # GUI managers
     blueberry
@@ -73,7 +72,6 @@
     rfkill
 
     # Audio testing
-    pactl
     bluetoothctl
   ];
 
@@ -90,7 +88,7 @@
   };
 
   # Bluetooth audio support is handled by PipeWire
-  # hardware.pulseaudio.extraModules = [ pkgs.pulseaudio-modules-bt ]; # Disabled - conflicts with PipeWire
+  # PulseAudio modules removed to avoid conflicts with PipeWire
 
   # PipeWire Bluetooth configuration
   services.pipewire.wireplumber.configPackages = [
@@ -99,7 +97,7 @@
         ["bluez5.enable-sbc-xq"] = true,
         ["bluez5.enable-msbc"] = true,
         ["bluez5.enable-hw-volume"] = true,
-        ["bluez5.roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]",
+        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]",
         ["bluez5.codecs"] = "[ sbc sbc_xq aac ldac aptx aptx_hd aptx_ll aptx_ll_duplex faststream faststream_duplex ]",
         ["bluez5.default.rate"] = 48000,
         ["bluez5.default.channels"] = 2,
@@ -207,20 +205,18 @@
     "bluetooth.disable_esco=1"
   ];
 
-  # Auto-connect to known devices
-  systemd.user.services.bluetooth-autoconnect = {
-    description = "Auto-connect to Bluetooth devices";
+  # Auto-start Bluetooth on boot
+  systemd.user.services.bluetooth-autostart = {
+    description = "Auto-start Bluetooth";
     after = [ "bluetooth.service" ];
     wants = [ "bluetooth.service" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "bluetooth-autoconnect" ''
-        sleep 5
+      ExecStart = pkgs.writeShellScript "bluetooth-autostart" ''
+        sleep 3
         ${pkgs.bluez}/bin/bluetoothctl power on
-        sleep 2
-        ${pkgs.bluez}/bin/bluetoothctl connect-all || true
       '';
     };
   };

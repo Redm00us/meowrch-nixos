@@ -73,22 +73,26 @@ EOF
       if [ -f "$script" ]; then
         scriptname=$(basename "$script")
         mv "$script" "$script.unwrapped"
-        cat > "$script" << EOF
-#!${python3}/bin/python3
+        cat > "$script" << 'PYTHON_WRAPPER_EOF'
+#!/usr/bin/env python3
 import os
 import sys
-import subprocess
 
 # Add required paths
-os.environ['PATH'] = "${lib.makeBinPath buildInputs}:" + os.environ.get('PATH', '')
+path_additions = os.pathsep.join([
+    os.path.dirname(sys.executable),
+])
+current_path = os.environ.get('PATH', '')
+os.environ['PATH'] = path_additions + os.pathsep + current_path
 
 # Execute the original script
-exec_path = "$script.unwrapped"
-with open(exec_path, 'r') as f:
-    code = f.read()
+script_path = __file__ + '.unwrapped'
+with open(script_path, 'r') as f:
+    script_code = f.read()
 
-exec(code)
-EOF
+exec(script_code)
+PYTHON_WRAPPER_EOF
+        sed -i "1s|.*|#!${python3}/bin/python3|" "$script"
         chmod +x "$script"
       fi
     done
@@ -117,31 +121,31 @@ EOF
   postInstall = ''
     # Create symlinks for commonly used scripts
     mkdir -p $out/share/meowrch-scripts
-    
+
     # Volume control
     ln -sf $out/bin/volume.sh $out/share/meowrch-scripts/volume
-    
+
     # Brightness control
     ln -sf $out/bin/brightness.sh $out/share/meowrch-scripts/brightness
-    
+
     # Screenshot
     ln -sf $out/bin/screenshot.sh $out/share/meowrch-scripts/screenshot
-    
+
     # Color picker
     ln -sf $out/bin/color-picker.sh $out/share/meowrch-scripts/color-picker
-    
+
     # Screen lock
     ln -sf $out/bin/screen-lock.sh $out/share/meowrch-scripts/screen-lock
-    
+
     # System info
     ln -sf $out/bin/system-info.py $out/share/meowrch-scripts/system-info
-    
+
     # Rofi menus
     ln -sf $out/bin/rofi-menus $out/share/meowrch-scripts/rofi-menus
-    
+
     # Create desktop entries for GUI applications
     mkdir -p $out/share/applications
-    
+
     cat > $out/share/applications/meowrch-theme-selector.desktop << EOF
 [Desktop Entry]
 Name=Meowrch Theme Selector
@@ -152,7 +156,7 @@ Terminal=false
 Type=Application
 Categories=Settings;DesktopSettings;
 EOF
-    
+
     cat > $out/share/applications/meowrch-wallpaper-selector.desktop << EOF
 [Desktop Entry]
 Name=Meowrch Wallpaper Selector

@@ -58,7 +58,7 @@
   };
 
   # PulseAudio configuration (disabled in favor of PipeWire)
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   # System services for audio
   systemd.user.services.pipewire-pulse.path = [ pkgs.pulseaudio ];

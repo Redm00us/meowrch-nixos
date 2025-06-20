@@ -18,24 +18,24 @@
   # ╔════════════════════════════════════════════════════════════════════════════╗
   # ║                               Overlays                                   ║
   # ╚════════════════════════════════════════════════════════════════════════════╝
-  nixpkgs.overlays = [
-    # Overlay для Spicetify
-    inputs.spicetify-nix.overlays.default
-  ];
+  # nixpkgs.overlays = [
+  #   # Overlay для Spicetify (временно отключен)
+  #   # inputs.spicetify-nix.overlays.default
+  # ];
 
   # ╔════════════════════════════════════════════════════════════════════════════╗
   # ║                           Пользовательские пакеты                        ║
   # ╚════════════════════════════════════════════════════════════════════════════╝
   home.packages = with pkgs; [
     # --- Музыкальный плеер Яндекс.Музыка ---
-    inputs.yandex-music.packages.${pkgs.system}.default
+    # inputs.yandex-music.packages.${pkgs.system}.default  # Temporarily disabled for syntax check
 
     # --- Zen Browser ---
     inputs.zen-browser.packages.${pkgs.system}.default
 
     # --- Кастомные скрипты и темы ---
-    meowrch-scripts
-    meowrch-themes
+    # meowrch-scripts  # Temporarily disabled due to build issues
+    # meowrch-themes   # Temporarily disabled due to build issues
 
     # --- Дополнительные пакеты пользователя ---
     # Добавьте здесь свои пакеты
@@ -155,12 +155,6 @@
     SDL_VIDEODRIVER = "wayland";
     QT_QPA_PLATFORM = "wayland";
 
-    # XDG directories
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_STATE_HOME = "$HOME/.local/state";
-    XDG_CACHE_HOME = "$HOME/.cache";
-
     # Default applications
     EDITOR = "zed";
     VISUAL = "zed";
@@ -222,6 +216,9 @@
     enable = true;
     flavor = "mocha";
     accent = "blue";
+
+    # Disable problematic starship theming
+    starship.enable = false;
   };
 
   # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -234,13 +231,15 @@
       id = 0;
       isDefault = true;
 
-      extensions = with firefox-addons.packages.${pkgs.system}; [
-        ublock-origin
-        bitwarden
-        privacy-badger
-        decentraleyes
-        clearurls
-      ];
+      extensions = {
+        packages = with firefox-addons.packages.${pkgs.system}; [
+          ublock-origin
+          bitwarden
+          privacy-badger
+          decentraleyes
+          clearurls
+        ];
+      };
 
       settings = {
         # Privacy and security

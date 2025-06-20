@@ -4,15 +4,15 @@
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
-    
+
     plugins = with pkgs; [
       rofi-calc
       rofi-emoji
       rofi-file-browser
     ];
-    
+
     terminal = "${pkgs.kitty}/bin/kitty";
-    
+
     extraConfig = {
       modi = "drun,run,filebrowser,emoji,calc";
       show-icons = true;
@@ -56,7 +56,7 @@
       window-thumbnail = false;
       dpi = -1;
     };
-    
+
     theme = "meowrch";
   };
 
@@ -180,7 +180,7 @@
         padding: 8px 12px;
         background-color: @bg-col-light;
         text-color: @grey;
-        vertical-align: 0.5; 
+        vertical-align: 0.5;
         horizontal-align: 0.5;
         border-radius: 6px;
         margin: 2px;
@@ -302,7 +302,7 @@
     if [[ -n "$chosen_network" ]]; then
         # Ask for password
         password=$(rofi -dmenu -p "Password for $chosen_network" -password -theme "$theme")
-        
+
         if [[ -n "$password" ]]; then
             nmcli dev wifi connect "$chosen_network" password "$password"
             notify-send "WiFi" "Connecting to $chosen_network"

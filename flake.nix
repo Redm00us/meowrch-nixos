@@ -150,7 +150,7 @@
           home-manager.users.redm00us = {
             imports = [
               inputs.spicetify-nix.homeManagerModules.default  # Модуль Spicetify для Home Manager
-              inputs.catppuccin-nix.homeManagerModules.catppuccin # Catppuccin для Home Manager
+              inputs.catppuccin-nix.homeModules.catppuccin     # Catppuccin для Home Manager (обновленный путь)
               ./home/home.nix                                      # Пользовательская конфигурация
             ];
           };
@@ -191,7 +191,7 @@
         };
         modules = [
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
-          inputs.catppuccin-nix.homeManagerModules.catppuccin
+          inputs.catppuccin-nix.homeModules.catppuccin
           ./home/home.nix
         ];
       };

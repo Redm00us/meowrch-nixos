@@ -52,8 +52,8 @@
   system.activationScripts.sddmTheme = let
     sddm-theme = pkgs.writeTextDir "share/sddm/themes/meowrch/theme.conf" ''
       [General]
-      background=${../../../dotfiles/wallpapers/default.jpg}
-      type=image
+      background=#1e1e2e
+      type=color
       color=#1e1e2e
       fontSize=10
       autoFocusPassword=true
@@ -82,8 +82,8 @@
     cp -f ${sddm-theme}/share/sddm/themes/meowrch/theme.conf /run/current-system/sw/share/sddm/themes/meowrch/
 
     # Copy other theme files from dotfiles if they exist
-    if [ -d ${../../../dotfiles/sddm_theme} ]; then
-      cp -rf ${../../../dotfiles/sddm_theme}/* /run/current-system/sw/share/sddm/themes/meowrch/
+    if [ -d "${./../../dotfiles/sddm_theme}" ]; then
+      cp -rf ${./../../dotfiles/sddm_theme}/* /run/current-system/sw/share/sddm/themes/meowrch/
     fi
   '';
 
@@ -102,9 +102,9 @@
 
   # Copy default avatar if it exists
   system.activationScripts.userAvatar = ''
-    if [ -f ${../../../misc/.face.icon} ]; then
+    if [ -f "${./../../misc/.face.icon}" ]; then
       mkdir -p /var/lib/AccountsService/icons
-      cp -f ${../../../misc/.face.icon} /var/lib/AccountsService/icons/meowrch
+      cp -f ${./../../misc/.face.icon} /var/lib/AccountsService/icons/meowrch
     fi
   '';
 
