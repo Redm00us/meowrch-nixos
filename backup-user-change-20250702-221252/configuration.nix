@@ -91,7 +91,7 @@
   # Users Configuration
   users = {
     defaultUserShell = pkgs.fish;
-    users.meowrch = {
+    users.redm00us = {
       isNormalUser = true;
       description = "Meowrch User";
       extraGroups = [
@@ -330,7 +330,7 @@
   # Early OOM killer service (replaces earlyoom package)
   systemd.services.earlyoom = lib.mkDefault {
     enable = true;
-    description = "Meowrch User";
+    description = "Early OOM Daemon";
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.earlyoom}/bin/earlyoom -p -r 60 -m 5 -s 10";
@@ -343,7 +343,7 @@
   # Systemd Services
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
-      description = "Meowrch User";
+      description = "polkit-gnome-authentication-agent-1";
       wantedBy = [ "graphical-session.target" ];
       wants = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];

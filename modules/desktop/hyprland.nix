@@ -8,21 +8,7 @@
     xwayland.enable = true;
   };
 
-  # XDG Desktop Portal for Hyprland
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-    ];
-    config = {
-      common = {
-        default = [ "gtk" ];
-      };
-      hyprland = {
-        default = [ "gtk" ];
-      };
-    };
-  };
+  # XDG Desktop Portal is configured in services.nix
 
   # Environment variables for Hyprland
   environment.sessionVariables = {

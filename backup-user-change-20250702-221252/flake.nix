@@ -127,13 +127,13 @@
       };
       modules = [
         # Apply unstable and portal overlays
-        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+        ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable overlay-portal-gbm-fix overlay-portal-unstable ]; })
 
         # Основная системная конфигурация
         ./configuration.nix
 
-        # Hyprland модуль (disabled to avoid gbm dependency issues)
-        # hyprland.nixosModules.default
+        # Hyprland модуль
+        hyprland.nixosModules.default
 
         # Catppuccin модуль
         catppuccin-nix.nixosModules.catppuccin
@@ -153,7 +153,7 @@
             inherit meowrch-themes;
           }; # Передача inputs в Home Manager
 
-          home-manager.users.meowrch = {
+          home-manager.users.redm00us = {
             imports = [
               inputs.spicetify-nix.homeManagerModules.default  # Модуль Spicetify для Home Manager
               inputs.catppuccin-nix.homeModules.catppuccin     # Catppuccin для Home Manager (обновленный путь)
@@ -182,13 +182,13 @@
     #     echo "🐱 Welcome to Meowrch NixOS Development Environment!"
     #     echo "Available commands:"
     #     echo "  - nixos-rebuild switch --flake .#meowrch"
-    #     echo "  - home-manager switch --flake .#meowrch"
+    #     echo "  - home-manager switch --flake .#redm00us"
     #   '';
     # };
 
     # ────────────── Standalone home-manager configuration ──────────────
     homeConfigurations = {
-      "meowrch" = home-manager.lib.homeManagerConfiguration {
+      redm00us = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
           inherit inputs;

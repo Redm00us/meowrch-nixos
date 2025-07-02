@@ -11,8 +11,8 @@
   # ╔════════════════════════════════════════════════════════════════════════════╗
   # ║                         Основные настройки Home Manager                   ║
   # ╚════════════════════════════════════════════════════════════════════════════╝
-  home.username = "meowrch";
-  home.homeDirectory = "/home/meowrch";
+  home.username = "redm00us";
+  home.homeDirectory = "/home/redm00us";
   home.stateVersion = "25.05";
 
   # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -59,11 +59,11 @@
       test = "sudo nixos-rebuild test --flake .#meowrch";
 
       # Обновление системы
-      update = "cd /home/meowrch/NixOS-25.05 && nix flake update && rebuild";
+      update = "cd /home/redm00us/NixOS-25.05 && nix flake update && rebuild";
       u = "update";  # короткий алиас
 
       # Валидация конфигурации
-      validate = "cd /home/meowrch/NixOS-25.05 && ./validate-config.sh";
+      validate = "cd /home/redm00us/NixOS-25.05 && ./validate-config.sh";
 
       # === УПРАВЛЕНИЕ NIX ===
       # Очистка мусора
@@ -83,7 +83,7 @@
 
       # === HOME MANAGER ===
       # Применить конфигурацию Home Manager
-      home = "home-manager switch --flake .#meowrch";
+      home = "home-manager switch --flake .#redm00us";
       hm = "home";
 
       # Поколения Home Manager
@@ -91,13 +91,13 @@
 
       # === РЕДАКТИРОВАНИЕ КОНФИГУРАЦИИ ===
       # Открыть конфиг в редакторе
-      config = "cd /home/meowrch/NixOS-25.05 && zed .";
+      config = "cd /home/redm00us/NixOS-25.05 && zed .";
       c = "config";
 
       # Быстрое редактирование основных файлов
-      edit-config = "zed /home/meowrch/NixOS-25.05/configuration.nix";
-      edit-home = "zed /home/meowrch/NixOS-25.05/home/home.nix";
-      edit-flake = "zed /home/meowrch/NixOS-25.05/flake.nix";
+      edit-config = "zed /home/redm00us/NixOS-25.05/configuration.nix";
+      edit-home = "zed /home/redm00us/NixOS-25.05/home/home.nix";
+      edit-flake = "zed /home/redm00us/NixOS-25.05/flake.nix";
 
       # === ИНФОРМАЦИЯ О СИСТЕМЕ ===
       # Системная информация
@@ -190,9 +190,9 @@
       wallpaper = "python ~/.config/meowrch/meowrch.py --action select-wallpaper";
 
       # Быстрый доступ к конфигурации
-      cd-config = "cd /home/meowrch/NixOS-25.05";
-      cd-home = "cd /home/meowrch/NixOS-25.05/home";
-      cd-modules = "cd /home/meowrch/NixOS-25.05/modules";
+      cd-config = "cd /home/redm00us/NixOS-25.05";
+      cd-home = "cd /home/redm00us/NixOS-25.05/home";
+      cd-modules = "cd /home/redm00us/NixOS-25.05/modules";
     };
 
     # --- Пользовательские функции ---
@@ -227,12 +227,12 @@
 
       # Backup конфигурации перед изменениями
       backup-config = ''
-        set backup_dir "/home/meowrch/config-backups"
+        set backup_dir "/home/redm00us/config-backups"
         set timestamp (date '+%Y%m%d_%H%M%S')
         set backup_name "nixos-config-$timestamp"
 
         mkdir -p $backup_dir
-        cp -r /home/meowrch/NixOS-25.05 "$backup_dir/$backup_name"
+        cp -r /home/redm00us/NixOS-25.05 "$backup_dir/$backup_name"
         echo "📦 Конфигурация сохранена в: $backup_dir/$backup_name"
       '';
 
@@ -430,8 +430,8 @@
   # ╚════════════════════════════════════════════════════════════════════════════╝
   programs.git = {
     enable = true;
-    userName = "Meowrch User";
-    userEmail = "user@example.com";
+    userName = "Redm00us";
+    userEmail = "krokismau@icloud.com";
 
     extraConfig = {
       init.defaultBranch = "main";
